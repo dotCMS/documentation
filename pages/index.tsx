@@ -5,8 +5,8 @@ import Container from '@styles/Container.styles';
 
 // Graphql
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange, useQuery } from 'urql';
-import { NAVIGATION_MENU_QUERY } from '../src/graphql/queries';
-import { withUrqlClient, initUrqlClient } from 'next-urql';
+import { NAVIGATION_MENU_QUERY } from '../graphql/queries';
+import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
 
 const BASE_URL = 'https://dotcms.com/api/v1/graphql';
 
@@ -26,14 +26,14 @@ export function Home(): JSX.Element {
     );
 }
 
-const DotCollection = ({ data }: any) => {
+const DotCollection = ({ data }: DotcmsDocumentationData) => {
     if (!data.dotcmsdocumentationchildren) {
         return null;
     }
 
     return (
         <ul>
-            {data.dotcmsdocumentationchildren.map((item) => (
+            {data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => (
                 <li key={item.navTitle || item.title}>
                     <Link href={item.urlMap}>
                         <a>{item.navTitle || item.title}</a>
@@ -45,7 +45,7 @@ const DotCollection = ({ data }: any) => {
     );
 };
 
-export async function getStaticProps(): Promise<any> {
+export async function getStaticProps(): Promise<NavigationProp> {
     const ssrCache = ssrExchange({ isClient: false });
     const client = initUrqlClient(
         {
@@ -73,3 +73,22 @@ export default withUrqlClient(
         ssr: false
     }
 )(Home);
+
+// Interfaces
+interface NavigationProp {
+    props: {
+        urqlState: SSRData;
+    };
+    revalidate: number;
+}
+
+interface DotcmsDocumentationData {
+    data: DotcmsDocumentation;
+}
+
+interface DotcmsDocumentation {
+    title: string;
+    navTitle: string | null;
+    urlMap: string;
+    dotcmsdocumentationchildren?: DotcmsDocumentation[];
+}
