@@ -4,20 +4,15 @@ import Link from 'next/link';
 import Container from '@styles/Container.styles';
 
 // Graphql
-import { useQuery } from 'urql';
+import { ssrExchange, dedupExchange, cacheExchange, fetchExchange, useQuery } from 'urql';
 import { NAVIGATION_MENU_QUERY } from '../src/graphql/queries';
+import { withUrqlClient, initUrqlClient } from 'next-urql';
 
-export default function Home(): JSX.Element {
-    const [result] = useQuery({
-        query: NAVIGATION_MENU_QUERY,
-        variables: { url: '+urlMap:/docs/latest/table-of-contents' }
-    });
+const BASE_URL = 'https://dotcms.com/api/v1/graphql';
 
-    const { data, fetching, error } = result;
-
-    if (fetching) return <p>Loading...</p>;
-    if (error) return <p>Oh no... {error.message}</p>;
-
+export function Home(): JSX.Element {
+    const [res] = useQuery({ query: NAVIGATION_MENU_QUERY });
+    const { data } = res;
     return (
         <Container>
             <Head>
@@ -49,3 +44,32 @@ const DotCollection = ({ data }: any) => {
         </ul>
     );
 };
+
+export async function getStaticProps(): Promise<any> {
+    const ssrCache = ssrExchange({ isClient: false });
+    const client = initUrqlClient(
+        {
+            url: BASE_URL,
+            exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange]
+        },
+        false
+    );
+
+    await client.query(NAVIGATION_MENU_QUERY).toPromise();
+
+    return {
+        props: {
+            urqlState: ssrCache.extractData()
+        },
+        revalidate: 600
+    };
+}
+
+export default withUrqlClient(
+    (ssr) => ({
+        url: BASE_URL
+    }),
+    {
+        ssr: false
+    }
+)(Home);
