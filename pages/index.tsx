@@ -9,7 +9,7 @@ import { GraphQLClient } from 'graphql-request';
 
 const BASE_URL = 'https://dotcms.com/api/v1/graphql';
 
-export default function Home({ data }: DotcmsDocumentationData): JSX.Element {
+export default function Home({ data }: { data: DotcmsDocumentation[] }): JSX.Element {
     return (
         <Container>
             <Head>
@@ -23,8 +23,8 @@ export default function Home({ data }: DotcmsDocumentationData): JSX.Element {
     );
 }
 
-const DotCollection = ({ data }: DotcmsDocumentationData) => {
-    if (!data.dotcmsdocumentationchildren) {
+const DotCollection = ({ data }: { data: DotcmsDocumentation }) => {
+    if (!data.dotcmsdocumentationchildren?.length) {
         return null;
     }
 
@@ -61,10 +61,6 @@ interface NavigationProp {
     props: {
         data: DotcmsDocumentation[];
     };
-}
-
-interface DotcmsDocumentationData {
-    data: DotcmsDocumentation;
 }
 
 interface DotcmsDocumentation {
