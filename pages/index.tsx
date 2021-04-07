@@ -9,16 +9,15 @@ import { GraphQLClient } from 'graphql-request';
 
 const BASE_URL = 'https://dotcms.com/api/v1/graphql';
 
-export default function Home({ data }: DotcmsDocumentationCollection): JSX.Element {
+export default function Home({ data }: DotcmsDocumentationData): JSX.Element {
     return (
         <Container>
             <Head>
                 <title>Documentation</title>
                 <link href="/favicon.ico" rel="icon" />
             </Head>
-            <h1>Hey</h1>
             <nav>
-                <DotCollection data={data.DotcmsDocumentationCollection[0]} />
+                <DotCollection data={data[0]} />
             </nav>
         </Container>
     );
@@ -44,25 +43,23 @@ const DotCollection = ({ data }: DotcmsDocumentationData) => {
 };
 
 export async function getStaticProps(): Promise<NavigationProp> {
-    const client = new GraphQLClient(BASE_URL);
-    const data = await client.request(NAVIGATION_MENU_QUERY);
-    return {
-        props: {
-            data
-        }
-    };
+    try {
+        const client = new GraphQLClient(BASE_URL);
+        const data = await client.request(NAVIGATION_MENU_QUERY);
+        return {
+            props: {
+                data: data.DotcmsDocumentationCollection
+            }
+        };
+    } catch (e) {
+        throw new Error('Something went wrong...');
+    }
 }
 
 // Interfaces
 interface NavigationProp {
     props: {
-        data: DotcmsDocumentationCollection;
-    };
-}
-
-interface DotcmsDocumentationCollection {
-    data: {
-        DotcmsDocumentationCollection: DotcmsDocumentation[];
+        data: DotcmsDocumentation[];
     };
 }
 
