@@ -4,21 +4,19 @@ import Link from 'next/link';
 import Container from '@styles/Container.styles';
 
 // Graphql
-import { ssrExchange, dedupExchange, cacheExchange, fetchExchange, useQuery } from 'urql';
 import { NAVIGATION_MENU_QUERY } from '../graphql/queries';
-import { withUrqlClient, initUrqlClient, SSRData } from 'next-urql';
+import { GraphQLClient } from 'graphql-request';
 
 const BASE_URL = 'https://dotcms.com/api/v1/graphql';
 
-export function Home(): JSX.Element {
-    const [res] = useQuery({ query: NAVIGATION_MENU_QUERY });
-    const { data } = res;
+export default function Home({ data }: DotcmsDocumentationCollection): JSX.Element {
     return (
         <Container>
             <Head>
                 <title>Documentation</title>
                 <link href="/favicon.ico" rel="icon" />
             </Head>
+            <h1>Hey</h1>
             <nav>
                 <DotCollection data={data.DotcmsDocumentationCollection[0]} />
             </nav>
@@ -46,40 +44,26 @@ const DotCollection = ({ data }: DotcmsDocumentationData) => {
 };
 
 export async function getStaticProps(): Promise<NavigationProp> {
-    const ssrCache = ssrExchange({ isClient: false });
-    const client = initUrqlClient(
-        {
-            url: BASE_URL,
-            exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange]
-        },
-        false
-    );
-
-    await client.query(NAVIGATION_MENU_QUERY).toPromise();
-
+    const client = new GraphQLClient(BASE_URL);
+    const data = await client.request(NAVIGATION_MENU_QUERY);
     return {
         props: {
-            urqlState: ssrCache.extractData()
-        },
-        revalidate: 600
+            data
+        }
     };
 }
-
-export default withUrqlClient(
-    (ssr) => ({
-        url: BASE_URL
-    }),
-    {
-        ssr: false
-    }
-)(Home);
 
 // Interfaces
 interface NavigationProp {
     props: {
-        urqlState: SSRData;
+        data: DotcmsDocumentationCollection;
     };
-    revalidate: number;
+}
+
+interface DotcmsDocumentationCollection {
+    data: {
+        DotcmsDocumentationCollection: DotcmsDocumentation[];
+    };
 }
 
 interface DotcmsDocumentationData {
