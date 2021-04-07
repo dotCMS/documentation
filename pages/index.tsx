@@ -7,6 +7,9 @@ import Container from '@styles/Container.styles';
 import { NAVIGATION_MENU_QUERY } from '../graphql/queries';
 import { GraphQLClient } from 'graphql-request';
 
+// Interfaces
+import { DotcmsDocumentation, NavigationProp } from '../models/dotcmsDocumentation.interface';
+
 const BASE_URL = 'https://dotcms.com/api/v1/graphql';
 
 export default function Home({ data }: { data: DotcmsDocumentation[] }): JSX.Element {
@@ -32,7 +35,7 @@ const DotCollection = ({ data }: { data: DotcmsDocumentation }) => {
         <ul>
             {data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => (
                 <li key={item.navTitle || item.title}>
-                    <Link href={item.urlMap}>
+                    <Link href={item.urlMap.replace('/docs', '')}>
                         <a>{item.navTitle || item.title}</a>
                     </Link>
                     <DotCollection data={item} />
@@ -54,18 +57,4 @@ export async function getStaticProps(): Promise<NavigationProp> {
     } catch (e) {
         throw new Error('Something went wrong...');
     }
-}
-
-// Interfaces
-interface NavigationProp {
-    props: {
-        data: DotcmsDocumentation[];
-    };
-}
-
-interface DotcmsDocumentation {
-    title: string;
-    navTitle: string | null;
-    urlMap: string;
-    dotcmsdocumentationchildren?: DotcmsDocumentation[];
 }
