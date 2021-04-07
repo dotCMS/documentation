@@ -4,15 +4,12 @@ import Link from 'next/link';
 import Container from '@styles/Container.styles';
 
 // Graphql
-import { ssrExchange, dedupExchange, cacheExchange, fetchExchange, useQuery } from 'urql';
-import { NAVIGATION_MENU_QUERY } from '../src/graphql/queries';
-import { withUrqlClient, initUrqlClient } from 'next-urql';
+import { NAVIGATION_MENU_QUERY } from '../graphql/queries';
+import { GraphQLClient } from 'graphql-request';
 
 const BASE_URL = 'https://dotcms.com/api/v1/graphql';
 
-export function Home(): JSX.Element {
-    const [res] = useQuery({ query: NAVIGATION_MENU_QUERY });
-    const { data } = res;
+export default function Home({ data }: { data: DotcmsDocumentation[] }): JSX.Element {
     return (
         <Container>
             <Head>
@@ -20,20 +17,20 @@ export function Home(): JSX.Element {
                 <link href="/favicon.ico" rel="icon" />
             </Head>
             <nav>
-                <DotCollection data={data.DotcmsDocumentationCollection[0]} />
+                <DotCollection data={data[0]} />
             </nav>
         </Container>
     );
 }
 
-const DotCollection = ({ data }: any) => {
-    if (!data.dotcmsdocumentationchildren) {
+const DotCollection = ({ data }: { data: DotcmsDocumentation }) => {
+    if (!data.dotcmsdocumentationchildren?.length) {
         return null;
     }
 
     return (
         <ul>
-            {data.dotcmsdocumentationchildren.map((item) => (
+            {data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => (
                 <li key={item.navTitle || item.title}>
                     <Link href={item.urlMap}>
                         <a>{item.navTitle || item.title}</a>
@@ -45,31 +42,30 @@ const DotCollection = ({ data }: any) => {
     );
 };
 
-export async function getStaticProps(): Promise<any> {
-    const ssrCache = ssrExchange({ isClient: false });
-    const client = initUrqlClient(
-        {
-            url: BASE_URL,
-            exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange]
-        },
-        false
-    );
+export async function getStaticProps(): Promise<NavigationProp> {
+    try {
+        const client = new GraphQLClient(BASE_URL);
+        const data = await client.request(NAVIGATION_MENU_QUERY);
+        return {
+            props: {
+                data: data.DotcmsDocumentationCollection
+            }
+        };
+    } catch (e) {
+        throw new Error('Something went wrong...');
+    }
+}
 
-    await client.query(NAVIGATION_MENU_QUERY).toPromise();
-
-    return {
-        props: {
-            urqlState: ssrCache.extractData()
-        },
-        revalidate: 600
+// Interfaces
+interface NavigationProp {
+    props: {
+        data: DotcmsDocumentation[];
     };
 }
 
-export default withUrqlClient(
-    (ssr) => ({
-        url: BASE_URL
-    }),
-    {
-        ssr: false
-    }
-)(Home);
+interface DotcmsDocumentation {
+    title: string;
+    navTitle: string | null;
+    urlMap: string;
+    dotcmsdocumentationchildren?: DotcmsDocumentation[];
+}
