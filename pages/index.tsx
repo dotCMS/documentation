@@ -4,10 +4,14 @@ import Link from 'next/link';
 import Container from '@styles/Container.styles';
 
 // Graphql
-import { NAVIGATION_MENU_QUERY } from '../graphql/queries';
-import { GraphQLClient } from 'graphql-request';
+import { NAVIGATION_MENU_QUERY } from '@graphql/queries';
 
-const BASE_URL = 'https://dotcms.com/api/v1/graphql';
+// Models
+import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
+
+// Utils
+import { client } from '@utils/graphql-client';
+import { GetStaticPropsResult } from 'next';
 
 export default function Home({ data }: { data: DotcmsDocumentation[] }): JSX.Element {
     return (
@@ -32,7 +36,7 @@ const DotCollection = ({ data }: { data: DotcmsDocumentation }) => {
         <ul>
             {data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => (
                 <li key={item.navTitle || item.title}>
-                    <Link href={item.urlMap}>
+                    <Link href={`/latest/${item.urlTitle}`}>
                         <a>{item.navTitle || item.title}</a>
                     </Link>
                     <DotCollection data={item} />
@@ -42,30 +46,17 @@ const DotCollection = ({ data }: { data: DotcmsDocumentation }) => {
     );
 };
 
-export async function getStaticProps(): Promise<NavigationProp> {
+export async function getStaticProps(): Promise<
+    GetStaticPropsResult<{ data: DotcmsDocumentation }>
+> {
     try {
-        const client = new GraphQLClient(BASE_URL);
-        const data = await client.request(NAVIGATION_MENU_QUERY);
+        const { DotcmsDocumentationCollection } = await client.request(NAVIGATION_MENU_QUERY);
         return {
             props: {
-                data: data.DotcmsDocumentationCollection
+                data: DotcmsDocumentationCollection
             }
         };
     } catch (e) {
         throw new Error('Something went wrong...');
     }
-}
-
-// Interfaces
-interface NavigationProp {
-    props: {
-        data: DotcmsDocumentation[];
-    };
-}
-
-interface DotcmsDocumentation {
-    title: string;
-    navTitle: string | null;
-    urlMap: string;
-    dotcmsdocumentationchildren?: DotcmsDocumentation[];
 }
