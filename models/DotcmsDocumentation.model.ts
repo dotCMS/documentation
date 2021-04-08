@@ -5,9 +5,3 @@ export interface DotcmsDocumentation {
     urlTitle: string;
     dotcmsdocumentationchildren?: DotcmsDocumentation[];
 }
-
-export interface NavigationProp {
-    props: {
-        data: DotcmsDocumentation[];
-    };
-}

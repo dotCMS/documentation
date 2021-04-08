@@ -6,11 +6,12 @@ import Container from '@styles/Container.styles';
 // Graphql
 import { NAVIGATION_MENU_QUERY } from '@graphql/queries';
 
-// Interfaces
-import { DotcmsDocumentation, NavigationProp } from '@models/dotcmsDocumentation.interface';
+// Models
+import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
 
 // Utils
 import { client } from '@utils/graphql-client';
+import { GetStaticPropsResult } from 'next';
 
 export default function Home({ data }: { data: DotcmsDocumentation[] }): JSX.Element {
     return (
@@ -45,7 +46,9 @@ const DotCollection = ({ data }: { data: DotcmsDocumentation }) => {
     );
 };
 
-export async function getStaticProps(): Promise<NavigationProp> {
+export async function getStaticProps(): Promise<
+    GetStaticPropsResult<{ data: DotcmsDocumentation }>
+> {
     try {
         const { DotcmsDocumentationCollection } = await client.request(NAVIGATION_MENU_QUERY);
         return {

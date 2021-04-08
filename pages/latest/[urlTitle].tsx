@@ -1,12 +1,12 @@
 import React from 'react';
-import { GetStaticPathsResult, GetStaticPropsContext } from 'next';
-import { ParsedUrlQuery } from 'node:querystring';
+import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
 
-// Interfaces
-import { DotcmsDocumentation, NavigationProp } from '@models/dotcmsDocumentation.interface';
+// Models
+import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
 
 // Utils
 import { client } from '@utils/graphql-client';
@@ -17,19 +17,23 @@ const urlTitle = ({ data }: { data: DotcmsDocumentation[] }): JSX.Element => {
 };
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
-    const data = await client.request(NAVIGATION_MENU_QUERY);
-    const paths = buildParams(data.DotcmsDocumentationCollection[0], []);
-    return {
-        paths,
-        fallback: false
-    };
+    try {
+        const data = await client.request(NAVIGATION_MENU_QUERY);
+        const paths = buildParams(data.DotcmsDocumentationCollection[0], []);
+        return {
+            paths,
+            fallback: false
+        };
+    } catch (e) {
+        throw new Error('Something went wrong in getStaticPaths');
+    }
 }
 
-const buildParams = (data, paths): UrlTitleParams[] => {
+const buildParams = (data: DotcmsDocumentation, paths: UrlTitleParams[]): UrlTitleParams[] => {
     if (!data.dotcmsdocumentationchildren?.length) {
         return paths;
     }
-    data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => {
+    data.dotcmsdocumentationchildren.forEach((item: DotcmsDocumentation) => {
         paths.push({ params: { urlTitle: item.urlTitle } });
         paths = buildParams(item, paths);
     });
@@ -38,15 +42,21 @@ const buildParams = (data, paths): UrlTitleParams[] => {
 
 export async function getStaticProps({
     params
-}: GetStaticPropsContext<ParsedUrlQuery>): Promise<NavigationProp> {
-    const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
-    const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
+}: GetStaticPropsContext<ParsedUrlQuery>): Promise<
+    GetStaticPropsResult<{ data: DotcmsDocumentation }>
+> {
+    try {
+        const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
+        const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
 
-    return {
-        props: {
-            data: DotcmsDocumentationCollection
-        }
-    };
+        return {
+            props: {
+                data: DotcmsDocumentationCollection
+            }
+        };
+    } catch (e) {
+        throw new Error('Something went wrong in getStaticProps');
+    }
 }
 
 interface UrlTitleParams {
