@@ -4,13 +4,13 @@ import Link from 'next/link';
 import Container from '@styles/Container.styles';
 
 // Graphql
-import { NAVIGATION_MENU_QUERY } from '../graphql/queries';
-import { GraphQLClient } from 'graphql-request';
+import { NAVIGATION_MENU_QUERY } from '@graphql/queries';
 
 // Interfaces
-import { DotcmsDocumentation, NavigationProp } from '../models/dotcmsDocumentation.interface';
+import { DotcmsDocumentation, NavigationProp } from '@models/dotcmsDocumentation.interface';
 
-const BASE_URL = 'https://dotcms.com/api/v1/graphql';
+// Utils
+import { client } from '@utils/graphql-client';
 
 export default function Home({ data }: { data: DotcmsDocumentation[] }): JSX.Element {
     return (
@@ -35,7 +35,7 @@ const DotCollection = ({ data }: { data: DotcmsDocumentation }) => {
         <ul>
             {data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => (
                 <li key={item.navTitle || item.title}>
-                    <Link href={item.urlMap.replace('/docs', '')}>
+                    <Link href={`/latest/${item.urlTitle}`}>
                         <a>{item.navTitle || item.title}</a>
                     </Link>
                     <DotCollection data={item} />
@@ -47,11 +47,10 @@ const DotCollection = ({ data }: { data: DotcmsDocumentation }) => {
 
 export async function getStaticProps(): Promise<NavigationProp> {
     try {
-        const client = new GraphQLClient(BASE_URL);
-        const data = await client.request(NAVIGATION_MENU_QUERY);
+        const { DotcmsDocumentationCollection } = await client.request(NAVIGATION_MENU_QUERY);
         return {
             props: {
-                data: data.DotcmsDocumentationCollection
+                data: DotcmsDocumentationCollection
             }
         };
     } catch (e) {

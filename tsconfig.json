@@ -16,7 +16,9 @@
         "jsx": "preserve",
         "paths": {
             "@components/*": ["components/*"],
-            "@models/*": ["models"],
+            "@models/*": ["models/*"],
+            "@graphql/*": ["graphql/*"],
+            "@utils/*": ["utils/*"],
             "@services/*": ["services/*"],
             "@styles/*": ["styles/*"]
         }
