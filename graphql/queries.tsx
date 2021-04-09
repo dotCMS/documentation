@@ -7,28 +7,38 @@ export const NAVIGATION_MENU_QUERY = `
             navTitle
             urlMap
             urlTitle
+            format
+            documentation
             dotcmsdocumentationchildren {
                 title
                 navTitle
                 urlMap
                 urlTitle
+                format
+                documentation
                 dotcmsdocumentationchildren {
                     title
                     navTitle
                     urlMap
                     urlTitle
+                    format
+                    documentation
 
                     dotcmsdocumentationchildren {
                         title
                         navTitle
                         urlMap
                         urlTitle
+                        format
+                        documentation
 
                         dotcmsdocumentationchildren {
                             title
                             navTitle
                             urlMap
                             urlTitle
+                            format
+                            documentation
                         }
                     }
                 }

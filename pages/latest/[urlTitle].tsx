@@ -11,9 +11,16 @@ import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
 // Utils
 import { client } from '@utils/graphql-client';
 
-const urlTitle = ({ data }: { data: DotcmsDocumentation[] }): JSX.Element => {
-    const documentation = data[0];
-    return <h1>{documentation.title}</h1>;
+import { MDXProvider } from '@mdx-js/react';
+
+const urlTitle = ({ data }: { data: DotcmsDocumentation }): JSX.Element => {
+    const documentation = data;
+    return (
+        <>
+            <h1>{documentation.title}</h1>
+            <MDXProvider> ### Hola</MDXProvider>
+        </>
+    );
 };
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
@@ -51,7 +58,7 @@ export async function getStaticProps({
 
         return {
             props: {
-                data: DotcmsDocumentationCollection
+                data: DotcmsDocumentationCollection[0]
             }
         };
     } catch (e) {
