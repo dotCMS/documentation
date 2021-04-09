@@ -1,5 +1,7 @@
 import React from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 
 // Graphql
@@ -11,14 +13,45 @@ import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
 // Utils
 import { client } from '@utils/graphql-client';
 
+// mdx
+import renderToString from 'next-mdx-remote/render-to-string';
+import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
+import { MdxRemote } from 'next-mdx-remote/types';
+import { MDXProviderComponentsProp } from '@mdx-js/react';
 
-const urlTitle = ({ data }: { data: DotcmsDocumentation }): JSX.Element => {
-    const documentation = data;
+const image = (props) => {
+    const myLoader = ({ src, width, quality }) => {
+        return `${src}?w=${width}&q=${quality || 75}`;
+    };
+    return (
+        <div style={{ position: 'relative', width: 'auto', height: 'auto' }}>
+            <Image height={500} loader={myLoader} width={500} {...props} />
+        </div>
+    );
+};
+
+// const link = (props) => <Link href={""} {...props} passHref/>;
+
+const componentsUI: MDXProviderComponentsProp = {
+    img: image
+    // a: link
+};
+
+const urlTitle = ({
+    data,
+    source
+}: {
+    data: DotcmsDocumentation;
+    source: MdxRemote.Source;
+}): JSX.Element => {
+    const content = hydrate(source, { components: componentsUI });
     return (
         <>
-            <h1>{documentation.title}</h1>
-            <MDXProvider> ### Hola</MDXProvider>
+            <h1>{data.title}</h1>
+            <MDXProvider className="wrapper" components={componentsUI}>
+                {content}
+            </MDXProvider>
         </>
     );
 };
@@ -32,7 +65,29 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
             fallback: false
         };
     } catch (e) {
-        throw new Error('Something went wrong in getStaticPaths');
+        throw new Error(e);
+    }
+}
+
+export async function getStaticProps({
+    params
+}: GetStaticPropsContext<ParsedUrlQuery>): Promise<
+    GetStaticPropsResult<{ data: DotcmsDocumentation; source: MdxRemote.Source }>
+> {
+    try {
+        const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
+        const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
+        const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
+            components: componentsUI
+        });
+        return {
+            props: {
+                data: DotcmsDocumentationCollection[0],
+                source: mdxSource
+            }
+        };
+    } catch (e) {
+        throw new Error(e);
     }
 }
 
@@ -46,25 +101,6 @@ const buildParams = (data: DotcmsDocumentation, paths: UrlTitleParams[]): UrlTit
     });
     return paths;
 };
-
-export async function getStaticProps({
-    params
-}: GetStaticPropsContext<ParsedUrlQuery>): Promise<
-    GetStaticPropsResult<{ data: DotcmsDocumentation }>
-> {
-    try {
-        const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
-        const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
-
-        return {
-            props: {
-                data: DotcmsDocumentationCollection[0]
-            }
-        };
-    } catch (e) {
-        throw new Error('Something went wrong in getStaticProps');
-    }
-}
 
 interface UrlTitleParams {
     params: {
