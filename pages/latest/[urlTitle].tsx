@@ -21,8 +21,8 @@ import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
 
 const ImageMarkdown = (props) => {
-    const myLoader = ({ src, width, quality }) => {
-        return `${src}?w=${width}&q=${quality || 75}`;
+    const myLoader = ({ src }) => {
+        return `${src}`;
     };
     return <Image height={500} loader={myLoader} width={500} {...props} />;
 };
