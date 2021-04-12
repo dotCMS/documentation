@@ -3,7 +3,7 @@ import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } fro
 import Image from 'next/image';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
-
+import remarkId from 'remark-heading-id';
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
 
@@ -20,22 +20,24 @@ import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
 
-const image = (props) => {
+const ImageMarkdown = (props) => {
     const myLoader = ({ src, width, quality }) => {
         return `${src}?w=${width}&q=${quality || 75}`;
     };
-    return (
-        <div style={{ position: 'relative', width: 'auto', height: 'auto' }}>
-            <Image height={500} loader={myLoader} width={500} {...props} />
-        </div>
+    return <Image height={500} loader={myLoader} width={500} {...props} />;
+};
+
+const LinkMarkdown = (props: { href: string; children: string }) => {
+    return props.href.startsWith('#') ? (
+        <a href={props.href}>{props.children}</a>
+    ) : (
+        <Link {...props} />
     );
 };
 
-// const link = (props) => <Link href={""} {...props} passHref/>;
-
 const componentsUI: MDXProviderComponentsProp = {
-    img: image
-    // a: link
+    img: ImageMarkdown,
+    a: LinkMarkdown
 };
 
 const urlTitle = ({
@@ -78,7 +80,10 @@ export async function getStaticProps({
         const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
         const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
         const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
-            components: componentsUI
+            components: componentsUI,
+            mdxOptions: {
+                remarkPlugins: [remarkId]
+            }
         });
         return {
             props: {
