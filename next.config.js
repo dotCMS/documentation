@@ -10,8 +10,8 @@ module.exports = {
                 destination: 'https://dotcms.com/dA/:path*'
             }
         ];
+    },
+    future: {
+        webpack5: true
     }
-    // future: {
-    //     webpack5: true,
-    // },
 };
