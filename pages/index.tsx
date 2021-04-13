@@ -57,6 +57,6 @@ export async function getStaticProps(): Promise<
             }
         };
     } catch (e) {
-        throw new Error('Something went wrong...');
+        throw new Error(e);
     }
 }
