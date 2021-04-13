@@ -4,7 +4,7 @@ import Link from 'next/link';
 // Models
 import { DotcmsDocumentation } from '../models/DotcmsDocumentation.model';
 
-export default function DotCollection({ data }: { data: DotcmsDocumentation }): JSX.Element {
+export default function DotCollectionNav({ data }: { data: DotcmsDocumentation }): JSX.Element {
     if (!data.dotcmsdocumentationchildren?.length) {
         return null;
     }
@@ -16,7 +16,7 @@ export default function DotCollection({ data }: { data: DotcmsDocumentation }): 
                     <Link href={`/latest/${item.urlTitle}`}>
                         <a>{item.navTitle || item.title}</a>
                     </Link>
-                    <DotCollection data={item} />
+                    <DotCollectionNav data={item} />
                 </li>
             ))}
         </ul>

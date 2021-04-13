@@ -5,8 +5,11 @@ import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import remarkId from 'remark-heading-id';
 
+// Styles
+import styled from 'styled-components';
+
 // Components
-import DotCollection from '../../components/DotCollectionNav';
+import DotCollectionNav from '../../components/DotCollectionNav';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
@@ -42,6 +45,11 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
+const ContentGrid = styled.div`
+    display: grid;
+    grid-template-columns: 16rem 1fr;
+`;
+
 const urlTitle = ({
     data,
     navDot,
@@ -53,15 +61,17 @@ const urlTitle = ({
 }): JSX.Element => {
     const content = hydrate(source, { components: componentsUI });
     return (
-        <>
+        <ContentGrid>
             <nav>
-                <DotCollection data={navDot[0]} />
+                <DotCollectionNav data={navDot[0]} />
             </nav>
-            <h1>{data.title}</h1>
-            <MDXProvider className="wrapper" components={componentsUI}>
-                {content}
-            </MDXProvider>
-        </>
+            <div>
+                <h1>{data.title}</h1>
+                <MDXProvider className="wrapper" components={componentsUI}>
+                    {content}
+                </MDXProvider>
+            </div>
+        </ContentGrid>
     );
 };
 
