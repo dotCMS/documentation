@@ -4,6 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import remarkId from 'remark-heading-id';
+
+// Components
+import DotCollection from '../../components/DotCollectionNav';
+
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
 
@@ -40,14 +44,19 @@ const componentsUI: MDXProviderComponentsProp = {
 
 const urlTitle = ({
     data,
+    navDot,
     source
 }: {
     data: DotcmsDocumentation;
+    navDot: DotcmsDocumentation[];
     source: MdxRemote.Source;
 }): JSX.Element => {
     const content = hydrate(source, { components: componentsUI });
     return (
         <>
+            <nav>
+                <DotCollection data={navDot[0]} />
+            </nav>
             <h1>{data.title}</h1>
             <MDXProvider className="wrapper" components={componentsUI}>
                 {content}
@@ -72,10 +81,17 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 export async function getStaticProps({
     params
 }: GetStaticPropsContext<ParsedUrlQuery>): Promise<
-    GetStaticPropsResult<{ data: DotcmsDocumentation; source: MdxRemote.Source }>
+    GetStaticPropsResult<{
+        data: DotcmsDocumentation;
+        navDot: DotcmsDocumentation[];
+        source: MdxRemote.Source;
+    }>
 > {
     try {
         const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
+        const { DotcmsDocumentationCollection: DotcmsDocumentationNav } = await client.request(
+            NAVIGATION_MENU_QUERY
+        );
         const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
         const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
             components: componentsUI,
@@ -86,6 +102,7 @@ export async function getStaticProps({
         return {
             props: {
                 data: DotcmsDocumentationCollection[0],
+                navDot: DotcmsDocumentationNav,
                 source: mdxSource
             }
         };
