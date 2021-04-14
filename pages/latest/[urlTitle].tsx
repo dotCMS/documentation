@@ -1,4 +1,6 @@
 import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import ReactMarkdown from 'react-markdown';
 import { ParsedUrlQuery } from 'querystring';
@@ -22,6 +24,22 @@ import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
 // Utils
 import { client } from '@utils/graphql-client';
 
+const ImageMarkdown = (props) => {
+    const myLoader = ({ src }) => src;
+    return <Image height={500} loader={myLoader} width={500} {...props} />;
+};
+const LinkMarkdown = (props: { href: string; children: string }) => {
+    return props.href.startsWith('#') ? (
+        <a href={props.href}>{props.children}</a>
+    ) : (
+        <Link {...props} />
+    );
+};
+const componentsUI = {
+    img: ImageMarkdown,
+    a: LinkMarkdown
+};
+
 const ContentGrid = styled.div`
     display: grid;
     grid-template-columns: 16rem 1fr;
@@ -43,7 +61,11 @@ const urlTitle = ({
                 <h1>{data.title}</h1>
                 <h2>{data.format}</h2>
                 {data.format === 'markdown' && (
-                    <ReactMarkdown plugins={[gfm, stringify, heading, remarkInlineLinks]}>
+                    <ReactMarkdown
+                        includeNodeIndex={true}
+                        plugins={[gfm, heading, stringify, remarkInlineLinks]}
+                        renderers={componentsUI}
+                    >
                         {data.documentation}
                     </ReactMarkdown>
                 )}
