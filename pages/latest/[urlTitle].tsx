@@ -1,9 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
 import { ParsedUrlQuery } from 'querystring';
+import heading from 'remark-heading-id';
+import gfm from 'remark-gfm';
+import remarkInlineLinks from 'remark-inline-links';
+import stringify from 'rehype-stringify';
 
 // Styles
 import styled from 'styled-components';
@@ -20,31 +22,6 @@ import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
 // Utils
 import { client } from '@utils/graphql-client';
 
-// mdx
-import ReactMarkdown from 'react-markdown';
-import { MDXProviderComponentsProp } from '@mdx-js/react';
-
-const ImageMarkdown = (props) => {
-    const myLoader = ({ src }) => src;
-    return <Image height={500} loader={myLoader} width={500} {...props} />;
-};
-
-const LinkMarkdown = (props: { href: string; children: string }) => {
-    return props.href.startsWith('#') ? (
-        <a href={props.href}>{props.children}</a>
-    ) : (
-        <Link {...props} />
-    );
-};
-
-const BrMarkdown = () => <br />;
-
-const componentsUI: MDXProviderComponentsProp = {
-    img: ImageMarkdown,
-    a: LinkMarkdown,
-    br: BrMarkdown
-};
-
 const ContentGrid = styled.div`
     display: grid;
     grid-template-columns: 16rem 1fr;
@@ -57,18 +34,20 @@ const urlTitle = ({
     data: DotcmsDocumentation;
     navDot: DotcmsDocumentation[];
 }): JSX.Element => {
-    if (typeof window !== 'undefined') {
-        ReactDOM.render(
-            <ReactMarkdown>{data.documentation}</ReactMarkdown>,
-            document.getElementById('div')
-        );
-    }
     return (
         <ContentGrid>
             <nav>
                 <DotCollectionNav data={navDot[0]} />
             </nav>
-            <div id="div" />
+            <div>
+                <h1>{data.title}</h1>
+                <h2>{data.format}</h2>
+                {data.format === 'markdown' && (
+                    <ReactMarkdown plugins={[gfm, stringify, heading, remarkInlineLinks]}>
+                        {data.documentation}
+                    </ReactMarkdown>
+                )}
+            </div>
         </ContentGrid>
     );
 };
