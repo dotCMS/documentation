@@ -1,9 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
-import remarkId from 'remark-heading-id';
 
 // Styles
 import styled from 'styled-components';
@@ -21,10 +21,7 @@ import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
 import { client } from '@utils/graphql-client';
 
 // mdx
-import renderToString from 'next-mdx-remote/render-to-string';
-import hydrate from 'next-mdx-remote/hydrate';
-import { MDXProvider } from '@mdx-js/react';
-import { MdxRemote } from 'next-mdx-remote/types';
+import ReactMarkdown from 'react-markdown';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
 
 const ImageMarkdown = (props) => {
@@ -40,9 +37,12 @@ const LinkMarkdown = (props: { href: string; children: string }) => {
     );
 };
 
+const BrMarkdown = () => <br />;
+
 const componentsUI: MDXProviderComponentsProp = {
     img: ImageMarkdown,
-    a: LinkMarkdown
+    a: LinkMarkdown,
+    br: BrMarkdown
 };
 
 const ContentGrid = styled.div`
@@ -52,25 +52,23 @@ const ContentGrid = styled.div`
 
 const urlTitle = ({
     data,
-    navDot,
-    source
+    navDot
 }: {
     data: DotcmsDocumentation;
     navDot: DotcmsDocumentation[];
-    source: MdxRemote.Source;
 }): JSX.Element => {
-    const content = hydrate(source, { components: componentsUI });
+    if (typeof window !== 'undefined') {
+        ReactDOM.render(
+            <ReactMarkdown>{data.documentation}</ReactMarkdown>,
+            document.getElementById('div')
+        );
+    }
     return (
         <ContentGrid>
             <nav>
                 <DotCollectionNav data={navDot[0]} />
             </nav>
-            <div>
-                <h1>{data.title}</h1>
-                <MDXProvider className="wrapper" components={componentsUI}>
-                    {content}
-                </MDXProvider>
-            </div>
+            <div id="div" />
         </ContentGrid>
     );
 };
@@ -94,7 +92,6 @@ export async function getStaticProps({
     GetStaticPropsResult<{
         data: DotcmsDocumentation;
         navDot: DotcmsDocumentation[];
-        source: MdxRemote.Source;
     }>
 > {
     try {
@@ -103,17 +100,10 @@ export async function getStaticProps({
             NAVIGATION_MENU_QUERY
         );
         const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
-        const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
-            components: componentsUI,
-            mdxOptions: {
-                remarkPlugins: [remarkId]
-            }
-        });
         return {
             props: {
                 data: DotcmsDocumentationCollection[0],
-                navDot: DotcmsDocumentationNav,
-                source: mdxSource
+                navDot: DotcmsDocumentationNav
             }
         };
     } catch (e) {

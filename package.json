@@ -20,7 +20,11 @@
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-is": "^17.0.2",
+        "react-markdown": "^5.0.3",
+        "remark": "^13.0.0",
         "remark-heading-id": "^1.0.0",
+        "remark-lint": "^8.0.0",
+        "remark-preset-lint-markdown-style-guide": "^4.0.0",
         "styled-components": "^5.2.3",
         "styled-normalize": "^8.0.7"
     },
