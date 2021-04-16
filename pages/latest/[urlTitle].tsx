@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import remarkId from 'remark-heading-id';
+import { transform } from 'h2x-core';
+import jsx from 'h2x-plugin-jsx';
 
 // Styles
 import styled from 'styled-components';
@@ -148,14 +150,12 @@ interface UrlTitleParams {
 
 const htmlToXHTML = (documentation: string): string => {
     // Regular Expressions
-    const imgTag = new RegExp(/(<img\b(?:[^<>"'\/]+|'[^']*'|"[^"]*")*)>/gi);
-    const brTag = new RegExp(/(<br\b(?:[^<>"'\/]+|'[^']*'|"[^"]*")*)>/gi);
-    const hrTag = new RegExp(/(<hr\b(?:[^<>"'\/]+|'[^']*'|"[^"]*")*)>/gi);
+    const inlineTags = new RegExp(/<[img|br|hr][^>]*>/gi);
     const styleAttr = new RegExp(/(<[^>]+) style=".*?"/gi);
 
-    let data = documentation.replace(imgTag, '$1 />');
-    data = data.replace(brTag, '$1 />');
-    data = data.replace(hrTag, '$1 />');
+    let data = documentation.replace(inlineTags, (match) => {
+        return transform(match, { plugins: [jsx] });
+    });
     data = data.replace(styleAttr, '$1');
     return data;
 };
