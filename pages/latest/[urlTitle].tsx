@@ -1,13 +1,9 @@
 import React from 'react';
+import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
-import ReactMarkdown from 'react-markdown';
 import { ParsedUrlQuery } from 'querystring';
-import heading from 'remark-heading-id';
-import gfm from 'remark-gfm';
-import remarkInlineLinks from 'remark-inline-links';
-import stringify from 'rehype-stringify';
+import remarkId from 'remark-heading-id';
 
 // Styles
 import styled from 'styled-components';
@@ -24,10 +20,19 @@ import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
 // Utils
 import { client } from '@utils/graphql-client';
 
+// mdx
+import renderToString from 'next-mdx-remote/render-to-string';
+import hydrate from 'next-mdx-remote/hydrate';
+import { MDXProvider } from '@mdx-js/react';
+import { MdxRemote } from 'next-mdx-remote/types';
+import { MDXProviderComponentsProp } from '@mdx-js/react';
+// import matter from 'gray-matter';
+
 const ImageMarkdown = (props) => {
     const myLoader = ({ src }) => src;
     return <Image height={500} loader={myLoader} width={500} {...props} />;
 };
+
 const LinkMarkdown = (props: { href: string; children: string }) => {
     return props.href.startsWith('#') ? (
         <a href={props.href}>{props.children}</a>
@@ -35,7 +40,8 @@ const LinkMarkdown = (props: { href: string; children: string }) => {
         <Link {...props} />
     );
 };
-const componentsUI = {
+
+const componentsUI: MDXProviderComponentsProp = {
     img: ImageMarkdown,
     a: LinkMarkdown
 };
@@ -47,11 +53,14 @@ const ContentGrid = styled.div`
 
 const urlTitle = ({
     data,
-    navDot
+    navDot,
+    source
 }: {
     data: DotcmsDocumentation;
     navDot: DotcmsDocumentation[];
+    source: MdxRemote.Source;
 }): JSX.Element => {
+    const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
         <ContentGrid>
             <nav>
@@ -60,14 +69,10 @@ const urlTitle = ({
             <div>
                 <h1>{data.title}</h1>
                 <h2>{data.format}</h2>
-                {data.format === 'markdown' && (
-                    <ReactMarkdown
-                        includeNodeIndex={true}
-                        plugins={[gfm, heading, stringify, remarkInlineLinks]}
-                        renderers={componentsUI}
-                    >
-                        {data.documentation}
-                    </ReactMarkdown>
+                {source && (
+                    <MDXProvider className="wrapper" components={componentsUI}>
+                        {content}
+                    </MDXProvider>
                 )}
             </div>
         </ContentGrid>
@@ -93,6 +98,7 @@ export async function getStaticProps({
     GetStaticPropsResult<{
         data: DotcmsDocumentation;
         navDot: DotcmsDocumentation[];
+        source: MdxRemote.Source;
     }>
 > {
     try {
@@ -101,10 +107,21 @@ export async function getStaticProps({
             NAVIGATION_MENU_QUERY
         );
         const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
+        const format = DotcmsDocumentationCollection[0].format;
+        const data = htmlToXHTML(DotcmsDocumentationCollection[0].documentation);
+        const mdxSource =
+            format === 'markdown'
+                ? await renderToString(data, {
+                      mdxOptions: {
+                          remarkPlugins: [remarkId]
+                      }
+                  })
+                : null;
         return {
             props: {
                 data: DotcmsDocumentationCollection[0],
-                navDot: DotcmsDocumentationNav
+                navDot: DotcmsDocumentationNav,
+                source: mdxSource
             }
         };
     } catch (e) {
@@ -128,5 +145,19 @@ interface UrlTitleParams {
         urlTitle: string;
     };
 }
+
+const htmlToXHTML = (documentation: string): string => {
+    // Regular Expressions
+    const imgTag = new RegExp(/(<img\b(?:[^<>"'\/]+|'[^']*'|"[^"]*")*)>/gi);
+    const brTag = new RegExp(/(<br\b(?:[^<>"'\/]+|'[^']*'|"[^"]*")*)>/gi);
+    const hrTag = new RegExp(/(<hr\b(?:[^<>"'\/]+|'[^']*'|"[^"]*")*)>/gi);
+    const styleAttr = new RegExp(/(<[^>]+) style=".*?"/gi);
+
+    let data = documentation.replace(imgTag, '$1 />');
+    data = data.replace(brTag, '$1 />');
+    data = data.replace(hrTag, '$1 />');
+    data = data.replace(styleAttr, '$1');
+    return data;
+};
 
 export default urlTitle;
