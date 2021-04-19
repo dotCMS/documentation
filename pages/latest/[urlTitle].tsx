@@ -63,6 +63,7 @@ const urlTitle = ({
     source: MdxRemote.Source;
     error?: any;
 }): JSX.Element => {
+    console.log(error);
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
         <ContentGrid>
@@ -70,7 +71,7 @@ const urlTitle = ({
                 <DotCollectionNav data={navDot[0]} />
             </nav>
             {error ? (
-                <div>{error}</div>
+                <pre><code>{error.toString()}</code></pre>
             ) : (
                 <div>
                     <h1>{data.title}</h1>
@@ -132,12 +133,13 @@ export async function getStaticProps({
             }
         };
     } catch (e) {
+        console.log(e.message);
         return {
             props: {
                 data: DotcmsDocumentationCollection[0],
                 navDot: DotcmsDocumentationNav,
                 source: null,
-                error: JSON.stringify(e)
+                error: e.message
             }
         };
     }
