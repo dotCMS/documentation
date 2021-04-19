@@ -28,7 +28,6 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
-// import matter from 'gray-matter';
 
 const ImageMarkdown = (props) => {
     const myLoader = ({ src }) => src;
@@ -56,11 +55,13 @@ const ContentGrid = styled.div`
 const urlTitle = ({
     data,
     navDot,
-    source
+    source,
+    error
 }: {
     data: DotcmsDocumentation;
     navDot: DotcmsDocumentation[];
     source: MdxRemote.Source;
+    error?: any;
 }): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
@@ -68,15 +69,17 @@ const urlTitle = ({
             <nav>
                 <DotCollectionNav data={navDot[0]} />
             </nav>
-            <div>
-                <h1>{data.title}</h1>
-                <h2>{data.format}</h2>
-                {source && (
+            {error ? (
+                <div>{error}</div>
+            ) : (
+                <div>
+                    <h1>{data.title}</h1>
+                    <h2>{data.format}</h2>
                     <MDXProvider className="wrapper" components={componentsUI}>
                         {content}
                     </MDXProvider>
-                )}
-            </div>
+                </div>
+            )}
         </ContentGrid>
     );
 };
@@ -101,16 +104,18 @@ export async function getStaticProps({
         data: DotcmsDocumentation;
         navDot: DotcmsDocumentation[];
         source: MdxRemote.Source;
+        error?: any;
     }>
 > {
+    const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
+    const { DotcmsDocumentationCollection: DotcmsDocumentationNav } = await client.request(
+        NAVIGATION_MENU_QUERY
+    );
+    const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
+    const format = DotcmsDocumentationCollection[0].format;
     try {
-        const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
-        const { DotcmsDocumentationCollection: DotcmsDocumentationNav } = await client.request(
-            NAVIGATION_MENU_QUERY
-        );
-        const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
-        const format = DotcmsDocumentationCollection[0].format;
-        const data = htmlToXHTML(DotcmsDocumentationCollection[0].documentation);
+        let data = htmlToJSX(DotcmsDocumentationCollection[0].documentation);
+        data = fixHeadingMarkdown(data);
         const mdxSource =
             format === 'markdown'
                 ? await renderToString(data, {
@@ -127,7 +132,14 @@ export async function getStaticProps({
             }
         };
     } catch (e) {
-        throw new Error(e);
+        return {
+            props: {
+                data: DotcmsDocumentationCollection[0],
+                navDot: DotcmsDocumentationNav,
+                source: null,
+                error: JSON.stringify(e)
+            }
+        };
     }
 }
 
@@ -148,7 +160,7 @@ interface UrlTitleParams {
     };
 }
 
-const htmlToXHTML = (documentation: string): string => {
+const htmlToJSX = (documentation: string): string => {
     // Regular Expressions
     const inlineTags = new RegExp(/<[img|br|hr][^>]*>/gi);
     const styleAttr = new RegExp(/(<[^>]+) style=".*?"/gi);
@@ -158,6 +170,14 @@ const htmlToXHTML = (documentation: string): string => {
     });
     data = data.replace(styleAttr, '$1');
     return data;
+};
+
+const fixHeadingMarkdown = (data: string): string => {
+    const patter = new RegExp(/[(|{]*#[a-zA-Z0-9]+/gi);
+    const newData = data.replace(patter, (match) => {
+        return match.includes('(') || match.includes('{') ? match : match.replace('#', '# ');
+    });
+    return newData;
 };
 
 export default urlTitle;
