@@ -17,6 +17,7 @@
         "paths": {
             "@components/*": ["components/*"],
             "@models/*": ["models/*"],
+            "@plugins/*": ["plugins/*"],
             "@graphql/*": ["graphql/*"],
             "@utils/*": ["utils/*"],
             "@services/*": ["services/*"],

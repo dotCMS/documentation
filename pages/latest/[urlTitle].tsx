@@ -4,8 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import remarkId from 'remark-heading-id';
-import { transform } from 'h2x-core';
-import jsx from 'h2x-plugin-jsx';
+import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 
 // Styles
 import styled from 'styled-components';
@@ -114,14 +113,13 @@ export async function getStaticProps({
     );
     const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
     const format = DotcmsDocumentationCollection[0].format;
+    const data = fixHeadingMarkdown(DotcmsDocumentationCollection[0].documentation);
     try {
-        let data = htmlToJSX(DotcmsDocumentationCollection[0].documentation);
-        data = fixHeadingMarkdown(data);
         const mdxSource =
             format === 'markdown'
                 ? await renderToString(data, {
                       mdxOptions: {
-                          remarkPlugins: [remarkId]
+                          remarkPlugins: [DotHtmlToJsxRemark, remarkId]
                       }
                   })
                 : null;
@@ -160,17 +158,6 @@ interface UrlTitleParams {
         urlTitle: string;
     };
 }
-
-const htmlToJSX = (documentation: string): string => {
-    const inlineTags = new RegExp(/<[img|br|hr][^>]*>/gi);
-    const styleAttr = new RegExp(/(<[^>]+) style=".*?"/gi);
-
-    let data = documentation.replace(inlineTags, (match) => {
-        return transform(match, { plugins: [jsx] });
-    });
-    data = data.replace(styleAttr, '$1');
-    return data;
-};
 
 const fixHeadingMarkdown = (data: string): string => {
     const patter = new RegExp(/[(|{]*#[a-zA-Z0-9]+/gi);
