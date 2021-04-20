@@ -11,8 +11,8 @@ import jsx from 'h2x-plugin-jsx';
 import styled from 'styled-components';
 
 // Components
-import DotCollectionNav from '../../components/DotCollectionNav';
-import { Terminal } from '../../components/DotDocumentationError';
+import DotCollectionNav from '@components/DotCollectionNav';
+import { Terminal } from '@components/DotDocumentationError';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
@@ -162,7 +162,6 @@ interface UrlTitleParams {
 }
 
 const htmlToJSX = (documentation: string): string => {
-    // Regular Expressions
     const inlineTags = new RegExp(/<[img|br|hr][^>]*>/gi);
     const styleAttr = new RegExp(/(<[^>]+) style=".*?"/gi);
 
