@@ -29,6 +29,13 @@ import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
 
+interface PageData {
+    data: DotcmsDocumentation;
+    navDot: DotcmsDocumentation[];
+    source: MdxRemote.Source;
+    error?: string;
+}
+
 const ImageMarkdown = (props) => {
     const myLoader = ({ src }) => src;
     return <Image height={500} loader={myLoader} width={500} {...props} />;
@@ -52,17 +59,7 @@ const ContentGrid = styled.div`
     grid-template-columns: 16rem 1fr;
 `;
 
-const urlTitle = ({
-    data,
-    navDot,
-    source,
-    error
-}: {
-    data: DotcmsDocumentation;
-    navDot: DotcmsDocumentation[];
-    source: MdxRemote.Source;
-    error?: any;
-}): JSX.Element => {
+const urlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
         <ContentGrid>
@@ -70,7 +67,7 @@ const urlTitle = ({
                 <DotCollectionNav data={navDot[0]} />
             </nav>
             {error ? (
-                <Terminal content={error.toString()} />
+                <Terminal content={error} />
             ) : (
                 <div>
                     <h1>{data.title}</h1>
@@ -99,14 +96,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 
 export async function getStaticProps({
     params
-}: GetStaticPropsContext<ParsedUrlQuery>): Promise<
-    GetStaticPropsResult<{
-        data: DotcmsDocumentation;
-        navDot: DotcmsDocumentation[];
-        source: MdxRemote.Source;
-        error?: any;
-    }>
-> {
+}: GetStaticPropsContext<ParsedUrlQuery>): Promise<GetStaticPropsResult<PageData>> {
     const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
     const { DotcmsDocumentationCollection: DotcmsDocumentationNav } = await client.request(
         NAVIGATION_MENU_QUERY
