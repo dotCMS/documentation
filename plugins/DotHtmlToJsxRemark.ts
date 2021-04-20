@@ -1,24 +1,22 @@
 import visit from 'unist-util-visit';
+import { Node } from 'unist';
 import { transform } from 'h2x-core';
 import jsx from 'h2x-plugin-jsx';
 
+interface CustomNode extends Node {
+    value: string;
+}
+
 export default function () {
-    return function (node): void {
-        visit(node, 'jsx', (node) => {
+    return function (node: CustomNode): void {
+        visit(node, 'jsx', (node: CustomNode) => {
             if (node && node.type === 'jsx') {
-                const inlineTags = new RegExp(/<[img|br|hr][^>]*>/gi);
+                const inlineTags = new RegExp(/<(img|br|hr)[^>]*>/gi);
                 const styleAttr = new RegExp(/(<[^>]+) style=".*?"/gi);
-                const value = node.value as string;
-                const matched = value.match(inlineTags);
-                if (matched) {
-                    let data = value.replace(inlineTags, (match) => {
-                        return transform(match, { plugins: [jsx] });
-                    });
-                    data = data.match(styleAttr) ? data.replace(styleAttr, '$1') : data;
-                    node.value = data;
-                } else if (value.match(styleAttr)) {
-                    node.value = value.replace(styleAttr, '$1');
-                }
+                const value = node.value;
+                node.value = value
+                    .replace(styleAttr, '$1')
+                    .replace(inlineTags, (match) => transform(match, { plugins: [jsx] }));
             }
         });
     };
