@@ -1,6 +1,8 @@
 import Anser from 'anser';
 import * as React from 'react';
 
+import DocumentationErrors from '@styles/DotDocumentationError.styles';
+
 export type TerminalProps = { content: string };
 
 export const Terminal: React.FC<TerminalProps> = function Terminal({
@@ -17,7 +19,7 @@ export const Terminal: React.FC<TerminalProps> = function Terminal({
     }, [content]);
 
     return (
-        <div className="documentationErrors">
+        <DocumentationErrors>
             <pre>
                 {decoded.map((entry, index) => (
                     <span
@@ -35,6 +37,6 @@ export const Terminal: React.FC<TerminalProps> = function Terminal({
                     </span>
                 ))}
             </pre>
-        </div>
+        </DocumentationErrors>
     );
 };
