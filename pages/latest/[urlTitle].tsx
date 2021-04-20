@@ -61,7 +61,7 @@ const urlTitle = ({
     data: DotcmsDocumentation;
     navDot: DotcmsDocumentation[];
     source: MdxRemote.Source;
-    error?: any;
+    error?: string;
 }): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
@@ -70,7 +70,7 @@ const urlTitle = ({
                 <DotCollectionNav data={navDot[0]} />
             </nav>
             {error ? (
-                <Terminal content={error.toString()} />
+                <Terminal content={error} />
             ) : (
                 <div>
                     <h1>{data.title}</h1>
@@ -104,7 +104,7 @@ export async function getStaticProps({
         data: DotcmsDocumentation;
         navDot: DotcmsDocumentation[];
         source: MdxRemote.Source;
-        error?: any;
+        error?: string;
     }>
 > {
     const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
