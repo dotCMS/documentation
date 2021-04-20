@@ -1,7 +1,10 @@
 import React from 'react';
+import { GetStaticPropsResult } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import Container from '@styles/Container.styles';
+
+// Components
+import DotCollectionNav from '@components/DotCollectionNav';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY } from '@graphql/queries';
@@ -11,7 +14,6 @@ import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
 
 // Utils
 import { client } from '@utils/graphql-client';
-import { GetStaticPropsResult } from 'next';
 
 export default function Home({ data }: { data: DotcmsDocumentation[] }): JSX.Element {
     return (
@@ -21,30 +23,11 @@ export default function Home({ data }: { data: DotcmsDocumentation[] }): JSX.Ele
                 <link href="/favicon.ico" rel="icon" />
             </Head>
             <nav>
-                <DotCollection data={data[0]} />
+                <DotCollectionNav data={data[0]} />
             </nav>
         </Container>
     );
 }
-
-const DotCollection = ({ data }: { data: DotcmsDocumentation }) => {
-    if (!data.dotcmsdocumentationchildren?.length) {
-        return null;
-    }
-
-    return (
-        <ul>
-            {data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => (
-                <li key={item.navTitle || item.title}>
-                    <Link href={`/latest/${item.urlTitle}`}>
-                        <a>{item.navTitle || item.title}</a>
-                    </Link>
-                    <DotCollection data={item} />
-                </li>
-            ))}
-        </ul>
-    );
-};
 
 export async function getStaticProps(): Promise<
     GetStaticPropsResult<{ data: DotcmsDocumentation }>

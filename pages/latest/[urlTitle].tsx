@@ -4,6 +4,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import remarkId from 'remark-heading-id';
+import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
+
+// Styles
+import styled from 'styled-components';
+
+// Components
+import DotCollectionNav from '@components/DotCollectionNav';
+import { Terminal } from '@components/DotDocumentationError';
+
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
 
@@ -19,6 +28,13 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
+
+interface PageData {
+    data: DotcmsDocumentation;
+    navDot: DotcmsDocumentation[];
+    source: MdxRemote.Source;
+    error?: string;
+}
 
 const ImageMarkdown = (props) => {
     const myLoader = ({ src }) => src;
@@ -38,21 +54,30 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const urlTitle = ({
-    data,
-    source
-}: {
-    data: DotcmsDocumentation;
-    source: MdxRemote.Source;
-}): JSX.Element => {
-    const content = hydrate(source, { components: componentsUI });
+const ContentGrid = styled.div`
+    display: grid;
+    grid-template-columns: 16rem 1fr;
+`;
+
+const urlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
+    const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
-        <>
-            <h1>{data.title}</h1>
-            <MDXProvider className="wrapper" components={componentsUI}>
-                {content}
-            </MDXProvider>
-        </>
+        <ContentGrid>
+            <nav>
+                <DotCollectionNav data={navDot[0]} />
+            </nav>
+            {error ? (
+                <Terminal content={error} />
+            ) : (
+                <div>
+                    <h1>{data.title}</h1>
+                    <h2>{data.format}</h2>
+                    <MDXProvider className="wrapper" components={componentsUI}>
+                        {content}
+                    </MDXProvider>
+                </div>
+            )}
+        </ContentGrid>
     );
 };
 
@@ -71,26 +96,39 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 
 export async function getStaticProps({
     params
-}: GetStaticPropsContext<ParsedUrlQuery>): Promise<
-    GetStaticPropsResult<{ data: DotcmsDocumentation; source: MdxRemote.Source }>
-> {
+}: GetStaticPropsContext<ParsedUrlQuery>): Promise<GetStaticPropsResult<PageData>> {
+    const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
+    const { DotcmsDocumentationCollection: DotcmsDocumentationNav } = await client.request(
+        NAVIGATION_MENU_QUERY
+    );
+    const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
+    const format = DotcmsDocumentationCollection[0].format;
+    const data = fixHeadingMarkdown(DotcmsDocumentationCollection[0].documentation);
     try {
-        const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
-        const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
-        const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
-            components: componentsUI,
-            mdxOptions: {
-                remarkPlugins: [remarkId]
-            }
-        });
+        const mdxSource =
+            format === 'markdown'
+                ? await renderToString(data, {
+                      mdxOptions: {
+                          remarkPlugins: [DotHtmlToJsxRemark, remarkId]
+                      }
+                  })
+                : null;
         return {
             props: {
                 data: DotcmsDocumentationCollection[0],
+                navDot: DotcmsDocumentationNav,
                 source: mdxSource
             }
         };
     } catch (e) {
-        throw new Error(e);
+        return {
+            props: {
+                data: DotcmsDocumentationCollection[0],
+                navDot: DotcmsDocumentationNav,
+                source: null,
+                error: e.message
+            }
+        };
     }
 }
 
@@ -110,5 +148,13 @@ interface UrlTitleParams {
         urlTitle: string;
     };
 }
+
+const fixHeadingMarkdown = (data: string): string => {
+    const patter = new RegExp(/[(|{]*#[a-zA-Z0-9]+/gi);
+    const newData = data.replace(patter, (match) => {
+        return match.includes('(') || match.includes('{') ? match : match.replace('#', '# ');
+    });
+    return newData;
+};
 
 export default urlTitle;
