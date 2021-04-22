@@ -66,17 +66,19 @@ const urlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
             <nav>
                 <DotCollectionNav data={navDot[0]} />
             </nav>
-            {error ? (
-                <Terminal content={error} />
-            ) : (
-                <div>
-                    <h1>{data.title}</h1>
-                    <h2>{data.format}</h2>
-                    <MDXProvider className="wrapper" components={componentsUI}>
-                        {content}
-                    </MDXProvider>
-                </div>
-            )}
+            <div>
+                <h1>{data.title}</h1>
+                <h2>{data.format}</h2>
+                {error ? (
+                    <Terminal content={error} />
+                ) : (
+                    <div>
+                        <MDXProvider className="wrapper" components={componentsUI}>
+                            {content}
+                        </MDXProvider>
+                    </div>
+                )}
+            </div>
         </ContentGrid>
     );
 };
@@ -102,17 +104,13 @@ export async function getStaticProps({
         NAVIGATION_MENU_QUERY
     );
     const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
-    const format = DotcmsDocumentationCollection[0].format;
     const data = fixHeadingMarkdown(DotcmsDocumentationCollection[0].documentation);
     try {
-        const mdxSource =
-            format === 'markdown'
-                ? await renderToString(data, {
-                      mdxOptions: {
-                          remarkPlugins: [DotHtmlToJsxRemark, remarkId]
-                      }
-                  })
-                : null;
+        const mdxSource = await renderToString(data, {
+            mdxOptions: {
+                remarkPlugins: [DotHtmlToJsxRemark, remarkId]
+            }
+        });
         return {
             props: {
                 data: DotcmsDocumentationCollection[0],
