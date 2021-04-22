@@ -56,19 +56,21 @@ const componentsUI: MDXProviderComponentsProp = {
 
 const ContentGrid = styled.div`
     display: grid;
-    grid-template-columns: 16rem 1fr;
+    grid-template-columns: 20% calc(100% - 240px);
+    width: 100vw;
 `;
 
 const urlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
         <ContentGrid>
-            <nav>
-                <DotCollectionNav data={navDot[0]} />
-            </nav>
-            <div>
+            <div className="aside-menu-container">
+                <nav className="aside-menu">
+                    <DotCollectionNav data={navDot[0]} />
+                </nav>
+            </div>
+            <div className="content-container">
                 <h1>{data.title}</h1>
-                <h2>{data.format}</h2>
                 {error ? (
                     <Terminal content={error} />
                 ) : (

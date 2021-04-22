@@ -1,0 +1,72 @@
+/* ./styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+.content-container{
+    overflow: hidden !important;
+    padding: 28px 94px;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 7px 0px;
+    width: 1000px;
+    height: 57px;
+    @apply font-roboto;
+    @apply font-bold;
+    @apply text-5xl;
+    @apply text-black;
+}
+
+h2 {
+    @apply text-4xl;
+}
+
+h3 {
+    @apply text-3xl;
+}
+
+h4 {
+    @apply text-2xl;
+}
+
+h5 {
+    @apply text-xl;
+}
+
+pre {
+    overflow: hidden;
+}
+
+.aside-menu-container {
+    padding: 30px 36px;
+    border: 1px solid #E1E7ED;
+}
+
+.aside-menu-container .aside-menu{
+    color: #777777 !important;
+}
+
+.aside-menu-link {
+    color: #333 !important;
+    @apply text-sm;
+    @apply font-normal;
+    @apply font-roboto;
+}
+
+ul{
+    padding-left: 15px;
+    @apply list-disc;
+}
+
+p {
+    @apply font-normal;
+    @apply text-black;
+    @apply font-roboto;
+}
+
+a {
+    color: #6848E9;
+}

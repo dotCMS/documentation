@@ -14,7 +14,7 @@ export default function DotCollectionNav({ data }: { data: DotcmsDocumentation }
             {data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => (
                 <li key={item.navTitle || item.title}>
                     <Link href={`/latest/${item.urlTitle}`}>
-                        <a>{item.navTitle || item.title}</a>
+                        <a className="aside-menu-link">{item.navTitle || item.title}</a>
                     </Link>
                     <DotCollectionNav data={item} />
                 </li>
