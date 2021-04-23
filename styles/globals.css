@@ -49,11 +49,8 @@ pre {
     color: #777777 !important;
 }
 
-.aside-menu-link {
-    color: #333 !important;
-    @apply text-sm;
-    @apply font-normal;
-    @apply font-roboto;
+a {
+    color: #542FE7 !important;
 }
 
 ul{
@@ -61,12 +58,32 @@ ul{
     @apply list-disc;
 }
 
+ul.aside-menu-list{
+    list-style: none;
+}
+
+li.aside-menu-list-item:before{
+    content: "";
+    border-color: transparent #A9B1BD;
+    border-style: solid;
+    border-width: 0.25em 0 0.25em 0.35em;
+    display: block;
+    height: 0;
+    width: 0;
+    left: -1em;
+    top: 1.0em;
+    position: relative;
+}
+
+a.aside-menu-link {
+    color: #4A4A4A !important;
+    @apply text-sm;
+    @apply font-normal;
+    @apply font-roboto;
+}
+
 p {
     @apply font-normal;
     @apply text-black;
     @apply font-roboto;
-}
-
-a {
-    color: #6848E9;
 }

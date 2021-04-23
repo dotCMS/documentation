@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -28,6 +28,8 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
+
+import Prism from 'prismjs';
 
 interface PageData {
     data: DotcmsDocumentation;
@@ -62,6 +64,16 @@ const ContentGrid = styled.div`
 
 const urlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
+
+    useEffect(() => {
+        Prism.highlightAll();
+    }, []);
+    const code = `sudo yum update -y`;
+    const cssCode = `p {
+    color: red;
+}`;
+    const jsCode = `const helloWorld = 'Hello World!';
+console.log(helloWorld)`;
     return (
         <ContentGrid>
             <div className="aside-menu-container">
@@ -70,6 +82,15 @@ const urlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
                 </nav>
             </div>
             <div className="content-container">
+                <pre>
+                    <code className="language-bash">{code}</code>
+                </pre>
+                <pre>
+                    <code className="language-css">{cssCode}</code>
+                </pre>
+                <pre>
+                    <code className="language-js">{jsCode}</code>
+                </pre>
                 <h1>{data.title}</h1>
                 {error ? (
                     <Terminal content={error} />
