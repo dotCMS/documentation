@@ -68,12 +68,6 @@ const urlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
     useEffect(() => {
         Prism.highlightAll();
     }, []);
-    const code = `sudo yum update -y`;
-    const cssCode = `p {
-    color: red;
-}`;
-    const jsCode = `const helloWorld = 'Hello World!';
-console.log(helloWorld)`;
     return (
         <ContentGrid>
             <div className="aside-menu-container">
@@ -82,15 +76,6 @@ console.log(helloWorld)`;
                 </nav>
             </div>
             <div className="content-container">
-                <pre>
-                    <code className="language-bash">{code}</code>
-                </pre>
-                <pre>
-                    <code className="language-css">{cssCode}</code>
-                </pre>
-                <pre>
-                    <code className="language-js">{jsCode}</code>
-                </pre>
                 <h1>{data.title}</h1>
                 {error ? (
                     <Terminal content={error} />
