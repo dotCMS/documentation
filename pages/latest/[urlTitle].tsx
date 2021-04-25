@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
 import remarkId from 'remark-heading-id';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
@@ -12,6 +13,7 @@ import styled from 'styled-components';
 // Components
 import DotCollectionNav from '@components/DotCollectionNav';
 import { Terminal } from '@components/DotDocumentationError';
+import { DotDocumentationHeader } from '@components/DotDocumentationHeader';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
@@ -62,32 +64,37 @@ const ContentGrid = styled.div`
     width: 100vw;
 `;
 
-const urlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
-
     useEffect(() => {
         Prism.highlightAll();
     }, []);
     return (
-        <ContentGrid>
-            <div className="aside-menu-container">
-                <nav className="aside-menu">
-                    <DotCollectionNav data={navDot[0]} />
-                </nav>
-            </div>
-            <div className="content-container">
-                <h1>{data.title}</h1>
-                {error ? (
-                    <Terminal content={error} />
-                ) : (
-                    <div>
-                        <MDXProvider className="wrapper" components={componentsUI}>
-                            {content}
-                        </MDXProvider>
-                    </div>
-                )}
-            </div>
-        </ContentGrid>
+        <>
+            <Head>
+                <title>{data.title}</title>
+            </Head>
+            <DotDocumentationHeader />
+            <ContentGrid>
+                <div className="aside-menu-container">
+                    <nav className="aside-menu">
+                        <DotCollectionNav data={navDot[0]} />
+                    </nav>
+                </div>
+                <div className="content-container">
+                    <h1>{data.title}</h1>
+                    {error ? (
+                        <Terminal content={error} />
+                    ) : (
+                        <div>
+                            <MDXProvider className="wrapper" components={componentsUI}>
+                                {content}
+                            </MDXProvider>
+                        </div>
+                    )}
+                </div>
+            </ContentGrid>
+        </>
     );
 };
 
@@ -158,9 +165,11 @@ interface UrlTitleParams {
 const fixHeadingMarkdown = (data: string): string => {
     const patter = new RegExp(/[(|{]*#[a-zA-Z0-9]+/gi);
     const newData = data.replace(patter, (match) => {
-        return match.includes('(') || match.includes('{') ? match : match.replace('#', '# ');
+        return match.includes('(') || match.includes('{') || match.includes('dotParse')
+            ? match
+            : match.replace('#', '# ');
     });
     return newData;
 };
 
-export default urlTitle;
+export default UrlTitle;
