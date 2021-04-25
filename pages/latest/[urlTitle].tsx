@@ -13,7 +13,7 @@ import styled from 'styled-components';
 // Components
 import DotCollectionNav from '@components/DotCollectionNav';
 import { Terminal } from '@components/DotDocumentationError';
-import { DotDocumentationHeader } from '@components/DotDocumentationHeader';
+import { DotDocumentationHeader } from '@components/header/DotDocumentationHeader';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
