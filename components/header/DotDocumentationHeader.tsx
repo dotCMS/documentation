@@ -4,18 +4,23 @@ import DotSearchHeader from './components/DotSearchHeader';
 export const DotDocumentationHeader = (): JSX.Element => {
     return (
         <header className="header-container">
-            <div className="flex justify-items-center">
-                <div className="w-3/12">
-                    <span>d</span>
+            <div className="flex justify-center items-center">
+                <div className="w-2/12">
+                    <span className="dotcms-letter">d</span>
                     <div className="dotcms-o" />
-                    <span>t</span>
+                    <span className="dotcms-letter">t</span>
                     <strong>CMS</strong>
                 </div>
-                <DotSearchHeader />
-                <div className="flex justify-items-center w-3/12">
-                    <select>
-                        <option>value</option>
-                    </select>
+                <div className="flex w-7/12">
+                    <DotSearchHeader />
+                </div>
+                <div className="flex justify-end items-center w-3/12">
+                    <div className="flex items-center selector-version">
+                        <span>Version:</span>
+                        <select className="focus:outline-none">
+                            <option>value</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </header>

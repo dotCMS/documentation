@@ -5,28 +5,69 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-.content-container{
-    overflow: hidden !important;
+.content-container {
     padding: 28px 94px;
+    overflow: hidden !important;
 }
 
-.header-container{
+.header-container {
     background: #F3F6FD;
 }
 
-.dotcms-o{
-    width: 20px;
-    height: 20px;
+.dotcms-o {
     background:#C336E5;
     border-radius: 50%;
     display: inline-block;
+    height: 20px;
+    width: 20px;
 }
 
-header{
-    padding: 19px 35px;
+.search-documentation {
+    @apply bg-white;
+    @apply rounded;
+    border: 1px solid #D7DBDF;
+    height: 31px;
+    margin: auto 0px; 
+    max-width: 426px;
+    padding: 5px 2.5px;
+    width: 100%;
 }
 
-header div > span{
+.search-documentation > input {
+    @apply font-roboto;
+    color: #ACB4C0;;
+    font-size: 14px;
+    height: 18px;
+    padding: 2px;
+    width: 90%;
+    padding-left: 15px;
+}
+
+.selector-version {
+    @apply bg-white;
+    @apply rounded;
+    border: 1px solid #D7DBDF;
+    color: #4A4A4A;
+    height: 31px;
+    width: 150px;
+    padding-left: 15px;
+    font-size: 12px;
+}
+
+.selector-version > span{
+    @apply font-bold;
+    font-size:14px;
+}
+
+.selector-version select {
+    width:50%;
+}
+
+header {
+    padding: 15px 25px;
+}
+
+header div > .dotcms-letter{
     font-size: 35px;
 }
 
@@ -35,18 +76,19 @@ header div > strong{
 }
 
 svg {
-    max-width: 20px;
     display: inline-block;
+    width: 15px;
+    z-index: 0;
 }
 
 h1, h2, h3, h4, h5 {
-    margin: 7px 0px;
-    width: 1000px;
-    height: 57px;
-    @apply font-roboto;
     @apply font-bold;
+    @apply font-roboto;
     @apply text-5xl;
     @apply text-black;
+    height: 57px;
+    margin: 7px 0px;
+    width: 1000px;
 }
 
 h2 {
@@ -70,8 +112,8 @@ pre {
 }
 
 .aside-menu-container {
-    padding: 30px 36px;
     border: 1px solid #E1E7ED;
+    padding: 30px 36px;
 }
 
 .aside-menu-container .aside-menu{
@@ -83,8 +125,8 @@ a {
 }
 
 ul{
-    padding-left: 15px;
     @apply list-disc;
+    padding-left: 15px;
 }
 
 ul.aside-menu-list{
@@ -92,23 +134,23 @@ ul.aside-menu-list{
 }
 
 li.aside-menu-list-item:before{
-    content: "";
     border-color: transparent #A9B1BD;
     border-style: solid;
     border-width: 0.25em 0 0.25em 0.35em;
+    content: "";
     display: block;
     height: 0;
-    width: 0;
     left: -1em;
-    top: 1.0em;
     position: relative;
+    top: 1.0em;
+    width: 0;
 }
 
 a.aside-menu-link {
-    color: #4A4A4A !important;
-    @apply text-sm;
     @apply font-normal;
     @apply font-roboto;
+    @apply text-sm;
+    color: #4A4A4A !important;
 }
 
 p {

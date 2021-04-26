@@ -61,7 +61,7 @@ const componentsUI: MDXProviderComponentsProp = {
 const ContentGrid = styled.div`
     display: grid;
     grid-template-columns: 20% calc(100% - 240px);
-    width: 100vw;
+    overflow: hidden;
 `;
 
 const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
