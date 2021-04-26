@@ -81,7 +81,7 @@ const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
                         <DotCollectionNav data={navDot[0]} />
                     </nav>
                 </div>
-                <div className="content-container">
+                <div className="container overflow-hidden">
                     <h1>{data.title}</h1>
                     {error ? (
                         <Terminal content={error} />

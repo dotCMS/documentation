@@ -4,7 +4,7 @@ import GlobalStyle from '@styles/Global.styles';
 import '@styles/prismjs-theme-dotcms.css';
 
 // Tailwind
-import '../styles/globals.css';
+import '@styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     return (

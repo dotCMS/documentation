@@ -129,10 +129,6 @@ ul{
     padding-left: 15px;
 }
 
-ul.aside-menu-list{
-    list-style: none;
-}
-
 li.aside-menu-list-item:before{
     border-color: transparent #A9B1BD;
     border-style: solid;
@@ -157,4 +153,9 @@ p {
     @apply font-normal;
     @apply text-black;
     @apply font-roboto;
+}
+
+li.active-item {
+    color: #542FE7;
+    border: 1px solid #542FE7;
 }
