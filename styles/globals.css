@@ -116,11 +116,15 @@ a.aside-menu-link {
     @apply text-gray
 }
 
-p {
+p, p > span  {
     @apply font-normal;
     @apply text-sm;
     @apply text-black;
     @apply font-roboto;
+}
+
+p {
+    @apply py-2;	
 }
 
 li.active-item {
