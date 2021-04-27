@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Container from '@styles/Container.styles';
 
 // Components
-import DotCollectionNav from '@components/aside/components/DotCollectionNav';
+import DotCollectionNav from '@components/aside/DotCollectionNav';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY } from '@graphql/queries';

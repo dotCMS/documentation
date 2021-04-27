@@ -1,55 +1,35 @@
 /* ./styles/globals.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-.dotcms-o {
-    @apply bg-dot-letter;
-    @apply rounded-full;
-    @apply inline-block;
-    @apply w-5;
-    @apply h-5;
-}
-
-.search-documentation {
-    @apply bg-white;
-    @apply rounded;
-    @apply h-8;
-    @apply border;
-    @apply border-secondary;
-}
-
-.search-documentation > input {
-    @apply font-roboto;
+p,
+p > span {
+    @apply font-normal;
     @apply text-sm;
-    @apply h-4;
-    @apply text-gray-secondary;
-    @apply outline-none;
-    @apply pl-4;
+    @apply text-black;
+    @apply font-roboto;
 }
 
-.selector-version {
-    @apply bg-white;
-    @apply rounded;
-    @apply w-40;
-    @apply h-8;
-    @apply text-xs;
-    @apply border;
-    @apply border-secondary;
-    @apply text-gray;
-    @apply pl-4;
+p {
+    @apply py-2;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     @apply font-bold;
     @apply font-roboto;
     @apply text-black;
     @apply my-3;
 }
 
-h1{
+h1 {
     @apply text-4xl;
     @apply my-3;
 }
@@ -75,53 +55,17 @@ pre {
     @apply my-5;
 }
 
-.aside-menu-container {
-    @apply border;
-    @apply border-secondary;
-    @apply py-8;
-    @apply px-10;
-    @apply pt-4;
-}
-
-.aside-menu-container .aside-menu{
-    @apply text-gray-200;
-}
-
-ul{
+ul {
     @apply list-disc;
     @apply pl-4;
 }
 
-ol{
+ol {
     @apply list-decimal;
     @apply pl-8;
 }
 
-a.aside-menu-link {
-    @apply font-normal;
-    @apply font-roboto;
-    @apply text-sm;
-    @apply text-gray
-}
-
-p, p > span  {
-    @apply font-normal;
-    @apply text-sm;
-    @apply text-black;
-    @apply font-roboto;
-}
-
-p {
-    @apply py-2;	
-}
-
-li.active-item {
-    @apply text-purple;
-    @apply border-b-2;
-    @apply border-primary;
-}
-
-li.aside-menu-list-item:before{
+li.aside-menu-list-item:before {
     content: "";
     @apply block;
     @apply h-0;
@@ -132,17 +76,4 @@ li.aside-menu-list-item:before{
     border-color: transparent #A9B1BD;
     border-style: solid;
     border-width: 0.25em 0 0.25em 0.35em;
-}
-
-.arrow-left {
-    @apply border;
-    @apply border-gray;
-    @apply border-t-0;
-    @apply border-r-2;
-    @apply border-b-2;
-    @apply border-l-0;
-    @apply inline-block;
-    @apply transform;
-    @apply rotate-135;
-    @apply p-1;
 }
