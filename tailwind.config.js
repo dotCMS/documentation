@@ -11,7 +11,8 @@ module.exports = {
             ...theme('colors'),
             DEFAULT: theme('colors.gray.300', 'currentColor'),
             primary: '#542FE7',
-            secondary: '#D7DBDF'
+            secondary: '#D7DBDF',
+            gray: '#4A4A4A'
         }),
         container: {
             padding: '2.5rem'
@@ -29,6 +30,9 @@ module.exports = {
         extend: {
             fontSize: {
                 '3.5xl': '2rem'
+            },
+            rotate: {
+                135: '135deg'
             }
         }
     },

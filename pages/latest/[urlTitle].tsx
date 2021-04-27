@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
 import remarkId from 'remark-heading-id';
+import html from 'remark-html';
+import prism from 'remark-prism';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 
 // Styles
 import styled from 'styled-components';
 
 // Components
-import DotCollectionNav from '@components/DotCollectionNav';
 import { Terminal } from '@components/DotDocumentationError';
 import { DotDocumentationHeader } from '@components/header/DotDocumentationHeader';
 
@@ -30,8 +31,7 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
-
-import Prism from 'prismjs';
+import DotDocumentationAside from '../../components/aside/DotDocumentationAside';
 
 interface PageData {
     data: DotcmsDocumentation;
@@ -65,9 +65,6 @@ const ContentGrid = styled.div`
 
 const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
-    useEffect(() => {
-        Prism.highlightAll();
-    }, []);
     return (
         <>
             <Head>
@@ -75,11 +72,7 @@ const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
             </Head>
             <DotDocumentationHeader />
             <ContentGrid>
-                <div className="aside-menu-container">
-                    <nav className="aside-menu">
-                        <DotCollectionNav data={navDot[0]} />
-                    </nav>
-                </div>
+                <DotDocumentationAside data={navDot[0]} />
                 <div className="container">
                     <h1>{data.title}</h1>
                     {error ? (
@@ -122,7 +115,7 @@ export async function getStaticProps({
     try {
         const mdxSource = await renderToString(data, {
             mdxOptions: {
-                remarkPlugins: [DotHtmlToJsxRemark, remarkId]
+                remarkPlugins: [DotHtmlToJsxRemark, remarkId, html, prism]
             }
         });
         return {
