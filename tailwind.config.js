@@ -2,22 +2,35 @@ module.exports = {
     purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
     darkMode: false,
     theme: {
+        backgroundColor: (theme) => ({
+            ...theme('colors'),
+            header: '#F3F6FD',
+            'dot-letter': '#C336E5'
+        }),
+        borderColor: (theme) => ({
+            ...theme('colors'),
+            DEFAULT: theme('colors.gray.300', 'currentColor'),
+            primary: '#542FE7',
+            secondary: '#D7DBDF'
+        }),
         container: {
-            padding: '28px 94px'
-        },
-        fontSize: {
-            sm: '.875rem',
-            xl: ['18px', '60px'],
-            base: ['14px', '28px'],
-            '5xl': ['32px', '60px'],
-            '4xl': ['28px', '60px'],
-            '3xl': ['24px', '60px'],
-            '2xl': ['20px', '60px']
+            padding: '2.5rem'
         },
         fontFamily: {
             roboto: ['Roboto', 'ui-monospace', 'SFMono-Regular']
         },
-        extend: {}
+        textColor: (theme) => ({
+            ...theme('colors'),
+            purple: '#542FE7',
+            gray: '#4A4A4A',
+            'gray-secondary': '#ACB4C0',
+            'gray-200': '#777777'
+        }),
+        extend: {
+            fontSize: {
+                '3.5xl': '2rem'
+            }
+        }
     },
     variants: {
         extend: {}

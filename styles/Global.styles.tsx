@@ -46,14 +46,6 @@ body {
 * {
     box-sizing: border-box;
 }
-
-a {
-    color: var(--color-main);
-
-    &:hover {
-        text-decoration: none;
-    }
-}
 `;
 
 export default function Global(): ReactElement {

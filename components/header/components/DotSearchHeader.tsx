@@ -4,14 +4,20 @@ const DotSearchHeader = (): JSX.Element => {
     const focusOnSearch = () => document.getElementById('search').focus();
     return (
         <div
-            className="flex justify-start justify-items-center search-documentation"
+            className="flex justify-start items-center w-4/5 py-1.5	px-1 search-documentation"
             onClick={focusOnSearch}
         >
             <button
                 className="focus:outline-none flex items-center bg-transparent z-10"
                 onClick={focusOnSearch}
             >
-                <svg className="mx-2" version="1.1" viewBox="0 0 511.999 511.999" x="0px" y="0px">
+                <svg
+                    className="inline-block w-3.5 mx-2"
+                    version="1.1"
+                    viewBox="0 0 511.999 511.999"
+                    x="0px"
+                    y="0px"
+                >
                     <g>
                         <g>
                             <path
@@ -40,7 +46,7 @@ const DotSearchHeader = (): JSX.Element => {
                 </svg>
             </button>
             <input
-                className="outline-none"
+                className="p-0.5 w-4/5"
                 id="search"
                 placeholder="Search documentation..."
                 type="text"

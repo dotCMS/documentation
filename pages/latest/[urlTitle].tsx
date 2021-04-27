@@ -60,8 +60,7 @@ const componentsUI: MDXProviderComponentsProp = {
 
 const ContentGrid = styled.div`
     display: grid;
-    grid-template-columns: 20% calc(100% - 240px);
-    overflow: hidden;
+    grid-template-columns: 20% calc(100% - 20%);
 `;
 
 const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
@@ -81,7 +80,7 @@ const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
                         <DotCollectionNav data={navDot[0]} />
                     </nav>
                 </div>
-                <div className="container overflow-hidden">
+                <div className="container">
                     <h1>{data.title}</h1>
                     {error ? (
                         <Terminal content={error} />
