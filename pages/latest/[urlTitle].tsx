@@ -58,11 +58,6 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const ContentGrid = styled.div`
-    display: grid;
-    grid-template-columns: 20% calc(100% - 20%);
-`;
-
 const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
@@ -71,7 +66,7 @@ const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
                 <title>{data.title}</title>
             </Head>
             <DotDocumentationHeader />
-            <ContentGrid>
+            <div className="grid grid-cols-content">
                 <DotDocumentationAside data={navDot[0]} />
                 <div className="container">
                     <h1>{data.title}</h1>
@@ -85,7 +80,7 @@ const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
                         </div>
                     )}
                 </div>
-            </ContentGrid>
+            </div>
         </>
     );
 };
