@@ -3,13 +3,13 @@ import Link from 'next/link';
 import classNames from 'classnames';
 
 // Models
-import { DotcmsDocumentation } from '@models/Documentation.model';
+import { Documentation } from '@models/Documentation.model';
 
 export default function SideNav({
     data,
     hide = false
 }: {
-    data: DotcmsDocumentation;
+    data: Documentation;
     hide?: boolean;
 }): JSX.Element {
     const [active, setActive] = useState(null);
@@ -20,7 +20,7 @@ export default function SideNav({
     return (
         <>
             <ul className={classNames('list-none', { hidden: hide })}>
-                {data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => {
+                {data.dotcmsdocumentationchildren.map((item: Documentation) => {
                     const haveChild = !!item.dotcmsdocumentationchildren?.length;
 
                     return (

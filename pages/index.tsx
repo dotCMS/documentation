@@ -10,12 +10,12 @@ import SideNav from '@components/SideNav';
 import { NAVIGATION_MENU_QUERY } from '@graphql/queries';
 
 // Models
-import { DotcmsDocumentation } from '@models/Documentation.model';
+import { Documentation } from '@models/Documentation.model';
 
 // Utils
 import { client } from '@utils/graphql-client';
 
-export default function Home({ data }: { data: DotcmsDocumentation[] }): JSX.Element {
+export default function Home({ data }: { data: Documentation[] }): JSX.Element {
     return (
         <Container>
             <Head>
@@ -29,9 +29,7 @@ export default function Home({ data }: { data: DotcmsDocumentation[] }): JSX.Ele
     );
 }
 
-export async function getStaticProps(): Promise<
-    GetStaticPropsResult<{ data: DotcmsDocumentation }>
-> {
+export async function getStaticProps(): Promise<GetStaticPropsResult<{ data: Documentation }>> {
     try {
         const { DotcmsDocumentationCollection } = await client.request(NAVIGATION_MENU_QUERY);
         return {
