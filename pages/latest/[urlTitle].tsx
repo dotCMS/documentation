@@ -28,7 +28,8 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
-import DotDocumentationAside from '../../components/aside/DotDocumentationAside';
+import DotDocumentationAside from '@components/DotDocumentationAside';
+import DotCollectionNav from '@components/DotCollectionNav';
 
 interface PageData {
     data: DotcmsDocumentation;
@@ -65,7 +66,9 @@ const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
             <div className="flex flex-col min-h-screen">
                 <DotDocumentationHeader />
                 <div className="flex flex-grow">
-                    <DotDocumentationAside data={navDot[0]} />
+                    <DotDocumentationAside>
+                        <DotCollectionNav data={navDot[0]} />
+                    </DotDocumentationAside>
                     <div className="container">
                         <h1>{data.title}</h1>
                         {error ? (

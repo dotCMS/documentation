@@ -1,8 +1,6 @@
-import React from 'react';
-import DotCollectionNav from './DotCollectionNav';
-import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
+import React, { ReactNode } from 'react';
 
-const DotDocumentationAside = ({ data }: { data: DotcmsDocumentation }): JSX.Element => {
+const DotDocumentationAside = ({ children }: { children: ReactNode }): JSX.Element => {
     return (
         <div className="border border-secondary p-8 pt-4 w-72">
             <div className="flex justify-end">
@@ -11,9 +9,7 @@ const DotDocumentationAside = ({ data }: { data: DotcmsDocumentation }): JSX.Ele
                 </button>
             </div>
             <span className="text-sm font-bold text-purple">Overview</span>
-            <nav className="text-gray-200">
-                <DotCollectionNav data={data} />
-            </nav>
+            <nav className="text-gray-200">{children}</nav>
         </div>
     );
 };
