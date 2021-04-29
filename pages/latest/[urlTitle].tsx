@@ -9,9 +9,6 @@ import html from 'remark-html';
 import prism from 'remark-prism';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 
-// Styles
-import styled from 'styled-components';
-
 // Components
 import { Terminal } from '@components/DotDocumentationError';
 import { DotDocumentationHeader } from '@components/header/DotDocumentationHeader';
@@ -65,20 +62,22 @@ const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
             <Head>
                 <title>{data.title}</title>
             </Head>
-            <DotDocumentationHeader />
-            <div className="grid grid-cols-content">
-                <DotDocumentationAside data={navDot[0]} />
-                <div className="container">
-                    <h1>{data.title}</h1>
-                    {error ? (
-                        <Terminal content={error} />
-                    ) : (
-                        <div>
-                            <MDXProvider className="wrapper" components={componentsUI}>
-                                {content}
-                            </MDXProvider>
-                        </div>
-                    )}
+            <div className="flex flex-col min-h-screen">
+                <DotDocumentationHeader />
+                <div className="flex flex-grow">
+                    <DotDocumentationAside data={navDot[0]} />
+                    <div className="container">
+                        <h1>{data.title}</h1>
+                        {error ? (
+                            <Terminal content={error} />
+                        ) : (
+                            <div>
+                                <MDXProvider className="wrapper" components={componentsUI}>
+                                    {content}
+                                </MDXProvider>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </>
