@@ -2,22 +2,22 @@ import React from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
 import remarkId from 'remark-heading-id';
+import html from 'remark-html';
+import prism from 'remark-prism';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 
-// Styles
-import styled from 'styled-components';
-
 // Components
-import DotCollectionNav from '@components/DotCollectionNav';
-import { Terminal } from '@components/DotDocumentationError';
+import { Terminal } from '@components/PageRenderError';
+import { Header } from '@components/header/Header';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
 
 // Models
-import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
+import { Documentation } from '@models/Documentation.model';
 
 // Utils
 import { client } from '@utils/graphql-client';
@@ -28,10 +28,12 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
+import SideBar from '@components/SideBar';
+import SideNav from '@components/SideNav';
 
 interface PageData {
-    data: DotcmsDocumentation;
-    navDot: DotcmsDocumentation[];
+    data: Documentation;
+    navDot: Documentation[];
     source: MdxRemote.Source;
     error?: string;
 }
@@ -54,32 +56,34 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const ContentGrid = styled.div`
-    display: grid;
-    grid-template-columns: 16rem 1fr;
-`;
-
-const urlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
-        <ContentGrid>
-            <nav>
-                <DotCollectionNav data={navDot[0]} />
-            </nav>
-            <div>
-                <h1>{data.title}</h1>
-                <h2>{data.format}</h2>
-                {error ? (
-                    <Terminal content={error} />
-                ) : (
-                    <div>
-                        <MDXProvider className="wrapper" components={componentsUI}>
-                            {content}
-                        </MDXProvider>
+        <>
+            <Head>
+                <title>{data.title}</title>
+            </Head>
+            <div className="flex flex-col min-h-screen">
+                <Header />
+                <div className="flex flex-grow">
+                    <SideBar>
+                        <SideNav data={navDot[0]} />
+                    </SideBar>
+                    <div className="container">
+                        <h1>{data.title}</h1>
+                        {error ? (
+                            <Terminal content={error} />
+                        ) : (
+                            <div>
+                                <MDXProvider className="wrapper" components={componentsUI}>
+                                    {content}
+                                </MDXProvider>
+                            </div>
+                        )}
                     </div>
-                )}
+                </div>
             </div>
-        </ContentGrid>
+        </>
     );
 };
 
@@ -108,7 +112,7 @@ export async function getStaticProps({
     try {
         const mdxSource = await renderToString(data, {
             mdxOptions: {
-                remarkPlugins: [DotHtmlToJsxRemark, remarkId]
+                remarkPlugins: [DotHtmlToJsxRemark, remarkId, html, prism]
             }
         });
         return {
@@ -130,11 +134,11 @@ export async function getStaticProps({
     }
 }
 
-const buildParams = (data: DotcmsDocumentation, paths: UrlTitleParams[]): UrlTitleParams[] => {
+const buildParams = (data: Documentation, paths: UrlTitleParams[]): UrlTitleParams[] => {
     if (!data.dotcmsdocumentationchildren?.length) {
         return paths;
     }
-    data.dotcmsdocumentationchildren.forEach((item: DotcmsDocumentation) => {
+    data.dotcmsdocumentationchildren.forEach((item: Documentation) => {
         paths.push({ params: { urlTitle: item.urlTitle } });
         paths = buildParams(item, paths);
     });
@@ -150,9 +154,11 @@ interface UrlTitleParams {
 const fixHeadingMarkdown = (data: string): string => {
     const patter = new RegExp(/[(|{]*#[a-zA-Z0-9]+/gi);
     const newData = data.replace(patter, (match) => {
-        return match.includes('(') || match.includes('{') ? match : match.replace('#', '# ');
+        return match.includes('(') || match.includes('{') || match.includes('dotParse')
+            ? match
+            : match.replace('#', '# ');
     });
     return newData;
 };
 
-export default urlTitle;
+export default UrlTitle;
