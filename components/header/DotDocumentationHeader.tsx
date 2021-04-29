@@ -1,9 +1,9 @@
 import React from 'react';
 import DotSearchHeader from './components/DotSearchHeader';
-import DotNavHeader from './components/DotNavHeader';
+import HeaderNav from './components/HeaderNav';
 import DotcmsLogo from './components/DotcmsLogo';
 
-export const DotDocumentationHeader = (): JSX.Element => {
+export const Header = (): JSX.Element => {
     return (
         <header className="pt-4 px-6 bg-header">
             <div className="flex justify-center items-center mb-5">
@@ -23,7 +23,7 @@ export const DotDocumentationHeader = (): JSX.Element => {
                 </div>
             </div>
             <div>
-                <DotNavHeader />
+                <HeaderNav />
             </div>
         </header>
     );

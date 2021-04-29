@@ -10,14 +10,14 @@ import prism from 'remark-prism';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 
 // Components
-import { Terminal } from '@components/DotDocumentationError';
-import { DotDocumentationHeader } from '@components/header/DotDocumentationHeader';
+import { Terminal } from '@components/PageRenderError';
+import { Header } from '@components/header/DotDocumentationHeader';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
 
 // Models
-import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
+import { Documentation } from '@models/Documentation.model';
 
 // Utils
 import { client } from '@utils/graphql-client';
@@ -28,12 +28,12 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
-import DotDocumentationAside from '@components/DotDocumentationAside';
-import DotCollectionNav from '@components/DotCollectionNav';
+import SideBar from '@components/SideBar';
+import SideNav from '@components/SideNav';
 
 interface PageData {
-    data: DotcmsDocumentation;
-    navDot: DotcmsDocumentation[];
+    data: Documentation;
+    navDot: Documentation[];
     source: MdxRemote.Source;
     error?: string;
 }
@@ -64,11 +64,11 @@ const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
                 <title>{data.title}</title>
             </Head>
             <div className="flex flex-col min-h-screen">
-                <DotDocumentationHeader />
+                <Header />
                 <div className="flex flex-grow">
-                    <DotDocumentationAside>
-                        <DotCollectionNav data={navDot[0]} />
-                    </DotDocumentationAside>
+                    <SideBar>
+                        <SideNav data={navDot[0]} />
+                    </SideBar>
                     <div className="container">
                         <h1>{data.title}</h1>
                         {error ? (
@@ -134,11 +134,11 @@ export async function getStaticProps({
     }
 }
 
-const buildParams = (data: DotcmsDocumentation, paths: UrlTitleParams[]): UrlTitleParams[] => {
+const buildParams = (data: Documentation, paths: UrlTitleParams[]): UrlTitleParams[] => {
     if (!data.dotcmsdocumentationchildren?.length) {
         return paths;
     }
-    data.dotcmsdocumentationchildren.forEach((item: DotcmsDocumentation) => {
+    data.dotcmsdocumentationchildren.forEach((item: Documentation) => {
         paths.push({ params: { urlTitle: item.urlTitle } });
         paths = buildParams(item, paths);
     });

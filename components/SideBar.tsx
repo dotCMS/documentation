@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-const DotDocumentationAside = ({ children }: { children: ReactNode }): JSX.Element => {
+const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
     return (
         <div className="border border-secondary p-8 pt-4 w-72">
             <div className="flex justify-end">
@@ -14,4 +14,4 @@ const DotDocumentationAside = ({ children }: { children: ReactNode }): JSX.Eleme
     );
 };
 
-export default DotDocumentationAside;
+export default SideBar;

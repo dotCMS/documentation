@@ -3,9 +3,9 @@ import Link from 'next/link';
 import classNames from 'classnames';
 
 // Models
-import { DotcmsDocumentation } from '@models/DotcmsDocumentation.model';
+import { DotcmsDocumentation } from '@models/Documentation.model';
 
-export default function DotCollectionNav({
+export default function SideNav({
     data,
     hide = false
 }: {
@@ -45,7 +45,7 @@ export default function DotCollectionNav({
                                     {item.navTitle || item.title}
                                 </a>
                             </Link>
-                            <DotCollectionNav data={item} hide={active !== item.urlTitle} />
+                            <SideNav data={item} hide={active !== item.urlTitle} />
                         </li>
                     );
                 })}
