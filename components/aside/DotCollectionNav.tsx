@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 
@@ -12,31 +12,44 @@ export default function DotCollectionNav({
     data: DotcmsDocumentation;
     hide?: boolean;
 }): JSX.Element {
+    const [active, setActive] = useState(null);
+
     if (!data.dotcmsdocumentationchildren?.length) {
         return null;
     }
     return (
-        <ul className={classNames('list-none', { hidden: hide })}>
-            {data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => (
-                <li key={item.navTitle || item.title} className="list-menu-bullet">
-                    <Link href={`/latest/${item.urlTitle}`}>
-                        <a
-                            className="font-normal font-roboto text-sm text-gray"
-                            onClick={toggleList}
+        <>
+            <ul className={classNames('list-none', { hidden: hide })}>
+                {data.dotcmsdocumentationchildren.map((item: DotcmsDocumentation) => {
+                    const haveChild = !!item.dotcmsdocumentationchildren?.length;
+
+                    return (
+                        <li
+                            key={item.navTitle || item.title}
+                            className={classNames({
+                                'list-menu-bulle-rotated': haveChild && active === item.urlTitle,
+                                'list-menu-bullet': haveChild
+                            })}
                         >
-                            {item.navTitle || item.title}
-                        </a>
-                    </Link>
-                    <DotCollectionNav data={item} hide={true} />
-                </li>
-            ))}
-        </ul>
+                            <Link href={`/latest/${item.urlTitle}`}>
+                                <a
+                                    className="font-normal font-roboto text-sm text-gray"
+                                    onClick={() => {
+                                        if (item.urlTitle === active) {
+                                            setActive(null);
+                                        } else {
+                                            setActive(item.urlTitle);
+                                        }
+                                    }}
+                                >
+                                    {item.navTitle || item.title}
+                                </a>
+                            </Link>
+                            <DotCollectionNav data={item} hide={active !== item.urlTitle} />
+                        </li>
+                    );
+                })}
+            </ul>
+        </>
     );
 }
-
-const toggleList = (e) => {
-    if (e.target.nextSibling) {
-        e.target.parentElement.classList.toggle('list-menu-bulle-rotated');
-        e.target.nextSibling.classList.toggle('hidden');
-    }
-};
