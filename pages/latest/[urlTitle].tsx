@@ -1,7 +1,5 @@
 import React from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
 import remarkId from 'remark-heading-id';
@@ -12,6 +10,8 @@ import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 // Components
 import { Terminal } from '@components/PageRenderError';
 import { Header } from '@components/header/Header';
+import ImageMarkdown from '@components/ImageMarkdown';
+import LinkMarkdown from '@components/LinkMarkdown';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
@@ -37,19 +37,6 @@ interface PageData {
     source: MdxRemote.Source;
     error?: string;
 }
-
-const ImageMarkdown = (props) => {
-    const myLoader = ({ src }) => src;
-    return <Image height={500} loader={myLoader} width={500} {...props} />;
-};
-
-const LinkMarkdown = (props: { href: string; children: string }) => {
-    return props.href.startsWith('#') ? (
-        <a href={props.href}>{props.children}</a>
-    ) : (
-        <Link {...props} />
-    );
-};
 
 const componentsUI: MDXProviderComponentsProp = {
     img: ImageMarkdown,

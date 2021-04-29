@@ -36,6 +36,9 @@ module.exports = {
             },
             rotate: {
                 135: '135deg'
+            },
+            maxWidth: {
+                72: '18rem'
             }
         }
     },
