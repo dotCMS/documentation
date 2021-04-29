@@ -11,7 +11,7 @@ import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 
 // Components
 import { Terminal } from '@components/PageRenderError';
-import { Header } from '@components/header/DotDocumentationHeader';
+import { Header } from '@components/header/Header';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';

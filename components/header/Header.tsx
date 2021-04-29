@@ -1,5 +1,5 @@
 import React from 'react';
-import DotSearchHeader from './components/DotSearchHeader';
+import Search from './components/Search';
 import HeaderNav from './components/HeaderNav';
 import DotcmsLogo from './components/DotcmsLogo';
 
@@ -11,7 +11,7 @@ export const Header = (): JSX.Element => {
                     <DotcmsLogo />
                 </div>
                 <div className="flex w-7/12">
-                    <DotSearchHeader />
+                    <Search />
                 </div>
                 <div className="flex justify-end items-center w-3/12">
                     <div className="flex items-center bg-white rounded w-40 h-8 text-xs border border-secondary text-gray pl-4">

@@ -1,7 +1,7 @@
 import React from 'react';
-import DotSearchIcon from './DotSearchIcon';
+import SearchIcon from './SearchIcon';
 
-const DotSearchHeader = (): JSX.Element => {
+const Search = (): JSX.Element => {
     const focusOnSearch = () => document.getElementById('search').focus();
     return (
         <div
@@ -12,7 +12,7 @@ const DotSearchHeader = (): JSX.Element => {
                 className="focus:outline-none flex items-center bg-transparent z-10"
                 onClick={focusOnSearch}
             >
-                <DotSearchIcon />
+                <SearchIcon />
             </button>
             <input
                 className="p-0.5 w-4/5 font-roboto text-sm h-4 text-gray-secondary outline-none pl-4"
@@ -24,4 +24,4 @@ const DotSearchHeader = (): JSX.Element => {
     );
 };
 
-export default DotSearchHeader;
+export default Search;
