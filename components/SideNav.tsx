@@ -33,7 +33,10 @@ export default function SideNav({
                         >
                             <Link href={`/latest/${item.urlTitle}`}>
                                 <a
-                                    className="font-normal font-roboto text-sm text-gray"
+                                    className={classNames(
+                                        'font-normal font-roboto text-sm text-gray',
+                                        { 'font-bold': active === item.urlTitle }
+                                    )}
                                     onClick={() => {
                                         if (item.urlTitle === active) {
                                             setActive(null);
