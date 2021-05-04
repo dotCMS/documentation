@@ -13,17 +13,21 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     return (
         <>
             <GlobalStyle />
-            <div className="flex flex-col min-h-screen">
-                <Header />
-                <div className="flex flex-grow">
-                    <SideBar>
-                        <SideNav data={pageProps.navDot[0]} />
-                    </SideBar>
-                    <div className="container overflow-hidden">
-                        <Component {...pageProps} />
+            {pageProps.navDot ? (
+                <div className="flex flex-col min-h-screen">
+                    <Header />
+                    <div className="flex flex-grow">
+                        <SideBar>
+                            <SideNav data={pageProps.navDot[0]} />
+                        </SideBar>
+                        <div className="container overflow-hidden">
+                            <Component {...pageProps} />
+                        </div>
                     </div>
                 </div>
-            </div>
+            ) : (
+                <Component {...pageProps} />
+            )}
         </>
     );
 }
