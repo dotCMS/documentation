@@ -32,7 +32,11 @@ module.exports = {
                 '3.5xl': '2rem'
             },
             gridTemplateColumns: {
-                content: '20% 80%'
+                content: '18rem calc(100% - 18rem)',
+                100: '100%'
+            },
+            gridTemplateRows: {
+                content: '6.875rem auto'
             },
             rotate: {
                 135: '135deg'

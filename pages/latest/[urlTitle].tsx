@@ -51,7 +51,7 @@ const UrlTitle = ({ data, source, error }: PageData): JSX.Element => {
             {error ? (
                 <Terminal content={error} />
             ) : (
-                <div className="overflow-hidden">
+                <div>
                     <MDXProvider className="wrapper" components={componentsUI}>
                         {content}
                     </MDXProvider>

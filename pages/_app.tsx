@@ -14,13 +14,13 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         <>
             <GlobalStyle />
             {pageProps.navDot ? (
-                <div className="flex flex-col min-h-screen">
+                <div className="grid grid-cols-100 grid-rows-content min-h-screen">
                     <Header />
-                    <div className="flex flex-grow">
+                    <div className="grid grid-cols-content">
                         <SideBar>
                             <SideNav data={pageProps.navDot[0]} />
                         </SideBar>
-                        <div className="container overflow-hidden">
+                        <div className="px-10">
                             <Component {...pageProps} />
                         </div>
                     </div>
