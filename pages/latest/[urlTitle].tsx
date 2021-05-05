@@ -51,11 +51,9 @@ const UrlTitle = ({ data, source, error }: PageData): JSX.Element => {
             {error ? (
                 <Terminal content={error} />
             ) : (
-                <div>
-                    <MDXProvider className="wrapper" components={componentsUI}>
-                        {content}
-                    </MDXProvider>
-                </div>
+                <MDXProvider className="wrapper" components={componentsUI}>
+                    {content}
+                </MDXProvider>
             )}
         </>
     );

@@ -31,19 +31,9 @@ module.exports = {
             fontSize: {
                 '3.5xl': '2rem'
             },
-            gridTemplateColumns: {
-                content: '18rem calc(100% - 18rem)',
-                100: '100%'
-            },
-            gridTemplateRows: {
-                content: '6.875rem auto'
-            },
             rotate: {
                 135: '135deg'
             },
-            maxWidth: {
-                72: '18rem'
-            }
         }
     },
     variants: {
