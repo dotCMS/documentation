@@ -14,7 +14,7 @@ export default function SideNav({
 }): JSX.Element {
     const [active, setActive] = useState(null);
 
-    if (!data.dotcmsdocumentationchildren?.length) {
+    if (!data?.dotcmsdocumentationchildren?.length) {
         return null;
     }
     return (

@@ -5,7 +5,7 @@ import DotcmsLogo from './components/DotcmsLogo';
 
 export const Header = (): JSX.Element => {
     return (
-        <header className="pt-4 px-6 bg-header">
+        <header className="pt-4 px-6 bg-header border-b border-secondary">
             <div className="flex justify-center items-center mb-5">
                 <div className="w-2/12">
                     <DotcmsLogo />

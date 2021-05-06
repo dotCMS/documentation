@@ -32,8 +32,12 @@ module.exports = {
                 '3.5xl': '2rem'
             },
             rotate: {
-                135: '135deg'
+                135: '135deg',
+                315: '315deg'
             },
+            transitionProperty: {
+                width: 'width'
+            }
         }
     },
     variants: {
