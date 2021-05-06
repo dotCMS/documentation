@@ -57,7 +57,7 @@ pre {
 
 ul {
     @apply list-disc;
-    @apply pl-4;
+    @apply pl-5;
 }
 
 ol {

@@ -9,7 +9,6 @@ import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 
 // Components
 import { Terminal } from '@components/PageRenderError';
-import { Header } from '@components/header/Header';
 import ImageMarkdown from '@components/ImageMarkdown';
 import LinkMarkdown from '@components/LinkMarkdown';
 
@@ -28,8 +27,6 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
-import SideBar from '@components/SideBar';
-import SideNav from '@components/SideNav';
 
 interface PageData {
     data: Documentation;
@@ -43,33 +40,21 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, navDot, source, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, source, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
         <>
             <Head>
                 <title>{data.title}</title>
             </Head>
-            <div className="flex flex-col min-h-screen">
-                <Header />
-                <div className="flex flex-grow">
-                    <SideBar>
-                        <SideNav data={navDot[0]} />
-                    </SideBar>
-                    <div className="container">
-                        <h1>{data.title}</h1>
-                        {error ? (
-                            <Terminal content={error} />
-                        ) : (
-                            <div>
-                                <MDXProvider className="wrapper" components={componentsUI}>
-                                    {content}
-                                </MDXProvider>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+            <h1>{data.title}</h1>
+            {error ? (
+                <Terminal content={error} />
+            ) : (
+                <MDXProvider className="wrapper" components={componentsUI}>
+                    {content}
+                </MDXProvider>
+            )}
         </>
     );
 };

@@ -31,15 +31,9 @@ module.exports = {
             fontSize: {
                 '3.5xl': '2rem'
             },
-            gridTemplateColumns: {
-                content: '20% 80%'
-            },
             rotate: {
                 135: '135deg'
             },
-            maxWidth: {
-                72: '18rem'
-            }
         }
     },
     variants: {
