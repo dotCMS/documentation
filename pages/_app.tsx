@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { AppProps } from 'next/app';
+import Head from 'next/head';
 import GlobalStyle from '@styles/Global.styles';
 import '@styles/prismjs-theme-dotcms.css';
 import styled from 'styled-components';
@@ -15,29 +16,40 @@ const Grid = styled.div`
     grid-template-columns: max-content 1fr;
     grid-template-rows: max-content 1fr;
     min-height: 100vh;
-    transition: all 4s;
+    max-width: 100vw;
+    @media screen and (max-width: 767.9px) {
+        grid-template-columns: 0rem 100vw;
+    }
 `;
 const HeaderWrapper = styled.div`
     grid-column: 1/-1;
 `;
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-    const [hide, updateHide] = useState(false);
-    console.log(pageProps?.navDot);
     return (
         <>
+            <Head>
+                <meta
+                    content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
+                    name="viewport"
+                />
+            </Head>
             <GlobalStyle />
-            <Grid>
-                <HeaderWrapper>
-                    <Header />
-                </HeaderWrapper>
-                <SideBar hide={hide} updateHide={updateHide}>
-                    <SideNav data={pageProps?.navDot || []} />
-                </SideBar>
-                <main className="max-w-7xl justify-self-center mx-8">
-                    <Component {...pageProps} />
-                </main>
-            </Grid>
+            {pageProps.navDot ? (
+                <Grid>
+                    <HeaderWrapper>
+                        <Header />
+                    </HeaderWrapper>
+                    <SideBar>
+                        <SideNav data={pageProps.navDot[0]} />
+                    </SideBar>
+                    <main className="container mt-4 md:mt-0 justify-self-center">
+                        <Component {...pageProps} />
+                    </main>
+                </Grid>
+            ) : (
+                <Component {...pageProps} />
+            )}
         </>
     );
 }
