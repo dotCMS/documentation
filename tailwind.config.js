@@ -5,7 +5,7 @@ module.exports = {
         backgroundColor: (theme) => ({
             ...theme('colors'),
             header: '#F3F6FD',
-            gray: '#ECE8FC',
+            gray: '#ECE8FC'
         }),
         borderColor: (theme) => ({
             ...theme('colors'),
@@ -37,7 +37,7 @@ module.exports = {
                 315: '315deg'
             },
             transitionProperty: {
-                width: 'width'
+                width: 'width, padding'
             }
         }
     },
