@@ -37,7 +37,7 @@ module.exports = {
                 315: '315deg'
             },
             transitionProperty: {
-                width: 'width, padding'
+                width: 'width'
             }
         }
     },

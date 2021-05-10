@@ -19,7 +19,7 @@ export default function SideNav({
     }
     return (
         <>
-            <ul className={classNames('list-none w-72', { hidden: hide })}>
+            <ul className={classNames('list-none', { hidden: hide })}>
                 {data.dotcmsdocumentationchildren.map((item: Documentation) => {
                     const haveChild = !!item.dotcmsdocumentationchildren?.length;
 
