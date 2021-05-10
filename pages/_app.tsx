@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                     <SideBar>
                         <SideNav data={pageProps.navDot[0]} />
                     </SideBar>
-                    <main className="container mt-4 md:mt-0 justify-self-center">
+                    <main className="container mt-4 md:mt-0 justify-self-center overflow-auto">
                         <Component {...pageProps} />
                     </main>
                 </Grid>
