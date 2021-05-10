@@ -35,6 +35,9 @@ module.exports = {
             rotate: {
                 135: '135deg',
                 315: '315deg'
+            },
+            transitionProperty: {
+                width: 'width'
             }
         }
     },
