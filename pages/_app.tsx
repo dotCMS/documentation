@@ -13,12 +13,12 @@ import SideNav from '@components/SideNav';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: 0rem 100vw;
     grid-template-rows: max-content 1fr;
     min-height: 100vh;
     max-width: 100vw;
-    @media screen and (max-width: 767.9px) {
-        grid-template-columns: 0rem 100vw;
+    @media screen and (min-width: 768px) {
+        grid-template-columns: max-content 1fr;
     }
 `;
 const HeaderWrapper = styled.div`
@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         <>
             <Head>
                 <meta
-                    content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
+                    content="width=device-width, initial-scale=1.0, user-scalable=0"
                     name="viewport"
                 />
             </Head>
