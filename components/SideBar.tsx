@@ -19,7 +19,6 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
         'duration-500',
         'pt-3',
         'relative',
-        'relative',
         'transform',
         'w-72',
         'md:duration-500',
