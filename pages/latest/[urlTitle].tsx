@@ -6,6 +6,7 @@ import remarkId from 'remark-heading-id';
 import html from 'remark-html';
 import prism from 'remark-prism';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
+import DotDecodeHtml from '@plugins/DotDecodeHtml';
 
 // Components
 import { Terminal } from '@components/PageRenderError';
@@ -80,11 +81,10 @@ export async function getStaticProps({
         NAVIGATION_MENU_QUERY
     );
     const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
-    const data = fixHeadingMarkdown(DotcmsDocumentationCollection[0].documentation);
     try {
-        const mdxSource = await renderToString(data, {
+        const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
             mdxOptions: {
-                remarkPlugins: [DotHtmlToJsxRemark, remarkId, html, prism]
+                remarkPlugins: [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml]
             }
         });
         return {
@@ -122,15 +122,5 @@ interface UrlTitleParams {
         urlTitle: string;
     };
 }
-
-const fixHeadingMarkdown = (data: string): string => {
-    const patter = new RegExp(/[(|{]*#[a-zA-Z0-9]+/gi);
-    const newData = data.replace(patter, (match) => {
-        return match.includes('(') || match.includes('{') || match.includes('dotParse')
-            ? match
-            : match.replace('#', '# ');
-    });
-    return newData;
-};
 
 export default UrlTitle;

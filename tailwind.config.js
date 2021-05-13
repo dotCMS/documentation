@@ -5,14 +5,15 @@ module.exports = {
         backgroundColor: (theme) => ({
             ...theme('colors'),
             header: '#F3F6FD',
-            'dot-letter': '#C336E5'
+            gray: '#ECE8FC'
         }),
         borderColor: (theme) => ({
             ...theme('colors'),
             DEFAULT: theme('colors.gray.300', 'currentColor'),
             primary: '#542FE7',
             secondary: '#D7DBDF',
-            gray: '#4A4A4A'
+            gray: '#4A4A4A',
+            purple: '#5E3CE9'
         }),
         container: {
             padding: '2.5rem'
@@ -32,8 +33,12 @@ module.exports = {
                 '3.5xl': '2rem'
             },
             rotate: {
-                135: '135deg'
+                135: '135deg',
+                315: '315deg'
             },
+            transitionProperty: {
+                width: 'width'
+            }
         }
     },
     variants: {
