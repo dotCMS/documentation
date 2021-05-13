@@ -7,11 +7,13 @@ export const NAVIGATION_MENU_QUERY = `
             navTitle
             urlMap
             urlTitle
+            navOnly
             format
             documentation
             dotcmsdocumentationchildren {
                 title
                 navTitle
+                navOnly
                 urlMap
                 urlTitle
                 format
@@ -21,6 +23,7 @@ export const NAVIGATION_MENU_QUERY = `
                     navTitle
                     urlMap
                     urlTitle
+                    navOnly
                     format
                     documentation
 
@@ -29,6 +32,7 @@ export const NAVIGATION_MENU_QUERY = `
                         navTitle
                         urlMap
                         urlTitle
+                        navOnly
                         format
                         documentation
 
@@ -37,6 +41,7 @@ export const NAVIGATION_MENU_QUERY = `
                             navTitle
                             urlMap
                             urlTitle
+                            navOnly
                             format
                             documentation
                         }
