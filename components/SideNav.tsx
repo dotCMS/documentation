@@ -31,7 +31,20 @@ export default function SideNav({
                                 'list-menu-bullet': haveChild
                             })}
                         >
-                            <SideNavItem active={active} item={item} setActive={setActive} />
+                            <Link href={`/latest/${item.urlTitle}`}>
+                                <a
+                                    className="font-normal font-roboto text-sm text-gray"
+                                    onClick={() => {
+                                        if (item.urlTitle === active) {
+                                            setActive(null);
+                                        } else {
+                                            setActive(item.urlTitle);
+                                        }
+                                    }}
+                                >
+                                    {item.navTitle || item.title}
+                                </a>
+                            </Link>
                             <SideNav data={item} hide={active !== item.urlTitle} />
                         </li>
                     );
@@ -40,47 +53,3 @@ export default function SideNav({
         </>
     );
 }
-
-const SideNavItem = ({
-    item,
-    active,
-    setActive
-}: {
-    item: Documentation;
-    active: null | string;
-    setActive: React.Dispatch<null | string>;
-}) => {
-    return (
-        <>
-            {item.navOnly[0] ? (
-                <a
-                    className="font-normal font-roboto text-sm text-gray cursor-pointer"
-                    onClick={() => {
-                        if (item.urlTitle === active) {
-                            setActive(null);
-                        } else {
-                            setActive(item.urlTitle);
-                        }
-                    }}
-                >
-                    {item.navTitle || item.title}
-                </a>
-            ) : (
-                <Link href={`/latest/${item.urlTitle}`}>
-                    <a
-                        className="font-normal font-roboto text-sm text-gray"
-                        onClick={() => {
-                            if (item.urlTitle === active) {
-                                setActive(null);
-                            } else {
-                                setActive(item.urlTitle);
-                            }
-                        }}
-                    >
-                        {item.navTitle || item.title}
-                    </a>
-                </Link>
-            )}
-        </>
-    );
-};
