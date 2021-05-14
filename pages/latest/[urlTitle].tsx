@@ -7,13 +7,13 @@ import html from 'remark-html';
 import prism from 'remark-prism';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotDecodeHtml from '@plugins/DotDecodeHtml';
-import DotToc, { tableOfContent } from '@plugins/DotToc';
+import DotToc, { toc } from '@plugins/DotToc';
 
 // Components
 import { Terminal } from '@components/PageRenderError';
 import ImageMarkdown from '@components/ImageMarkdown';
 import LinkMarkdown from '@components/LinkMarkdown';
-import TableContent, { TableContentModel } from '@components/TableContent';
+import TableOfContent, { TableContentModel } from '@components/TableOfContent';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
@@ -35,7 +35,7 @@ interface PageData {
     data: Documentation;
     navDot: Documentation[];
     source: MdxRemote.Source;
-    tableContent?: TableContentModel[];
+    toc?: TableContentModel[];
     error?: string;
 }
 
@@ -44,7 +44,7 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, source, tableContent, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
         <>
@@ -61,10 +61,12 @@ const UrlTitle = ({ data, source, tableContent, error }: PageData): JSX.Element 
                     </MDXProvider>
                 )}
             </div>
-            <div className="w-60">
-                <h3>Table of Content</h3>
-                <TableContent table={tableContent} />
-            </div>
+            {TableOfContent.length > 0 && (
+                <div className="w-60">
+                    <h3>Table of Content</h3>
+                    <TableOfContent titles={toc} />
+                </div>
+            )}
         </>
     );
 };
@@ -93,7 +95,7 @@ export async function getStaticProps({
     try {
         const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
             mdxOptions: {
-                remarkPlugins: [DotHtmlToJsxRemark, remarkId, prism, html, DotToc, DotDecodeHtml]
+                remarkPlugins: [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc]
             }
         });
         return {
@@ -101,7 +103,7 @@ export async function getStaticProps({
                 data: DotcmsDocumentationCollection[0],
                 navDot: DotcmsDocumentationNav,
                 source: mdxSource,
-                tableContent: tableOfContent
+                toc: toc
             }
         };
     } catch (e) {
