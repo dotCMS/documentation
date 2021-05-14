@@ -7,11 +7,13 @@ import html from 'remark-html';
 import prism from 'remark-prism';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotDecodeHtml from '@plugins/DotDecodeHtml';
+import DotToc, { tableOfContent } from '@plugins/DotToc';
 
 // Components
 import { Terminal } from '@components/PageRenderError';
 import ImageMarkdown from '@components/ImageMarkdown';
 import LinkMarkdown from '@components/LinkMarkdown';
+import TableContent, { TableContentModel } from '@components/TableContent';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
@@ -33,6 +35,7 @@ interface PageData {
     data: Documentation;
     navDot: Documentation[];
     source: MdxRemote.Source;
+    tableContent?: TableContentModel[];
     error?: string;
 }
 
@@ -41,21 +44,27 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, source, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, source, tableContent, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
         <>
             <Head>
                 <title>{data.title}</title>
             </Head>
-            <h1>{data.title}</h1>
-            {error ? (
-                <Terminal content={error} />
-            ) : (
-                <MDXProvider className="wrapper" components={componentsUI}>
-                    {content}
-                </MDXProvider>
-            )}
+            <div>
+                <h1>{data.title}</h1>
+                {error ? (
+                    <Terminal content={error} />
+                ) : (
+                    <MDXProvider className="wrapper" components={componentsUI}>
+                        {content}
+                    </MDXProvider>
+                )}
+            </div>
+            <div className="w-60">
+                <h3>Table of Content</h3>
+                <TableContent table={tableContent} />
+            </div>
         </>
     );
 };
@@ -84,14 +93,15 @@ export async function getStaticProps({
     try {
         const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
             mdxOptions: {
-                remarkPlugins: [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml]
+                remarkPlugins: [DotHtmlToJsxRemark, remarkId, prism, html, DotToc, DotDecodeHtml]
             }
         });
         return {
             props: {
                 data: DotcmsDocumentationCollection[0],
                 navDot: DotcmsDocumentationNav,
-                source: mdxSource
+                source: mdxSource,
+                tableContent: tableOfContent
             }
         };
     } catch (e) {
