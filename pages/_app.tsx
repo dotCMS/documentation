@@ -10,15 +10,16 @@ import '@styles/globals.css';
 import { Header } from '../components/header/Header';
 import SideBar from '@components/SideBar';
 import SideNav from '@components/SideNav';
+import TableOfContent from '@components/TableOfContent';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: 0rem 100vw;
+    grid-template-columns: 0rem 100vw 0rem;
     grid-template-rows: max-content 1fr;
     min-height: 100vh;
     max-width: 100vw;
     @media screen and (min-width: 768px) {
-        grid-template-columns: max-content 1fr;
+        grid-template-columns: max-content 1fr max-content;
     }
 `;
 const HeaderWrapper = styled.div`
@@ -43,9 +44,15 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                     <SideBar>
                         <SideNav data={pageProps.navDot[0]} />
                     </SideBar>
-                    <main className="container container-grid mt-4 md:mt-0 justify-self-center overflow-auto">
+                    <main className="container mt-4 md:mt-0 justify-self-center overflow-auto">
                         <Component {...pageProps} />
                     </main>
+                    {!!pageProps.toc?.length && (
+                        <div className="hidden lg:block w-60 px-3 overflow-auto">
+                            <h3>Table of Content</h3>
+                            <TableOfContent titles={pageProps.toc} />
+                        </div>
+                    )}
                 </Grid>
             ) : (
                 <Component {...pageProps} />

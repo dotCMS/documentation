@@ -10,19 +10,16 @@ export interface TableContentModel {
 
 const TableOfContent = ({ titles }: { titles: TableContentModel[] }): JSX.Element => {
     return (
-        <ul className="list-none">
+        <ul className="list-none p-0">
             {titles.map((title) => {
                 return (
-                    <li
-                        key={title.key}
-                        className={classNames(`pl-${title.depth}`, {
-                            'font-bold': title.depth === 2
-                        })}
-                    >
+                    <li key={title.key} className={classNames(`pl-${title.depth}`)}>
                         {title.id.length ? (
-                            <a href={`#${title.id}`}>{title.value}</a>
+                            <a className="font-roboto text-sm text-gray" href={`#${title.id}`}>
+                                {title.value}
+                            </a>
                         ) : (
-                            <a>{title.value}</a>
+                            <a className="font-roboto text-sm text-gray">{title.value}</a>
                         )}
                     </li>
                 );

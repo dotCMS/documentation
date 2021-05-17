@@ -81,8 +81,3 @@ li.list-menu-bullet:before {
 li.list-menu-bulle-rotated:before{
     transform: rotate(90deg);
 }
-
-.container-grid{
-    display: grid;
-    grid-template-columns: 1fr max-content;
-}

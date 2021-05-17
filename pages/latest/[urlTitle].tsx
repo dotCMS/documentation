@@ -13,7 +13,7 @@ import DotToc, { toc } from '@plugins/DotToc';
 import { Terminal } from '@components/PageRenderError';
 import ImageMarkdown from '@components/ImageMarkdown';
 import LinkMarkdown from '@components/LinkMarkdown';
-import TableOfContent, { TableContentModel } from '@components/TableOfContent';
+import { TableContentModel } from '@components/TableOfContent';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
@@ -44,7 +44,7 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, source, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     return (
         <>
@@ -61,12 +61,6 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                     </MDXProvider>
                 )}
             </div>
-            {TableOfContent.length > 0 && (
-                <div className="w-60">
-                    <h3>Table of Content</h3>
-                    <TableOfContent titles={toc} />
-                </div>
-            )}
         </>
     );
 };
