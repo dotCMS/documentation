@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 
@@ -48,7 +48,7 @@ const SideNavItem = ({
 }: {
     item: Documentation;
     active: null | string;
-    setActive: React.Dispatch<null | string>;
+    setActive: Dispatch<SetStateAction<null | string>>;
 }) => {
     return (
         <>
