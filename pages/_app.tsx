@@ -14,7 +14,7 @@ import TableOfContent from '@components/TableOfContent';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: 0rem 100vw 0rem;
+    grid-template-columns: 0 100vw 0;
     grid-template-rows: max-content 1fr;
     min-height: 100vh;
     max-width: 100vw;

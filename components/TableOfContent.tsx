@@ -11,11 +11,11 @@ const TableOfContent = ({ titles }: { titles: TableContentModel[] }): JSX.Elemen
                 return (
                     <li key={title.key}>
                         {title.id.length ? (
-                            <a className="font-roboto text-sm text-gray" href={`#${title.id}`}>
+                            <a className="text-gray" href={`#${title.id}`}>
                                 {title.value}
                             </a>
                         ) : (
-                            <a className="font-roboto text-sm text-gray">{title.value}</a>
+                            <a className="text-gray">{title.value}</a>
                         )}
                         <TableOfContent titles={title.children} />
                     </li>
