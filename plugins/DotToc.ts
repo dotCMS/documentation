@@ -1,7 +1,8 @@
 import visit from 'unist-util-visit';
 import { Node } from 'unist';
+import { TableContentModel } from '@models/TableOfConent.model';
 
-export let toc: NodeTableContent[] = [];
+export let toc: TableContentModel[] = [];
 
 interface CustomNode extends Node {
     value: string;
@@ -10,27 +11,23 @@ interface CustomNode extends Node {
     data: { hProperties: { id: string }; id: string };
 }
 
-interface NodeTableContent {
-    value: string;
-    depth: number;
-    id: string;
-    key: string;
-}
-
 export default function () {
     return function (node: CustomNode): void {
         toc = [];
         visit(node, 'heading', (node: CustomNode) => {
-            const data = node.data || null;
-            const props = data ? data.hProperties : null;
-            const value = buildHeading(node.children);
-            const newNode: NodeTableContent = {
-                depth: node.depth,
-                value: value,
-                id: props ? props.id : '',
-                key: value.replace(' ', '-')
-            };
-            toc.push(newNode);
+            if (node.depth == 2 || node.depth == 3) {
+                const data = node.data || null;
+                const props = data ? data.hProperties : null;
+                const value = buildHeading(node.children);
+                const newNode: TableContentModel = {
+                    depth: node.depth,
+                    value: value,
+                    id: props ? props.id : '',
+                    key: value.replace(' ', '-'),
+                    children: []
+                };
+                toc = buildThree(toc, newNode);
+            }
         });
     };
 }
@@ -43,4 +40,14 @@ const buildHeading = (children: CustomNode[]): string => {
         return node.type === 'text' ? node.value : '';
     });
     return value.join('');
+};
+
+const buildThree = (toc: TableContentModel[], newNode: TableContentModel): TableContentModel[] => {
+    const lastIndex = toc.length - 1;
+    if (lastIndex >= 0 && toc[lastIndex].depth < newNode.depth) {
+        toc[lastIndex].children = buildThree(toc[lastIndex].children, newNode);
+    } else {
+        toc.push(newNode);
+    }
+    return toc;
 };

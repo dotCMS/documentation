@@ -1,19 +1,15 @@
 import React from 'react';
-import classNames from 'classnames';
-
-export interface TableContentModel {
-    id: string;
-    depth: number;
-    value: string;
-    key: string;
-}
+import { TableContentModel } from '@models/TableOfConent.model';
 
 const TableOfContent = ({ titles }: { titles: TableContentModel[] }): JSX.Element => {
+    if (!titles?.length) {
+        return null;
+    }
     return (
-        <ul className="list-none p-0">
+        <ul className="list-none pl-3">
             {titles.map((title) => {
                 return (
-                    <li key={title.key} className={classNames(`pl-${title.depth}`)}>
+                    <li key={title.key}>
                         {title.id.length ? (
                             <a className="font-roboto text-sm text-gray" href={`#${title.id}`}>
                                 {title.value}
@@ -21,6 +17,7 @@ const TableOfContent = ({ titles }: { titles: TableContentModel[] }): JSX.Elemen
                         ) : (
                             <a className="font-roboto text-sm text-gray">{title.value}</a>
                         )}
+                        <TableOfContent titles={title.children} />
                     </li>
                 );
             })}

@@ -13,7 +13,7 @@ import DotToc, { toc } from '@plugins/DotToc';
 import { Terminal } from '@components/PageRenderError';
 import ImageMarkdown from '@components/ImageMarkdown';
 import LinkMarkdown from '@components/LinkMarkdown';
-import { TableContentModel } from '@components/TableOfContent';
+import { TableContentModel } from '@models/TableOfConent.model';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
