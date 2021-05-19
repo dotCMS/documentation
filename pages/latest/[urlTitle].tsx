@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
@@ -13,13 +13,14 @@ import DotToc, { toc } from '@plugins/DotToc';
 import { Terminal } from '@components/PageRenderError';
 import ImageMarkdown from '@components/ImageMarkdown';
 import LinkMarkdown from '@components/LinkMarkdown';
-import { TableContentModel } from '@models/TableOfConent.model';
+import TableOfContent from '@components/TableOfContent';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
 
 // Models
 import { Documentation } from '@models/Documentation.model';
+import { TableContentModel } from '@models/TableOfConent.model';
 
 // Utils
 import { client } from '@utils/graphql-client';
@@ -44,23 +45,56 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, source, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
+    // ---- Table Of Content Active Item
+    const [tocActive, setTocActive] = useState(null);
+    const options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 1
+    };
+
+    const observer = useRef(null);
+    useEffect(() => {
+        const targets = document.querySelectorAll('h2,h3');
+        if (observer.current) observer.current.disconnect();
+        observer.current = new window.IntersectionObserver((entries) => {
+            const entry = entries[entries.length - 1];
+            if (entry.isIntersecting) {
+                setTocActive(entry.target.id);
+            }
+        }, options);
+        const { current: currentObserver } = observer;
+        targets.forEach((target) => currentObserver.observe(target));
+        return () => currentObserver.disconnect();
+    });
     return (
         <>
             <Head>
                 <title>{data.title}</title>
             </Head>
-            <div>
-                <h1>{data.title}</h1>
-                {error ? (
+            {error ? (
+                <div>
+                    <h1>{data.title}</h1>
                     <Terminal content={error} />
-                ) : (
-                    <MDXProvider className="wrapper" components={componentsUI}>
-                        {content}
-                    </MDXProvider>
-                )}
-            </div>
+                </div>
+            ) : (
+                <>
+                    <div>
+                        <h1>{data.title}</h1>
+                        <MDXProvider className="wrapper" components={componentsUI}>
+                            {content}
+                        </MDXProvider>
+                    </div>
+                    {!!toc?.length && (
+                        <div className="hidden lg:block min-w-60 px-3 overflow-auto">
+                            <h4>Table of Content</h4>
+                            <TableOfContent active={tocActive} titles={toc} />
+                        </div>
+                    )}
+                </>
+            )}
         </>
     );
 };

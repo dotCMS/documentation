@@ -1,7 +1,14 @@
 import React from 'react';
+import classNames from 'classnames';
 import { TableContentModel } from '@models/TableOfConent.model';
 
-const TableOfContent = ({ titles }: { titles: TableContentModel[] }): JSX.Element => {
+const TableOfContent = ({
+    titles,
+    active
+}: {
+    titles: TableContentModel[];
+    active?: string;
+}): JSX.Element => {
     if (!titles?.length) {
         return null;
     }
@@ -11,13 +18,24 @@ const TableOfContent = ({ titles }: { titles: TableContentModel[] }): JSX.Elemen
                 return (
                     <li key={title.key}>
                         {title.id.length ? (
-                            <a className="text-gray" href={`#${title.id}`}>
+                            <a
+                                className={classNames('text-gray', {
+                                    'font-bold': active == title.id
+                                })}
+                                href={`#${title.id}`}
+                            >
                                 {title.value}
                             </a>
                         ) : (
-                            <a className="text-gray">{title.value}</a>
+                            <a
+                                className={classNames('text-gray', {
+                                    'font-bold': active == title.value
+                                })}
+                            >
+                                {title.value}
+                            </a>
                         )}
-                        <TableOfContent titles={title.children} />
+                        <TableOfContent active={active} titles={title.children} />
                     </li>
                 );
             })}
