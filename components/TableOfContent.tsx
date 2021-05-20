@@ -19,8 +19,8 @@ const TableOfContent = ({
             {titles.map((title) => {
                 return (
                     <>
-                        <TableOfContentListItem key={v4()} active={active} title={title} />
-                        <TableOfContent key={v4()} active={active} titles={title.children} />
+                        <TableOfContentListItem active={active} title={title} />
+                        <TableOfContent active={active} titles={title.children} />
                     </>
                 );
             })}
