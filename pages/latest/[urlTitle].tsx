@@ -79,7 +79,7 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                 </div>
             ) : (
                 <>
-                    <main className="container mt-4 md:mt-0 justify-self-center overflow-auto">
+                    <main className="container mt-4 md:mt-0 justify-self-center overflow-y-scroll">
                         <h1>{data.title}</h1>
                         <MDXProvider className="wrapper" components={componentsUI}>
                             {content}

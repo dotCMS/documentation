@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import { TableContentModel } from '@models/TableOfConent.model';
+import TableOfContentListItem from './TableOfContentListItem'
+import { v4 } from 'uuid';
 
 const TableOfContent = ({
     titles,
@@ -9,6 +11,7 @@ const TableOfContent = ({
     titles: TableContentModel[];
     active?: string;
 }): JSX.Element => {
+
     if (!titles?.length) {
         return null;
     }
@@ -16,31 +19,14 @@ const TableOfContent = ({
         <ul className="list-none pl-3">
             {titles.map((title) => {
                 return (
-                    <li key={title.key}>
-                        {title.id.length ? (
-                            <a
-                                className={classNames('text-gray', {
-                                    'font-bold': active == title.id
-                                })}
-                                href={`#${title.id}`}
-                            >
-                                {title.value}
-                            </a>
-                        ) : (
-                            <a
-                                className={classNames('text-gray', {
-                                    'font-bold': active == title.value
-                                })}
-                            >
-                                {title.value}
-                            </a>
-                        )}
-                        <TableOfContent active={active} titles={title.children} />
-                    </li>
+                    <>
+                        <TableOfContentListItem key={v4()} title={title} active={active} />
+                        <TableOfContent key={v4()} active={active} titles={title.children} />
+                    </>
                 );
             })}
         </ul>
     );
 };
 
-export default TableOfContent;
+export default React.memo(TableOfContent);
