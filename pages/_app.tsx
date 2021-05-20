@@ -13,12 +13,12 @@ import SideNav from '@components/SideNav';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: 0 100vw;
-    grid-template-rows: max-content minmax(1fr, 1fr);
+    grid-template-columns: 0 100vw 0r;
+    grid-template-rows: max-content 1fr;
     min-height: 100vh;
-    max-width: 100vw;
+    max-height: 100vh;
     @media screen and (min-width: 768px) {
-        grid-template-columns: max-content 1fr;
+        grid-template-columns: max-content 1fr max-content;
     }
 `;
 const HeaderWrapper = styled.div`
@@ -43,9 +43,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                     <SideBar>
                         <SideNav data={pageProps.navDot[0]} />
                     </SideBar>
-                    <main className="container flex mt-4 md:mt-0 justify-self-center overflow-auto">
-                        <Component {...pageProps} />
-                    </main>
+                    <Component {...pageProps} />
                 </Grid>
             ) : (
                 <Component {...pageProps} />

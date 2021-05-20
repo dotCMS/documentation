@@ -49,18 +49,16 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
+    const observer = useRef(null);
     const options = {
         root: null,
-        rootMargin: '0px',
+        rootMargin: '0px 0px -70% 0px',
         threshold: 1
     };
-
-    const observer = useRef(null);
     useEffect(() => {
         const targets = document.querySelectorAll('h2,h3');
         if (observer.current) observer.current.disconnect();
-        observer.current = new window.IntersectionObserver((entries) => {
-            const entry = entries[entries.length - 1];
+        observer.current = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
                 setTocActive(entry.target.id);
             }
@@ -81,12 +79,12 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                 </div>
             ) : (
                 <>
-                    <div>
+                    <main className="container mt-4 md:mt-0 justify-self-center overflow-auto">
                         <h1>{data.title}</h1>
                         <MDXProvider className="wrapper" components={componentsUI}>
                             {content}
                         </MDXProvider>
-                    </div>
+                    </main>
                     {!!toc?.length && (
                         <div className="hidden lg:block min-w-60 px-3 overflow-auto">
                             <h4>Table of Content</h4>
