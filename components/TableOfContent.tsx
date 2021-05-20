@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { TableContentModel } from '@models/TableOfConent.model';
-import TableOfContentListItem from './TableOfContentListItem'
+import TableOfContentListItem from './TableOfContentListItem';
 import { v4 } from 'uuid';
 
 const TableOfContent = ({
@@ -11,7 +11,6 @@ const TableOfContent = ({
     titles: TableContentModel[];
     active?: string;
 }): JSX.Element => {
-
     if (!titles?.length) {
         return null;
     }
@@ -20,7 +19,7 @@ const TableOfContent = ({
             {titles.map((title) => {
                 return (
                     <>
-                        <TableOfContentListItem key={v4()} title={title} active={active} />
+                        <TableOfContentListItem key={v4()} active={active} title={title} />
                         <TableOfContent key={v4()} active={active} titles={title.children} />
                     </>
                 );
