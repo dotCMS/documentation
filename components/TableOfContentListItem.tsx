@@ -28,5 +28,4 @@ const TableOfContentListItem = ({ title, active }): JSX.Element => {
     );
 };
 
-
 export default TableOfContentListItem;
