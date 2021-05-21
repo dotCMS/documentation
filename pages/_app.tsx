@@ -13,7 +13,7 @@ import SideNav from '@components/SideNav';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: 0 100vw 0r;
+    grid-template-columns: 0 100vw 0;
     grid-template-rows: max-content 1fr;
     min-height: 100vh;
     max-height: 100vh;

@@ -23,7 +23,6 @@ export default function () {
                     depth: node.depth,
                     value: value,
                     id: props ? props.id : '',
-                    key: value.replace(' ', '-'),
                     children: []
                 };
                 toc = buildThree(toc, newNode);

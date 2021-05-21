@@ -86,7 +86,7 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                         </MDXProvider>
                     </main>
                     {!!toc?.length && (
-                        <div className="hidden lg:block min-w-60 px-3 overflow-auto">
+                        <div className="hidden lg:block w-60 px-3 overflow-auto">
                             <h4>Table of Content</h4>
                             <TableOfContent active={tocActive} titles={toc} />
                         </div>

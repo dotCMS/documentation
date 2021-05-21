@@ -1,7 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
 import { TableContentModel } from '@models/TableOfConent.model';
-import TableOfContentListItem from './TableOfContentListItem';
+import TableOfContentListItem from '@components/TableOfContentListItem';
 import { v4 } from 'uuid';
 
 const TableOfContent = ({
@@ -18,10 +17,10 @@ const TableOfContent = ({
         <ul className="list-none pl-3">
             {titles.map((title) => {
                 return (
-                    <>
+                    <div key={v4()}>
                         <TableOfContentListItem active={active} title={title} />
                         <TableOfContent active={active} titles={title.children} />
-                    </>
+                    </div>
                 );
             })}
         </ul>

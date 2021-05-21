@@ -1,9 +1,16 @@
 /* eslint-disable react/prop-types */
-import React, { memo } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { v4 } from 'uuid';
+import { TableContentModel } from '@models/TableOfConent.model';
 
-const TableOfContentListItem = ({ title, active }): JSX.Element => {
+const TableOfContentListItem = ({
+    title,
+    active
+}: {
+    title: TableContentModel;
+    active: string;
+}): JSX.Element => {
     return (
         <li key={v4()}>
             {title.id ? (
