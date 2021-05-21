@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
-import { v4 } from 'uuid';
 import { TableContentModel } from '@models/TableOfConent.model';
 
 const TableOfContentListItem = ({
@@ -14,7 +13,7 @@ const TableOfContentListItem = ({
     setActive?: Dispatch<SetStateAction<null | string>>;
 }): JSX.Element => {
     return (
-        <li key={v4()}>
+        <>
             {title.id ? (
                 <a
                     className={classNames('text-gray', {
@@ -37,7 +36,7 @@ const TableOfContentListItem = ({
                     {title.value}
                 </a>
             )}
-        </li>
+        </>
     );
 };
 

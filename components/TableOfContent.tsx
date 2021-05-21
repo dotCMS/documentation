@@ -19,7 +19,7 @@ const TableOfContent = ({
         <ul className="list-none pl-3">
             {titles.map((title) => {
                 return (
-                    <div key={v4()}>
+                    <li key={v4()}>
                         <TableOfContentListItem
                             active={active}
                             setActive={setActive}
@@ -30,7 +30,7 @@ const TableOfContent = ({
                             setActive={setActive}
                             titles={title.children}
                         />
-                    </div>
+                    </li>
                 );
             })}
         </ul>

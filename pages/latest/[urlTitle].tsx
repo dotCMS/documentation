@@ -57,7 +57,9 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
     };
     useEffect(() => {
         const targets = document.querySelectorAll('h2,h3');
-        if (observer.current) observer.current.disconnect();
+        if (observer.current) {
+            observer.current.disconnect();
+        }
         observer.current = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
                 setTocActive(entry.target.id);
@@ -73,13 +75,13 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                 <title>{data.title}</title>
             </Head>
             {error ? (
-                <div>
+                <main className="container mt-4 md:mt-0 justify-self-center overflow-auto">
                     <h1>{data.title}</h1>
                     <Terminal content={error} />
-                </div>
+                </main>
             ) : (
                 <>
-                    <main className="container mt-4 md:mt-0 justify-self-center overflow-y-scroll">
+                    <main className="container mt-4 md:mt-0 justify-self-center overflow-auto overflow-y-scroll">
                         <h1>{data.title}</h1>
                         <MDXProvider className="wrapper" components={componentsUI}>
                             {content}
