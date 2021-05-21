@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { TableContentModel } from '@models/TableOfConent.model';
 import TableOfContentListItem from '@components/TableOfContentListItem';
 import { v4 } from 'uuid';
 
 const TableOfContent = ({
     titles,
-    active
+    active,
+    setActive
 }: {
     titles: TableContentModel[];
-    active?: string;
+    active: string;
+    setActive: Dispatch<SetStateAction<null | string>>;
 }): JSX.Element => {
     if (!titles?.length) {
         return null;
@@ -18,8 +20,16 @@ const TableOfContent = ({
             {titles.map((title) => {
                 return (
                     <div key={v4()}>
-                        <TableOfContentListItem active={active} title={title} />
-                        <TableOfContent active={active} titles={title.children} />
+                        <TableOfContentListItem
+                            active={active}
+                            setActive={setActive}
+                            title={title}
+                        />
+                        <TableOfContent
+                            active={active}
+                            setActive={setActive}
+                            titles={title.children}
+                        />
                     </div>
                 );
             })}

@@ -88,7 +88,11 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                     {!!toc?.length && (
                         <div className="hidden lg:block w-60 px-3 overflow-auto">
                             <h4>Table of Content</h4>
-                            <TableOfContent active={tocActive} titles={toc} />
+                            <TableOfContent
+                                active={tocActive}
+                                setActive={setTocActive}
+                                titles={toc}
+                            />
                         </div>
                     )}
                 </>
