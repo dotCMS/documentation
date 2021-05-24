@@ -51,11 +51,14 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
     const observer = useRef(null);
-    const options = {
-        root: null,
-        rootMargin: '0px 0px -70% 0px',
-        threshold: 1
-    };
+    const options = React.useMemo(
+        () => ({
+            root: null,
+            rootMargin: '0px 0px -70% 0px',
+            threshold: 1
+        }),
+        []
+    );
     useEffect(() => {
         const targets = document.querySelectorAll('h2,h3');
         if (observer.current) {
@@ -69,7 +72,8 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
         const { current: currentObserver } = observer;
         targets.forEach((target) => currentObserver.observe(target));
         return () => currentObserver.disconnect();
-    });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [observer.current, options]);
     return (
         <>
             <Head>
