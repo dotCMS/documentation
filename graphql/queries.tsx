@@ -26,7 +26,6 @@ export const NAVIGATION_MENU_QUERY = `
                     navOnly
                     format
                     documentation
-
                     dotcmsdocumentationchildren {
                         title
                         navTitle
@@ -35,7 +34,6 @@ export const NAVIGATION_MENU_QUERY = `
                         navOnly
                         format
                         documentation
-
                         dotcmsdocumentationchildren {
                             title
                             navTitle

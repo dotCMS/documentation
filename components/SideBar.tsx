@@ -68,7 +68,7 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
             </Button>
 
             <div className="md:overflow-hidden">
-                <div className="w-72">
+                <div className="w-72 pr-2">
                     <div className="ml-6 mt-6">
                         <span className="text-sm font-bold text-purple">Overview</span>
                         <nav className="text-gray-200">{children}</nav>
