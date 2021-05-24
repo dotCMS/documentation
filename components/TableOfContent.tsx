@@ -4,7 +4,7 @@ import TableOfContentListItem from '@components/TableOfContentListItem';
 import { v4 } from 'uuid';
 
 const TableOfContent = ({
-    titles,
+    titles = [],
     active,
     setActive
 }: {
@@ -12,7 +12,7 @@ const TableOfContent = ({
     active: string;
     setActive: Dispatch<SetStateAction<null | string>>;
 }): JSX.Element => {
-    if (!titles?.length) {
+    if (!titles.length) {
         return null;
     }
     return (

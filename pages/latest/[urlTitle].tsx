@@ -8,6 +8,7 @@ import prism from 'remark-prism';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotDecodeHtml from '@plugins/DotDecodeHtml';
 import DotToc, { toc } from '@plugins/DotToc';
+import styles from '@styles/urlTitle.module.css';
 
 // Components
 import { Terminal } from '@components/PageRenderError';
@@ -75,13 +76,13 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                 <title>{data.title}</title>
             </Head>
             {error ? (
-                <main className="container mt-4 md:mt-0 justify-self-center overflow-auto">
+                <main className={styles.main}>
                     <h1>{data.title}</h1>
                     <Terminal content={error} />
                 </main>
             ) : (
                 <>
-                    <main className="container mt-4 md:mt-0 justify-self-center overflow-auto overflow-y-scroll">
+                    <main className={styles.main}>
                         <h1>{data.title}</h1>
                         <MDXProvider className="wrapper" components={componentsUI}>
                             {content}
