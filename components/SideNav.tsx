@@ -54,7 +54,9 @@ const SideNavItem = ({
         <>
             {item.navOnly[0] ? (
                 <a
-                    className="font-normal font-roboto text-sm text-gray cursor-pointer"
+                    className={classNames('font-roboto text-sm text-gray cursor-pointer', {
+                        'font-bold': active === item.urlTitle
+                    })}
                     onClick={() => {
                         if (item.urlTitle === active) {
                             setActive(null);
@@ -68,7 +70,9 @@ const SideNavItem = ({
             ) : (
                 <Link href={`/latest/${item.urlTitle}`}>
                     <a
-                        className="font-normal font-roboto text-sm text-gray"
+                        className={classNames('font-roboto text-sm text-gray', {
+                            'font-bold': active === item.urlTitle
+                        })}
                         onClick={() => {
                             if (item.urlTitle === active) {
                                 setActive(null);
