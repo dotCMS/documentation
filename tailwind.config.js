@@ -5,7 +5,9 @@ module.exports = {
         backgroundColor: (theme) => ({
             ...theme('colors'),
             header: '#F3F6FD',
-            gray: '#ECE8FC'
+            gray: '#ECE8FC',
+            purple: '#5E3CE9',
+            'purple-light': '#866cef'
         }),
         borderColor: (theme) => ({
             ...theme('colors'),
