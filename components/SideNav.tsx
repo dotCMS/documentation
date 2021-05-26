@@ -12,7 +12,10 @@ export default function SideNav({
     data: Documentation;
     hide?: boolean;
 }): JSX.Element {
-    const [active, setActive] = useState(null);
+    const [navItem, setNavItem] = useState({
+        showSubList: null,
+        active: null
+    });
 
     if (!data?.dotcmsdocumentationchildren?.length) {
         return null;
@@ -27,12 +30,13 @@ export default function SideNav({
                         <li
                             key={item.navTitle || item.title}
                             className={classNames({
-                                'list-menu-bulle-rotated': haveChild && active === item.urlTitle,
+                                'list-menu-bulle-rotated':
+                                    haveChild && navItem.showSubList === item.urlTitle,
                                 'list-menu-bullet': haveChild
                             })}
                         >
-                            <SideNavItem active={active} item={item} setActive={setActive} />
-                            <SideNav data={item} hide={active !== item.urlTitle} />
+                            <SideNavItem item={item} navItem={navItem} setNavItem={setNavItem} />
+                            <SideNav data={item} hide={navItem.showSubList !== item.urlTitle} />
                         </li>
                     );
                 })}
@@ -43,43 +47,49 @@ export default function SideNav({
 
 const SideNavItem = ({
     item,
-    active,
-    setActive
+    navItem,
+    setNavItem
 }: {
     item: Documentation;
-    active: null | string;
-    setActive: Dispatch<SetStateAction<null | string>>;
+    navItem: null | { showSubList: string; active: string };
+    setNavItem: Dispatch<SetStateAction<null | { showSubList: string; active: string }>>;
 }) => {
+    const activeState = (item) => {
+        if (item.urlTitle === navItem.active) {
+            setNavItem({
+                showSubList: null,
+                active: item.urlTitle
+            });
+        } else if (item.dotcmsdocumentationchildren.length) {
+            setNavItem({
+                showSubList: item.urlTitle,
+                active: item.urlTitle
+            });
+        } else {
+            setNavItem({
+                ...navItem,
+                active: item.urlTitle
+            });
+        }
+    };
     return (
         <>
             {item.navOnly[0] ? (
                 <a
                     className={classNames('font-roboto text-sm text-gray cursor-pointer', {
-                        'font-bold': active === item.urlTitle
+                        'font-bold': navItem.active === item.urlTitle
                     })}
-                    onClick={() => {
-                        if (item.urlTitle === active) {
-                            setActive(null);
-                        } else {
-                            setActive(item.urlTitle);
-                        }
-                    }}
+                    onClick={() => activeState(item)}
                 >
                     {item.navTitle || item.title}
                 </a>
             ) : (
                 <Link href={`/latest/${item.urlTitle}`}>
                     <a
-                        className={classNames('font-roboto text-sm text-gray', {
-                            'font-bold': active === item.urlTitle
+                        className={classNames('font-roboto text-sm text-gray cursor-pointer', {
+                            'font-bold': navItem.active === item.urlTitle
                         })}
-                        onClick={() => {
-                            if (item.urlTitle === active) {
-                                setActive(null);
-                            } else {
-                                setActive(item.urlTitle);
-                            }
-                        }}
+                        onClick={() => activeState(item)}
                     >
                         {item.navTitle || item.title}
                     </a>
