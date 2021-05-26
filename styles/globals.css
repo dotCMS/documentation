@@ -1,11 +1,10 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer utilities {
     .text-indent-64 {
-        text-indent: 64px;
+        text-indent: 4rem;
     }
 }
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
