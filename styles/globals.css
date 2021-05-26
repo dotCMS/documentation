@@ -1,9 +1,13 @@
-/* ./styles/globals.css */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .text-indent-64 {
+        text-indent: 64px;
+    }
+}
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 p,
@@ -80,4 +84,21 @@ li.list-menu-bullet:before {
 
 li.list-menu-bulle-rotated:before{
     transform: rotate(90deg);
+}
+
+.select-label::after {
+    /* @apply right-2.5; */
+    content: "";
+    right: 10px;
+    @apply top-2;
+    @apply absolute;
+    @apply inline-block;
+    @apply border;
+    @apply border-t-0;
+    @apply border-l-0;
+    @apply border-r-2;
+    @apply border-b-2;
+    @apply p-1;
+    @apply transform;
+    @apply rotate-45;
 }
