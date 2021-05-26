@@ -2,7 +2,6 @@ import React from 'react';
 import Search from './components/Search';
 import HeaderNav from './components/HeaderNav';
 import DotcmsLogo from './components/DotcmsLogo';
-import Dropdown from './components/Dropdown';
 
 export const Header = (): JSX.Element => {
     return (
@@ -15,7 +14,12 @@ export const Header = (): JSX.Element => {
                     <Search />
                 </div>
                 <div className="hidden md:flex justify-end items-center w-3/12">
-                    <Dropdown />
+                    <div className="flex items-center bg-white rounded w-40 h-8 text-xs border border-secondary text-gray pl-4">
+                        <span className="font-bold text-sm">Version:</span>
+                        <select className="focus:outline-none w-1/2">
+                            <option>value</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div className="hidden md:inline-block">
