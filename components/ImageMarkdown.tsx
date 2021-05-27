@@ -1,28 +1,41 @@
-import React from 'react';
-import Image from 'next/image';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import NextImage from 'next/image';
 
-const ImageContainer = styled.div`
-    width: 100%;
-    position: relative;
-    > div {
-        position: unset !important;
+const ImageMarkdown = (props: { src: string; width?: string; height?: string }): JSX.Element => {
+    const [width, setWidth] = useState(null);
+    const [height, setHeight] = useState(null);
+    const [loaded, setLoaded] = useState(false);
+    if (props.width && props.height) {
+        setWidth(props.width);
+        setHeight(props.height);
+        setLoaded(true);
     }
-    .image {
-        object-fit: contain;
-        width: 100% !important;
-        position: relative !important;
-        height: unset !important;
-        margin: auto !important;
-    }
-`;
-
-const ImageMarkdown = (props: { src: string }): JSX.Element => {
+    useEffect(() => {
+        if (!loaded) {
+            const img = new Image();
+            img.src = 'https://dotcms.com' + props.src;
+            img.addEventListener('load', () => {
+                setWidth(img.width);
+                setHeight(img.height);
+                setLoaded(true);
+            });
+        }
+    }, []);
     const myLoader = ({ src }) => src;
     return (
-        <ImageContainer>
-            <Image className="image" layout="fill" loader={myLoader} {...props} />
-        </ImageContainer>
+        <>
+            {loaded && (
+                <div className="flex justify-center">
+                    <NextImage
+                        height={height}
+                        layout="intrinsic"
+                        loader={myLoader}
+                        width={width}
+                        {...props}
+                    />
+                </div>
+            )}
+        </>
     );
 };
 

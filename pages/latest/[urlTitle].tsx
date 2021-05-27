@@ -5,10 +5,12 @@ import { ParsedUrlQuery } from 'querystring';
 import remarkId from 'remark-heading-id';
 import html from 'remark-html';
 import prism from 'remark-prism';
+import styles from '@styles/urlTitle.module.css';
+
+// mdx custom Plugins
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotDecodeHtml from '@plugins/DotDecodeHtml';
 import DotToc, { toc } from '@plugins/DotToc';
-import styles from '@styles/urlTitle.module.css';
 
 // Components
 import { Terminal } from '@components/PageRenderError';
