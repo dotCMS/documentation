@@ -55,12 +55,12 @@ const SideNavItem = ({
     setNavItem: Dispatch<SetStateAction<null | { showSubList: string; active: string }>>;
 }) => {
     const activeState = (item) => {
-        if (item.urlTitle === navItem.active) {
+        if (item.urlTitle === navItem.active && navItem.showSubList) {
             setNavItem({
                 showSubList: null,
                 active: item.urlTitle
             });
-        } else if (item.dotcmsdocumentationchildren.length) {
+        } else if (!!item.dotcmsdocumentationchildren?.length) {
             setNavItem({
                 showSubList: item.urlTitle,
                 active: item.urlTitle
