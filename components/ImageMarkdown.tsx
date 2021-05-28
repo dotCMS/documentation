@@ -1,28 +1,22 @@
 import React from 'react';
-import Image from 'next/image';
-import styled from 'styled-components';
+import NextImage from 'next/image';
 
-const ImageContainer = styled.div`
-    width: 100%;
-    position: relative;
-    > div {
-        position: unset !important;
-    }
-    .image {
-        object-fit: contain;
-        width: 100% !important;
-        position: relative !important;
-        height: unset !important;
-        margin: auto !important;
-    }
-`;
-
-const ImageMarkdown = (props: { src: string }): JSX.Element => {
+const ImageMarkdown = (props: { src: string; width?: string; height?: string }): JSX.Element => {
     const myLoader = ({ src }) => src;
     return (
-        <ImageContainer>
-            <Image className="image" layout="fill" loader={myLoader} {...props} />
-        </ImageContainer>
+        <>
+            {props.width && props.height ? (
+                <NextImage
+                    height={props.height}
+                    layout="intrinsic"
+                    loader={myLoader}
+                    width={props.width}
+                    {...props}
+                />
+            ) : (
+                <img loading="lazy" src={props.src} />
+            )}
+        </>
     );
 };
 
