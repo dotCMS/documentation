@@ -53,26 +53,14 @@ query ($urlTitle: String!) {
         documentation
         showToc
         dotcmsdocumentationchildren {
-            title
-            navTitle
-            urlMap
-            urlTitle                    
-            format
-            documentation
+            title            
+            urlTitle
             dotcmsdocumentationchildren {
-                title
-                navTitle
-                urlMap
-                urlTitle                        
-                format
-                documentation
+                title                    
+                urlTitle                                                           
                 dotcmsdocumentationchildren {
-                    title
-                    navTitle
-                    urlMap
-                    urlTitle                            
-                    format
-                    documentation
+                    title                            
+                    urlTitle                                                                           
                 }
             }
         }

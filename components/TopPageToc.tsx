@@ -13,8 +13,8 @@ const TopPageToc = ({ data = [] }: { data: Documentation[] }): JSX.Element => {
                 return (
                     <li key={v4()}>
                         <Link href={`/latest/${item.urlTitle}`}>
-                            <a className="font-roboto text-sm text-gray cursor-pointer">
-                                {item.navTitle || item.title}
+                            <a className="font-roboto text-blue-400 text-sm cursor-pointer">
+                                {item.title}
                             </a>
                         </Link>
                         <TopPageToc data={item.dotcmsdocumentationchildren} />
