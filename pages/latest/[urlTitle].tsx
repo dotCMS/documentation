@@ -94,7 +94,7 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                         <MDXProvider className="wrapper" components={componentsUI}>
                             {content}
                         </MDXProvider>
-                        {(data.showToc[0] || true) && (
+                        {data.showToc[0] && (
                             <>
                                 <h5>Table Of Content</h5>
                                 <TopPageToc data={data.dotcmsdocumentationchildren} />
