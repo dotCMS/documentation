@@ -73,28 +73,15 @@ const SideNavItem = ({
         }
     };
     return (
-        <>
-            {item.navOnly[0] ? (
-                <a
-                    className={classNames('font-roboto text-sm text-gray cursor-pointer', {
-                        'font-bold': navItem.active === item.urlTitle
-                    })}
-                    onClick={() => activeState(item)}
-                >
-                    {item.navTitle || item.title}
-                </a>
-            ) : (
-                <Link href={`/latest/${item.urlTitle}`}>
-                    <a
-                        className={classNames('font-roboto text-sm text-gray cursor-pointer', {
-                            'font-bold': navItem.active === item.urlTitle
-                        })}
-                        onClick={() => activeState(item)}
-                    >
-                        {item.navTitle || item.title}
-                    </a>
-                </Link>
-            )}
-        </>
+        <Link href={`/latest/${item.urlTitle}`}>
+            <a
+                className={classNames('font-roboto text-sm text-gray cursor-pointer', {
+                    'font-bold': navItem.active === item.urlTitle
+                })}
+                onClick={() => activeState(item)}
+            >
+                {item.navTitle || item.title}
+            </a>
+        </Link>
     );
 };

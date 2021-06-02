@@ -6,14 +6,12 @@ export const NAVIGATION_MENU_QUERY = `
             title
             navTitle
             urlMap
-            urlTitle
-            navOnly
+            urlTitle            
             format
             documentation
             dotcmsdocumentationchildren {
                 title
-                navTitle
-                navOnly
+                navTitle                
                 urlMap
                 urlTitle
                 format
@@ -22,24 +20,21 @@ export const NAVIGATION_MENU_QUERY = `
                     title
                     navTitle
                     urlMap
-                    urlTitle
-                    navOnly
+                    urlTitle                    
                     format
                     documentation
                     dotcmsdocumentationchildren {
                         title
                         navTitle
                         urlMap
-                        urlTitle
-                        navOnly
+                        urlTitle                        
                         format
                         documentation
                         dotcmsdocumentationchildren {
                             title
                             navTitle
                             urlMap
-                            urlTitle
-                            navOnly
+                            urlTitle                            
                             format
                             documentation
                         }
@@ -53,9 +48,22 @@ export const NAVIGATION_MENU_QUERY = `
 export const FULL_PAGE_QUERY = `
 query ($urlTitle: String!) {
     DotcmsDocumentationCollection(query: $urlTitle) {
-      title
-      format
-      documentation
+        title
+        format
+        documentation
+        showToc
+        dotcmsdocumentationchildren {
+            title            
+            urlTitle
+            dotcmsdocumentationchildren {
+                title                    
+                urlTitle                                                           
+                dotcmsdocumentationchildren {
+                    title                            
+                    urlTitle                                                                           
+                }
+            }
+        }
     }
 }
 `;

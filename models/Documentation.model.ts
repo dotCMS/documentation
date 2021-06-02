@@ -3,7 +3,7 @@ export interface Documentation {
     navTitle: string | null;
     urlMap: string;
     urlTitle: string;
-    navOnly: boolean[];
+    showToc: boolean[];
     format: string;
     documentation: string;
     dotcmsdocumentationchildren?: Documentation[];
