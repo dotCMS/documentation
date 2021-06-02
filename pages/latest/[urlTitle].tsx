@@ -34,6 +34,7 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
+import TopPageToc from '@components/TopPageToc';
 
 interface PageData {
     data: Documentation;
@@ -93,6 +94,12 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                         <MDXProvider className="wrapper" components={componentsUI}>
                             {content}
                         </MDXProvider>
+                        {(data.showToc[0] || true) && (
+                            <>
+                                <h5>Table Of Content</h5>
+                                <TopPageToc data={data.dotcmsdocumentationchildren} />
+                            </>
+                        )}
                     </main>
                     {!!toc?.length && (
                         <div className="hidden lg:block w-60 px-3 overflow-auto">
@@ -131,7 +138,6 @@ export async function getStaticProps({
         NAVIGATION_MENU_QUERY
     );
     const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
-    console.log(DotcmsDocumentationCollection[0]);
     try {
         const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
             mdxOptions: {

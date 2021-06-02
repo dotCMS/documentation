@@ -48,10 +48,34 @@ export const NAVIGATION_MENU_QUERY = `
 export const FULL_PAGE_QUERY = `
 query ($urlTitle: String!) {
     DotcmsDocumentationCollection(query: $urlTitle) {
-      title
-      format
-      documentation
-      showToc
+        title
+        format
+        documentation
+        showToc
+        dotcmsdocumentationchildren {
+            title
+            navTitle
+            urlMap
+            urlTitle                    
+            format
+            documentation
+            dotcmsdocumentationchildren {
+                title
+                navTitle
+                urlMap
+                urlTitle                        
+                format
+                documentation
+                dotcmsdocumentationchildren {
+                    title
+                    navTitle
+                    urlMap
+                    urlTitle                            
+                    format
+                    documentation
+                }
+            }
+        }
     }
 }
 `;
