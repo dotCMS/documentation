@@ -131,6 +131,7 @@ export async function getStaticProps({
         NAVIGATION_MENU_QUERY
     );
     const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
+    console.log(DotcmsDocumentationCollection[0]);
     try {
         const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
             mdxOptions: {

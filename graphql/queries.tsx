@@ -6,14 +6,12 @@ export const NAVIGATION_MENU_QUERY = `
             title
             navTitle
             urlMap
-            urlTitle
-            navOnly
+            urlTitle            
             format
             documentation
             dotcmsdocumentationchildren {
                 title
-                navTitle
-                navOnly
+                navTitle                
                 urlMap
                 urlTitle
                 format
@@ -22,24 +20,21 @@ export const NAVIGATION_MENU_QUERY = `
                     title
                     navTitle
                     urlMap
-                    urlTitle
-                    navOnly
+                    urlTitle                    
                     format
                     documentation
                     dotcmsdocumentationchildren {
                         title
                         navTitle
                         urlMap
-                        urlTitle
-                        navOnly
+                        urlTitle                        
                         format
                         documentation
                         dotcmsdocumentationchildren {
                             title
                             navTitle
                             urlMap
-                            urlTitle
-                            navOnly
+                            urlTitle                            
                             format
                             documentation
                         }
@@ -56,6 +51,7 @@ query ($urlTitle: String!) {
       title
       format
       documentation
+      showToc
     }
 }
 `;
