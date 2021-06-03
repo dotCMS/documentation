@@ -49,7 +49,7 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, source, toc = [], error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
@@ -101,7 +101,7 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                             </>
                         )}
                     </main>
-                    {!!toc?.length && (
+                    {!toc.length && (
                         <div className="hidden lg:block w-60 px-3 overflow-auto">
                             <h4>Table of Content</h4>
                             <TableOfContent
