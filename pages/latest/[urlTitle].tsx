@@ -83,7 +83,7 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                 <title>{data.title}</title>
             </Head>
             {error ? (
-                <main className={styles.main}>
+                <main className="container">
                     <h1>{data.title}</h1>
                     <Terminal content={error} />
                 </main>
