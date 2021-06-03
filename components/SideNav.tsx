@@ -32,7 +32,8 @@ export default function SideNav({
                             className={classNames({
                                 'list-menu-bulle-rotated':
                                     haveChild && navItem.showSubList === item.urlTitle,
-                                'list-menu-bullet': haveChild
+                                'list-menu-bullet': haveChild,
+                                'mt-1': !haveChild
                             })}
                         >
                             <SideNavItem item={item} navItem={navItem} setNavItem={setNavItem} />
