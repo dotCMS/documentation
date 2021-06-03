@@ -1,5 +1,6 @@
 .main {
-    @apply container;
+    @apply w-full;
+    @apply px-8;
     @apply mt-0;
     @apply justify-self-center;
     @apply overflow-auto;

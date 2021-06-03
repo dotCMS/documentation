@@ -19,7 +19,7 @@ const TableOfContent = ({
         <ul className="list-none pl-3">
             {titles.map((title) => {
                 return (
-                    <li key={v4()}>
+                    <li key={v4()} className="break-words pb-1">
                         <TableOfContentListItem
                             active={active}
                             setActive={setActive}

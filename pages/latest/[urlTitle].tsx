@@ -83,7 +83,7 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                 <title>{data.title}</title>
             </Head>
             {error ? (
-                <main className={styles.main}>
+                <main className="container">
                     <h1>{data.title}</h1>
                     <Terminal content={error} />
                 </main>
@@ -102,7 +102,7 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                         )}
                     </main>
                     {!!toc?.length && (
-                        <div className="hidden lg:block w-60 px-3 overflow-auto">
+                        <div className="hidden lg:block w-64 px-3 overflow-auto">
                             <h4>Table of Content</h4>
                             <TableOfContent
                                 active={tocActive}
