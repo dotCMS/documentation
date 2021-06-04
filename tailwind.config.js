@@ -1,40 +1,48 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
     purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
     darkMode: false,
     theme: {
-        backgroundColor: (theme) => ({
-            ...theme('colors'),
-            header: '#F3F6FD',
-            gray: '#ECE8FC'
-        }),
-        borderColor: (theme) => ({
-            ...theme('colors'),
-            DEFAULT: theme('colors.gray.300', 'currentColor'),
-            primary: '#542FE7',
-            secondary: '#D7DBDF',
-            gray: '#4A4A4A',
-            purple: '#5E3CE9'
-        }),
+        colors: {
+            purple: {
+                DEFAULT: '#2A0753',
+                50: '#FBF9FE',
+                100: '#E3CEFB',
+                200: '#B27AF4',
+                300: '#8125ED',
+                400: '#550EA8',
+                500: '#2A0753',
+                600: '#230645',
+                700: '#1C0537',
+                800: '#150329',
+                900: '#0D021B'
+            },
+            gray: colors.trueGray
+        },
         container: {
             padding: '2.5rem'
         },
         fontFamily: {
-            roboto: ['Roboto', 'ui-monospace', 'SFMono-Regular']
+            sans: [
+                'Roboto',
+                '-apple-system',
+                'BlinkMacSystemFont',
+                'Segoe UI',
+                'Helvetica',
+                'Arial',
+                'sans-serif',
+                'Apple Color Emoji',
+                'Segoe UI Emoji',
+                'Segoe UI Symbol'
+            ]
         },
-        textColor: (theme) => ({
-            ...theme('colors'),
-            purple: '#542FE7',
-            gray: '#4A4A4A',
-            'gray-secondary': '#ACB4C0',
-            'gray-200': '#777777'
-        }),
         extend: {
             fontSize: {
-                '3.5xl': '2rem'
+                base: '14px'
             },
             rotate: {
-                135: '135deg',
-                315: '315deg'
+                135: '135deg'
             },
             transitionProperty: {
                 width: 'width'

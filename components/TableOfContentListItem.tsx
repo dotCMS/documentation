@@ -16,7 +16,7 @@ const TableOfContentListItem = ({
         <>
             {title.id ? (
                 <a
-                    className={classNames('text-gray', {
+                    className={classNames('text-gray-500', {
                         'font-bold': active == title.id
                     })}
                     href={`#${title.id}`}
@@ -28,7 +28,7 @@ const TableOfContentListItem = ({
                 </a>
             ) : (
                 <a
-                    className={classNames('text-gray', {
+                    className={classNames('text-gray-500', {
                         'font-bold': active == title.value
                     })}
                     onClick={() => setActive(title.id)}

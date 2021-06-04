@@ -29,7 +29,7 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
     const containerOnShowClasses = [...contanerBaseClasses, '-translate-x-full'];
 
     const buttonBaseClasses = [
-        'bg-gray',
+        'bg-gray-100',
         'duration-500',
         'flex',
         'focus:outline-none',
@@ -64,14 +64,14 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
                 )}
                 onClick={() => setShowSidebar(!showSidebar)}
             >
-                <i className="border border-purple border-t-0 border-r-2 border-b-2 border-l-0 p-1 inline-block transform rotate-135" />
+                <i className="border border-purple-300 border-t-0 border-r-2 border-b-2 border-l-0 p-1 inline-block transform rotate-135" />
             </Button>
 
             <div className="md:overflow-hidden">
                 <div className="w-72 pr-2">
                     <div className="ml-6 mt-6">
-                        <span className="text-sm font-bold text-purple">Overview</span>
-                        <nav className="text-gray-200">{children}</nav>
+                        <span className="font-bold text-purple">Overview</span>
+                        <nav>{children}</nav>
                     </div>
                 </div>
             </div>

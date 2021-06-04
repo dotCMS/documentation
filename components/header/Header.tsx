@@ -6,8 +6,8 @@ import HeaderSelect from './components/HeaderSelect';
 
 export const Header = (): JSX.Element => {
     return (
-        <header className="pt-4 px-6 bg-header border-b border-secondary">
-            <div className="flex justify-left md:justify-center items-center mb-5">
+        <header className="pt-4 px-6 bg-header border-b">
+            <div className="flex justify-left md:justify-center items-center mb-5 border-gray-100">
                 <div className="w-2/12">
                     <DotcmsLogo />
                 </div>

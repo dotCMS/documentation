@@ -4,17 +4,41 @@
 
 @layer utilities {
     .text-indent-64 {
-        text-indent: 4rem;
+        text-indent: 5rem;
     }
 }
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-p,
-p > span {
+  /* p {margin-bottom: 1rem;}
+  
+  h1, h2, h3, h4, h5 {
+    margin: 3rem 0 1.38rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  
+  h1 {
+    margin-top: 0;
+    font-size: 4.209rem;
+  }
+  
+  h2 {font-size: 3.157rem;}
+  
+  h3 {font-size: 2.369rem;}
+  
+  h4 {font-size: 1.777rem;}
+  
+  h5 {font-size: 1.333rem;}
+  
+  small, .text_small {font-size: 0.75rem;} */
+
+html,
+body {
     @apply font-normal;
-    @apply text-sm;
-    @apply text-black;
-    @apply font-roboto;
+    @apply font-sans;
+    @apply text-base;
+    /* @apply text-black; */
 }
 
 p {
@@ -27,14 +51,10 @@ h3,
 h4,
 h5 {
     @apply font-bold;
-    @apply font-roboto;
-    @apply text-black;
-    @apply my-3;
 }
 
 h1 {
     @apply text-4xl;
-    @apply my-3;
 }
 
 h2 {
@@ -42,15 +62,11 @@ h2 {
 }
 
 h3 {
-    @apply text-2xl;
+    @apply text-xl;
 }
 
 h4 {
-    @apply text-xl;
-}
-
-h5 {
-    @apply text-xl;
+    @apply text-lg;
 }
 
 pre {
@@ -69,7 +85,7 @@ ol {
 }
 
 li.list-menu-bullet:before {
-    content: "";
+    content: '';
     @apply block;
     @apply border-solid;
     @apply h-0;
@@ -77,17 +93,17 @@ li.list-menu-bullet:before {
     @apply top-4;
     @apply -left-4;
     @apply w-0;
-    border-color: transparent #A9B1BD;
+    border-color: transparent #a9b1bd;
     border-width: 0.25em 0 0.25em 0.35em;
 }
 
-li.list-menu-bulle-rotated:before{
+li.list-menu-bulle-rotated:before {
     transform: rotate(90deg);
 }
 
 .select-label::after {
     /* @apply right-2.5; */
-    content: "";
+    content: '';
     right: 10px;
     @apply top-2;
     @apply absolute;
