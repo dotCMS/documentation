@@ -15,7 +15,7 @@ const Search = (): JSX.Element => {
                 <SearchIcon />
             </button>
             <input
-                className="p-0.5 w-4/5 font-roboto text-sm h-4 text-gray-secondary outline-none pl-4"
+                className="p-0.5 w-4/5 h-4 text-gray-500-secondary outline-none pl-4"
                 id="search"
                 placeholder="Search documentation..."
                 type="text"

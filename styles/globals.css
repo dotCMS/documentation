@@ -4,21 +4,14 @@
 
 @layer utilities {
     .text-indent-64 {
-        text-indent: 4rem;
+        text-indent: 5rem;
     }
 }
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-p,
-p > span {
-    @apply font-normal;
-    @apply text-sm;
-    @apply text-black;
-    @apply font-roboto;
-}
-
-p {
-    @apply py-2;
+html,
+body {
+    @apply font-normal font-sans text-base;
 }
 
 h1,
@@ -26,15 +19,15 @@ h2,
 h3,
 h4,
 h5 {
-    @apply font-bold;
-    @apply font-roboto;
-    @apply text-black;
-    @apply my-3;
+    @apply font-bold mb-6 mt-12;
+}
+
+hr {
+    @apply my-12;
 }
 
 h1 {
     @apply text-4xl;
-    @apply my-3;
 }
 
 h2 {
@@ -42,15 +35,52 @@ h2 {
 }
 
 h3 {
-    @apply text-2xl;
+    @apply text-xl;
 }
 
 h4 {
-    @apply text-xl;
+    @apply text-lg;
 }
 
-h5 {
-    @apply text-xl;
+p, ul, ol, table {
+    @apply mb-4;
+}
+
+.remark-highlight {
+    @apply mb-8;
+}
+
+ul, ol {
+    @apply pl-6;
+}
+
+ul {
+    @apply list-disc;
+}
+
+ol {
+    @apply list-decimal;
+}
+
+table {
+    @apply w-full border border-purple-100;
+    word-break: break-word;
+}
+
+th, td {
+    @apply py-3 px-4 border-t border-b border-purple-100;
+}
+
+th {
+    @apply border-b-2 border-t-0 border-purple-400 text-left;
+}
+
+a {
+    @apply text-purple-500 underline;
+}
+
+a:hover {
+    @apply no-underline;
 }
 
 pre {
@@ -58,18 +88,8 @@ pre {
     @apply my-5;
 }
 
-ul {
-    @apply list-disc;
-    @apply pl-5;
-}
-
-ol {
-    @apply list-decimal;
-    @apply pl-8;
-}
-
 li.list-menu-bullet:before {
-    content: "";
+    content: '';
     @apply block;
     @apply border-solid;
     @apply h-0;
@@ -77,17 +97,17 @@ li.list-menu-bullet:before {
     @apply top-4;
     @apply -left-4;
     @apply w-0;
-    border-color: transparent #A9B1BD;
+    border-color: transparent #a9b1bd;
     border-width: 0.25em 0 0.25em 0.35em;
 }
 
-li.list-menu-bulle-rotated:before{
+li.list-menu-bulle-rotated:before {
     transform: rotate(90deg);
 }
 
 .select-label::after {
     /* @apply right-2.5; */
-    content: "";
+    content: '';
     right: 10px;
     @apply top-2;
     @apply absolute;

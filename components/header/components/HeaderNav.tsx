@@ -10,7 +10,7 @@ const DotNavHeader = (): JSX.Element => {
         { title: 'Online Training', id: 'online' }
     ];
     return (
-        <ul className="list-none p-0">
+        <ul className="list-none p-0 m-0">
             <DotNavItem navTitles={navTitles} />
         </ul>
     );
@@ -23,13 +23,13 @@ const DotNavItem = ({ navTitles }: { navTitles: { title: string; id: string }[] 
             {navTitles.map((navTitle) => (
                 <li
                     key={navTitle.id}
-                    className={classNames('py-2 px-2 mr-5 font-bold inline-block', {
+                    className={classNames('py-2 px-2 mr-5 font-bold inline-block no-i', {
                         'text-purple': active === navTitle.id,
                         'border-b-2': active === navTitle.id,
-                        'border-primary': active === navTitle.id
+                        'border-purple-500': active === navTitle.id
                     })}
                 >
-                    <a href="#" onClick={() => setActive(navTitle.id)}>
+                    <a className="no-underline" href="#" onClick={() => setActive(navTitle.id)}>
                         {navTitle.title}
                     </a>
                 </li>
