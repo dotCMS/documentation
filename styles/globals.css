@@ -11,9 +11,7 @@
 
 html,
 body {
-    @apply font-normal;
-    @apply font-sans;
-    @apply text-base;
+    @apply font-normal font-sans text-base;
 }
 
 h1,
@@ -21,10 +19,11 @@ h2,
 h3,
 h4,
 h5 {
-    @apply font-bold;
-    @apply mb-6;
-    @apply mt-12;
-    
+    @apply font-bold mb-6 mt-12;
+}
+
+hr {
+    @apply my-12;
 }
 
 h1 {
@@ -45,6 +44,10 @@ h4 {
 
 p, ul, ol, table {
     @apply mb-4;
+}
+
+.remark-highlight {
+    @apply mb-8;
 }
 
 ul, ol {
