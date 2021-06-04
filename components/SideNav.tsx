@@ -74,7 +74,7 @@ const SideNavItem = ({
     return (
         <Link href={`/latest/${item.urlTitle}`}>
             <a
-                className={classNames('text-gray-500 cursor-pointer', {
+                className={classNames('text-gray-500 no-underline', {
                     'font-bold': navItem.active === item.urlTitle
                 })}
                 onClick={() => activeState(item)}
