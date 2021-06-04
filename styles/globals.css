@@ -64,6 +64,7 @@ ol {
 
 table {
     @apply w-full border border-purple-100;
+    word-break: break-word;
 }
 
 th, td {
