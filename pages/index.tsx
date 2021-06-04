@@ -13,7 +13,7 @@ import { client } from '@utils/graphql-client';
 
 export default function Home(): JSX.Element {
     return (
-        <main class="container">
+        <main className="container">
             <Head>
                 <title>Documentation</title>
                 <link href="/favicon.ico" rel="icon" />
