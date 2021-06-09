@@ -73,7 +73,7 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
             const targets = document.querySelectorAll('h2,h3');
             targets.forEach((target) => observer.observe(target));
             return () => observer.disconnect();
-        }, 1000);
+        }, 100);
         return () => clearTimeout(timer);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [toc]);
