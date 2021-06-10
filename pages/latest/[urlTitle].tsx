@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
@@ -53,7 +53,6 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
-    const observer = useRef(null);
     const options = React.useMemo(
         () => ({
             root: null,
@@ -63,20 +62,21 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
         []
     );
     useEffect(() => {
-        const targets = document.querySelectorAll('h2,h3');
-        if (observer.current) {
-            observer.current.disconnect();
-        }
-        observer.current = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting) {
-                setTocActive(entry.target.id);
-            }
-        }, options);
-        const { current: currentObserver } = observer;
-        targets.forEach((target) => currentObserver.observe(target));
-        return () => currentObserver.disconnect();
+        const timer = setTimeout(() => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setTocActive(entry.target.id);
+                    }
+                });
+            }, options);
+            const targets = document.querySelectorAll('h2,h3');
+            targets.forEach((target) => observer.observe(target));
+            return () => observer.disconnect();
+        }, 100);
+        return () => clearTimeout(timer);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [observer.current, options]);
+    }, [toc]);
     return (
         <>
             <Head>
