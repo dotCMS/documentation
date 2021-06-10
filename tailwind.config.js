@@ -48,7 +48,10 @@ module.exports = {
                 pink: {
                     50: '#E172FD'
                 },
-                gray: colors.trueGray
+                gray: {
+                    DEFAULT: colors.trueGray,
+                    50: '#5B6175'
+                }
             },
             borderWidth: {
                 3: '3px'
