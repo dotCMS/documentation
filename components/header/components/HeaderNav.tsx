@@ -3,9 +3,9 @@ import classNames from 'classnames';
 
 const DotNavHeader = (): JSX.Element => {
     const navTitles = [
-        { title: 'Home', id: 'home' },
+        { title: 'Documentation', id: 'documentation' },
         { title: 'Realease & LTS', id: 'realease' },
-        { title: 'Tutorials', id: 'tutorials' },
+        { title: 'Code Share', id: 'code_share' },
         { title: 'Forums', id: 'forums' },
         { title: 'Online Training', id: 'online' }
     ];
@@ -17,19 +17,23 @@ const DotNavHeader = (): JSX.Element => {
 };
 
 const DotNavItem = ({ navTitles }: { navTitles: { title: string; id: string }[] }): JSX.Element => {
-    const [active, setActive] = useState('home');
+    const [active, setActive] = useState('documentation');
     return (
         <>
             {navTitles.map((navTitle) => (
                 <li
                     key={navTitle.id}
-                    className={classNames('py-2 px-2 mr-5 font-bold inline-block no-i', {
-                        'text-purple': active === navTitle.id,
-                        'border-b-2': active === navTitle.id,
-                        'border-purple-500': active === navTitle.id
+                    className={classNames('py-2 mr-5 inline-block no-i', {
+                        'font-bold': active === navTitle.id,
+                        'border-b-3': active === navTitle.id,
+                        'border-pink-50': active === navTitle.id
                     })}
                 >
-                    <a className="no-underline" href="#" onClick={() => setActive(navTitle.id)}>
+                    <a
+                        className="text-white no-underline"
+                        href="#"
+                        onClick={() => setActive(navTitle.id)}
+                    >
                         {navTitle.title}
                     </a>
                 </li>
