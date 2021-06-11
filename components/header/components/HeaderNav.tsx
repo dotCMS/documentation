@@ -23,10 +23,10 @@ const DotNavItem = ({ navTitles }: { navTitles: { title: string; id: string }[] 
             {navTitles.map((navTitle) => (
                 <li
                     key={navTitle.id}
-                    className={classNames('py-2 mr-5 inline-block no-i', {
-                        'font-bold': active === navTitle.id,
+                    className={classNames('py-2 mr-10 inline-block no-i', {
                         'border-b-3': active === navTitle.id,
-                        'border-pink': active === navTitle.id
+                        'border-pink': active === navTitle.id,
+                        'font-bold': active === navTitle.id
                     })}
                 >
                     <a

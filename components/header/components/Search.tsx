@@ -5,17 +5,17 @@ const Search = (): JSX.Element => {
     const focusOnSearch = () => document.getElementById('search').focus();
     return (
         <div
-            className="h-full md:h-auto w-10/12 md:w-full md:rounded bg-white border border-secondary h-9 flex justify-start items-center w-full py-1.5 px-1 search-documentation mb-auto rounded-none"
+            className="bg-white border border-secondary flex h-9 h-full items-center justify-start mb-auto md:h-auto md:rounded md:w-full px-1 py-1.5 rounded-none search-documentation w-10/12 w-full"
             onClick={focusOnSearch}
         >
             <button
-                className="focus:outline-none flex items-center bg-transparent z-10"
+                className="bg-transparent flex focus:outline-none items-center z-10"
                 onClick={focusOnSearch}
             >
                 <SearchIcon />
             </button>
             <input
-                className="p-0.5 w-4/5 h-4 text-gray-500-secondary outline-none pl-4"
+                className="h-4 outline-none p-0.5 pl-4 text-gray-500-secondary w-4/5"
                 id="search"
                 placeholder="Search documentation..."
                 type="text"
