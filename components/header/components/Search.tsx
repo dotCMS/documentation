@@ -1,15 +1,11 @@
 import React from 'react';
 import SearchIcon from './SearchIcon';
-import classNames from 'classnames';
 
-const Search = ({ className = '' }: { className?: string }): JSX.Element => {
+const Search = (): JSX.Element => {
     const focusOnSearch = () => document.getElementById('search').focus();
     return (
         <div
-            className={classNames(
-                'bg-white border border-secondary h-9 flex justify-start items-center w-full py-1.5 px-1 search-documentation mb-auto',
-                className
-            )}
+            className="h-full md:h-auto w-10/12 md:w-full md:rounded bg-white border border-secondary h-9 flex justify-start items-center w-full py-1.5 px-1 search-documentation mb-auto rounded-none"
             onClick={focusOnSearch}
         >
             <button

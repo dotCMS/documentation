@@ -46,7 +46,7 @@ module.exports = {
                     900: '#0D021B'
                 },
                 pink: {
-                    50: '#E172FD'
+                    DEFAULT: '#E172FD'
                 },
                 gray: {
                     DEFAULT: colors.trueGray,
