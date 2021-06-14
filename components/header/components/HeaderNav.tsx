@@ -18,26 +18,29 @@ const DotNavHeader = (): JSX.Element => {
 
 const DotNavItem = ({ navTitles }: { navTitles: { title: string; id: string }[] }): JSX.Element => {
     const [active, setActive] = useState('documentation');
+    const activeClasses = ['border-b-3', 'border-pink', 'font-bold'];
     return (
         <>
-            {navTitles.map((navTitle) => (
-                <li
-                    key={navTitle.id}
-                    className={classNames('py-2 mr-10 inline-block no-i', {
-                        'border-b-3': active === navTitle.id,
-                        'border-pink': active === navTitle.id,
-                        'font-bold': active === navTitle.id
-                    })}
-                >
-                    <a
-                        className="text-white no-underline"
-                        href="#"
-                        onClick={() => setActive(navTitle.id)}
+            {navTitles.map((navTitle) => {
+                const isActive = active === navTitle.id;
+                return (
+                    <li
+                        key={navTitle.id}
+                        className={classNames(
+                            'py-2 mr-10 inline-block no-i',
+                            isActive ? activeClasses : null
+                        )}
                     >
-                        {navTitle.title}
-                    </a>
-                </li>
-            ))}
+                        <a
+                            className="text-white no-underline"
+                            href="#"
+                            onClick={() => setActive(navTitle.id)}
+                        >
+                            {navTitle.title}
+                        </a>
+                    </li>
+                );
+            })}
         </>
     );
 };
