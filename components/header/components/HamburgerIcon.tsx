@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HamburgerButton = (): JSX.Element => {
+const HamburgerIcon = (): JSX.Element => {
     return (
         <svg
             fill="none"
@@ -16,4 +16,4 @@ const HamburgerButton = (): JSX.Element => {
     );
 };
 
-export default HamburgerButton;
+export default HamburgerIcon;
