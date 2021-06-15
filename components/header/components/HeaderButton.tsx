@@ -8,12 +8,8 @@ const HeaderButton = ({
     children: ReactNode;
     className?: string[];
 }): JSX.Element => {
-    const buttonIconClasses = ['flex', 'focus:outline-none', 'md:hidden'];
-    return (
-        <button className={classNames('border-l-0 w-1/12', buttonIconClasses, className)}>
-            {children}
-        </button>
-    );
+    const buttonIconClasses = ['flex', 'focus:outline-none', 'lg:hidden', 'w-12', 'h-12'];
+    return <button className={classNames(buttonIconClasses, className)}>{children}</button>;
 };
 
 export default HeaderButton;
