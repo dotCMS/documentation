@@ -13,17 +13,17 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
 
     const contanerBaseClasses = [
         'bg-white',
-        'border',
         'border-secondary',
         'border-t-0',
+        'border',
         'duration-500',
+        'md:duration-500',
+        'md:transition-width',
+        'md:translate-x-0',
         'pt-3',
         'relative',
         'transform',
-        'w-72',
-        'md:duration-500',
-        'md:transition-width',
-        'md:translate-x-0'
+        'w-72'
     ];
     const containerOnHideClasses = [...contanerBaseClasses, 'md:w-0', 'translate-x-0'];
     const containerOnShowClasses = [...contanerBaseClasses, '-translate-x-full'];
@@ -31,11 +31,12 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
     const buttonBaseClasses = [
         'bg-gray-100',
         'duration-500',
-        'flex',
         'focus:outline-none',
         'h-8',
+        'hidden',
         'items-center',
         'md:duration-500',
+        'md:flex',
         'pl-3',
         'rounded-l-full',
         'transform',
@@ -43,9 +44,6 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
         'w-8',
         'z-10'
     ];
-    // Mobile
-    const buttonOnShowMobileClasses = [...buttonBaseClasses, 'rotate-0', 'translate-x-0'];
-    const buttonOnHideMobileClasses = [...buttonBaseClasses, 'rotate-180', 'translate-x-full'];
 
     // Desktop
     const buttonOnHideDesktopClasses = [
@@ -59,8 +57,7 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
         <div className={classNames(showSidebar ? containerOnShowClasses : containerOnHideClasses)}>
             <Button
                 className={classNames(
-                    showSidebar ? buttonOnShowDesktopClasses : buttonOnHideDesktopClasses,
-                    showSidebar ? buttonOnHideMobileClasses : buttonOnShowMobileClasses
+                    showSidebar ? buttonOnShowDesktopClasses : buttonOnHideDesktopClasses
                 )}
                 onClick={() => setShowSidebar(!showSidebar)}
             >

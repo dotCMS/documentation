@@ -3,26 +3,14 @@ import classNames from 'classnames';
 
 const HeaderButton = ({
     children,
-    mobileBarClasses = false
+    className = []
 }: {
     children: ReactNode;
-    mobileBarClasses?: boolean;
+    className?: string[];
 }): JSX.Element => {
     const buttonIconClasses = ['flex', 'focus:outline-none', 'md:hidden'];
-    const buttonIconMobileBarClasses = [
-        'items-center',
-        'justify-center',
-        'border-secondary',
-        'border'
-    ];
     return (
-        <button
-            className={classNames(
-                'border-l-0 w-1/12',
-                buttonIconClasses,
-                mobileBarClasses ? buttonIconMobileBarClasses : null
-            )}
-        >
+        <button className={classNames('border-l-0 w-1/12', buttonIconClasses, className)}>
             {children}
         </button>
     );
