@@ -23,7 +23,8 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
         'pt-3',
         'relative',
         'transform',
-        'w-72'
+        'w-72',
+        'z-10'
     ];
     const containerOnHideClasses = [...contanerBaseClasses, 'md:w-0', 'translate-x-0'];
     const containerOnShowClasses = [...contanerBaseClasses, '-translate-x-full'];
