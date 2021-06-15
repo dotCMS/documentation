@@ -3,13 +3,13 @@ import classNames from 'classnames';
 
 const HeaderButton = ({
     children,
-    responsiveClasses = false
+    mobileBarClasses = false
 }: {
     children: ReactNode;
-    responsiveClasses?: boolean;
+    mobileBarClasses?: boolean;
 }): JSX.Element => {
     const buttonIconClasses = ['flex', 'focus:outline-none', 'md:hidden'];
-    const buttonIconResponsiveClasses = [
+    const buttonIconMobileBarClasses = [
         'items-center',
         'justify-center',
         'border-secondary',
@@ -20,7 +20,7 @@ const HeaderButton = ({
             className={classNames(
                 'border-l-0 w-1/12',
                 buttonIconClasses,
-                responsiveClasses ? buttonIconResponsiveClasses : null
+                mobileBarClasses ? buttonIconMobileBarClasses : null
             )}
         >
             {children}

@@ -19,12 +19,12 @@ export const Header = (): JSX.Element => {
                     <HamburgerButton />
                 </HeaderButton>
             </div>
-            <div className="bg-white flex h-12 justify-center lg:justify-start lg:px-0 md:bg-transparent md:flex md:flex-col md:h-full md:px-6 md:w-7/12 w-full">
-                <HeaderButton responsiveClasses={true}>
+            <div className=" w-full bg-white flex h-12 justify-center lg:justify-start lg:px-0 md:bg-transparent md:flex md:flex-col md:h-full md:px-6 md:w-7/12 w-full">
+                <HeaderButton mobileBarClasses={true}>
                     <i className="-rotate-45 border border-b-2 border-gray-50 border-l-0 border-r-2 border-t-0 inline-block p-1 transform" />
                 </HeaderButton>
                 <Search />
-                <HeaderButton responsiveClasses={true}>
+                <HeaderButton mobileBarClasses={true}>
                     <TocIcon />
                 </HeaderButton>
                 <nav className="hidden md:inline-blockhidden md:inline-block">
