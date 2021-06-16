@@ -2,7 +2,7 @@ import React from 'react';
 
 const FeedBack = (): JSX.Element => {
     return (
-        <div className="bottom-4 flex items-center justify-end sticky z-10">
+        <div className="flex items-center justify-end py-5">
             <span className="font-bold text-sm">Did this help you?</span>
             <button className="focus:outline-none">
                 <svg
