@@ -3,9 +3,9 @@ import classNames from 'classnames';
 
 const DotNavHeader = (): JSX.Element => {
     const navTitles = [
-        { title: 'Home', id: 'home' },
+        { title: 'Documentation', id: 'documentation' },
         { title: 'Realease & LTS', id: 'realease' },
-        { title: 'Tutorials', id: 'tutorials' },
+        { title: 'Code Share', id: 'code_share' },
         { title: 'Forums', id: 'forums' },
         { title: 'Online Training', id: 'online' }
     ];
@@ -17,23 +17,30 @@ const DotNavHeader = (): JSX.Element => {
 };
 
 const DotNavItem = ({ navTitles }: { navTitles: { title: string; id: string }[] }): JSX.Element => {
-    const [active, setActive] = useState('home');
+    const [active, setActive] = useState('documentation');
+    const activeClasses = ['border-b-3', 'border-pink', 'font-bold'];
     return (
         <>
-            {navTitles.map((navTitle) => (
-                <li
-                    key={navTitle.id}
-                    className={classNames('py-2 px-2 mr-5 font-bold inline-block no-i', {
-                        'text-purple': active === navTitle.id,
-                        'border-b-2': active === navTitle.id,
-                        'border-purple-500': active === navTitle.id
-                    })}
-                >
-                    <a className="no-underline" href="#" onClick={() => setActive(navTitle.id)}>
-                        {navTitle.title}
-                    </a>
-                </li>
-            ))}
+            {navTitles.map((navTitle) => {
+                const isActive = active === navTitle.id;
+                return (
+                    <li
+                        key={navTitle.id}
+                        className={classNames(
+                            'py-2 mr-8 inline-block no-i',
+                            isActive ? activeClasses : null
+                        )}
+                    >
+                        <a
+                            className="text-white no-underline"
+                            href="#"
+                            onClick={() => setActive(navTitle.id)}
+                        >
+                            {navTitle.title}
+                        </a>
+                    </li>
+                );
+            })}
         </>
     );
 };
