@@ -15,6 +15,7 @@ import DotToc, { toc } from '@plugins/DotToc';
 // Components
 import { Terminal } from '@components/PageRenderError';
 import FeedBack from '@components/FeedBack';
+import Footer from '@components/Footer';
 import ImageMarkdown from '@components/ImageMarkdown';
 import LinkMarkdown from '@components/LinkMarkdown';
 import TableOfContent from '@components/TableOfContent';
@@ -102,8 +103,9 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                                     <TopPageToc data={data.dotcmsdocumentationchildren} />
                                 </>
                             )}
+                            <FeedBack />
                         </main>
-                        <FeedBack />
+                        <Footer />
                     </div>
                     {!!toc?.length && (
                         <div className="hidden lg:block w-64 px-3 overflow-auto">
