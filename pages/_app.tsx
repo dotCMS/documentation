@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import GlobalStyle from '@styles/Global.styles';
@@ -26,6 +26,7 @@ const HeaderWrapper = styled.div`
 `;
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+    const [showSidebar, setShowSidebar] = useState(true);
     return (
         <>
             <Head>
@@ -38,9 +39,9 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             {pageProps.navDot ? (
                 <Grid>
                     <HeaderWrapper>
-                        <Header />
+                        <Header setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
                     </HeaderWrapper>
-                    <SideBar>
+                    <SideBar setShowSidebar={setShowSidebar} showSidebar={showSidebar}>
                         <SideNav data={pageProps.navDot[0]} />
                     </SideBar>
                     <Component {...pageProps} />

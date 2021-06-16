@@ -1,6 +1,7 @@
-import React, { useState, ReactNode } from 'react';
+import React, { ReactNode, Dispatch } from 'react';
 import classNames from 'classnames';
 import styled from 'styled-components';
+import { SetStateAction } from 'react';
 
 const Button = styled.button`
     position: fixed;
@@ -11,9 +12,15 @@ const SideNav = styled.div`
     height: calc(100vh - 8rem - 6rem - 1px);
 `;
 
-const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
-    const [showSidebar, setShowSidebar] = useState(true);
-
+const SideBar = ({
+    children,
+    showSidebar,
+    setShowSidebar
+}: {
+    children: ReactNode;
+    showSidebar: boolean;
+    setShowSidebar: Dispatch<SetStateAction<boolean>>;
+}): JSX.Element => {
     const contanerBaseClasses = [
         'bg-white',
         'border',

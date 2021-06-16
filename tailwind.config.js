@@ -55,6 +55,9 @@ module.exports = {
                     100: '#A2A2A2'
                 }
             },
+            rotate: {
+                135: '135deg'
+            },
             borderWidth: {
                 3: '3px'
             },

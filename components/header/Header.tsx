@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import Link from 'next/link';
+import classNames from 'classnames';
 
 // Compoments
 import DotcmsLogo from './components/DotcmsLogo';
@@ -9,8 +10,15 @@ import HeaderNav from './components/HeaderNav';
 import HeaderSelect from './components/HeaderSelect';
 import Search from './components/Search';
 import TocIcon from './components/TocIcon';
+import { SetStateAction } from 'react';
 
-export const Header = (): JSX.Element => {
+export const Header = ({
+    showSidebar,
+    setShowSidebar
+}: {
+    showSidebar: boolean;
+    setShowSidebar: Dispatch<SetStateAction<boolean>>;
+}): JSX.Element => {
     const buttonIconMobileBarClasses = ['border-b', 'border-secondary', 'justify-center'];
     const hamburherIcon = ['justify-end'];
     return (
@@ -22,8 +30,17 @@ export const Header = (): JSX.Element => {
                 </HeaderButton>
             </div>
             <div className="bg-white flex h-12 justify-center w-full lg:justify-start lg:bg-transparent lg:flex-col lg:h-full">
-                <HeaderButton className={buttonIconMobileBarClasses}>
-                    <i className="-rotate-45 border-b-2 border-gray-50 border-r-2 inline-block p-1 transform" />
+                <HeaderButton
+                    className={buttonIconMobileBarClasses}
+                    setShowItem={setShowSidebar}
+                    showItem={showSidebar}
+                >
+                    <i
+                        className={classNames(
+                            'border-b-2 border-gray-50 border-r-2 inline-block p-1 transform',
+                            showSidebar ? '-rotate-45' : 'rotate-135'
+                        )}
+                    />
                 </HeaderButton>
                 <Search />
                 <HeaderButton className={buttonIconMobileBarClasses}>
