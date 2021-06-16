@@ -20,13 +20,13 @@ export const Header = (): JSX.Element => {
     const hamburherIcon = ['justify-end'];
     return (
         <header className="bg-purple flex flex-col justify-between h-32 pt-6 lg:flex-row lg:items-start">
-            <div className="flex justify-between px-6 lg:p-0">
+            <div className="flex justify-between px-6 min-w-72 lg:pr-0">
                 <DotcmsLogo />
                 <HeaderButton className={hamburherIcon}>
                     <HamburgerButton />
                 </HeaderButton>
             </div>
-            <div className="bg-white flex h-12 justify-center lg:justify-start w-full lg:justify-start lg:bg-transparent lg:flex-col lg:h-full">
+            <div className="bg-white flex h-12 justify-center w-full lg:justify-start lg:bg-transparent lg:flex-col lg:h-full">
                 <HeaderButton className={buttonIconMobileBarClasses}>
                     <i className="-rotate-45 border-b-2 border-gray-50 border-r-2 inline-block p-1 transform" />
                 </HeaderButton>

@@ -55,6 +55,9 @@ module.exports = {
             },
             borderWidth: {
                 3: '3px'
+            },
+            minWidth: {
+                72: '18rem'
             }
         }
     },

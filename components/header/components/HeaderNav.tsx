@@ -27,7 +27,7 @@ const DotNavItem = ({ navTitles }: { navTitles: { title: string; id: string }[] 
                     <li
                         key={navTitle.id}
                         className={classNames(
-                            'py-2 mr-10 inline-block no-i',
+                            'py-2 mr-8 inline-block no-i',
                             isActive ? activeClasses : null
                         )}
                     >
