@@ -11,16 +11,11 @@ import Search from './components/Search';
 import TocIcon from './components/TocIcon';
 
 export const Header = (): JSX.Element => {
-    const buttonIconMobileBarClasses = [
-        'border-b',
-        'border-secondary',
-        'items-center',
-        'justify-center'
-    ];
+    const buttonIconMobileBarClasses = ['border-b', 'border-secondary', 'justify-center'];
     const hamburherIcon = ['justify-end'];
     return (
-        <header className="bg-purple flex flex-col justify-between h-32 pt-6 lg:flex-row lg:items-start">
-            <div className="flex justify-between px-6 min-w-72 lg:pr-0">
+        <header className="bg-purple flex flex-col justify-between h-32 lg:pt-6 lg:flex-row lg:items-start">
+            <div className="flex items-center justify-between px-6 min-w-72 h-full lg:items-start lg:pr-0">
                 <DotcmsLogo />
                 <HeaderButton className={hamburherIcon}>
                     <HamburgerButton />
