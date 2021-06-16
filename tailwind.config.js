@@ -50,7 +50,9 @@ module.exports = {
                 },
                 gray: {
                     DEFAULT: colors.trueGray,
-                    50: '#5B6175'
+                    50: '#5B6175',
+                    75: 'rgba(231, 231, 231, 0.4)',
+                    100: '#A2A2A2'
                 }
             },
             borderWidth: {

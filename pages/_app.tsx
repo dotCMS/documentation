@@ -17,7 +17,7 @@ const Grid = styled.div`
     grid-template-rows: max-content 1fr;
     min-height: 100vh;
     max-height: 100vh;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 1024px) {
         grid-template-columns: max-content 1fr max-content;
     }
 `;

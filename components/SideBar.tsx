@@ -3,9 +3,12 @@ import classNames from 'classnames';
 import styled from 'styled-components';
 
 const Button = styled.button`
-    position: absolute;
-    top: 1rem;
-    right: 0;
+    position: fixed;
+    top: 1.5rem;
+`;
+
+const SideNav = styled.div`
+    height: calc(100vh - 8rem - 6rem - 1px);
 `;
 
 const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
@@ -13,33 +16,32 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
 
     const contanerBaseClasses = [
         'bg-white',
+        'border',
         'border-secondary',
         'border-t-0',
-        'border',
         'duration-500',
-        'md:duration-500',
-        'md:transition-width',
-        'md:translate-x-0',
-        'pt-3',
         'relative',
         'transform',
         'w-72',
+        'lg:duration-500',
+        'lg:transition-width',
+        'lg:translate-x-0',
         'z-10'
     ];
-    const containerOnHideClasses = [...contanerBaseClasses, 'md:w-0', 'translate-x-0'];
+    const containerOnHideClasses = [...contanerBaseClasses, 'lg:w-0', 'translate-x-0'];
     const containerOnShowClasses = [...contanerBaseClasses, '-translate-x-full'];
 
     const buttonBaseClasses = [
-        'bg-gray-100',
+        'bg-gray-75',
         'duration-500',
         'focus:outline-none',
         'h-8',
         'hidden',
         'items-center',
-        'md:duration-500',
-        'md:flex',
+        'lg:duration-500',
+        'lg:flex',
         'pl-3',
-        'rounded-l-full',
+        'rounded-full',
         'transform',
         'transition-transform',
         'w-8',
@@ -49,10 +51,16 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
     // Desktop
     const buttonOnHideDesktopClasses = [
         ...buttonBaseClasses,
-        'md:rotate-180',
-        'md:translate-x-full'
+        'lg:rotate-180',
+        'lg:translate-x-full',
+        'right-0'
     ];
-    const buttonOnShowDesktopClasses = [...buttonBaseClasses, 'md:rotate-0', 'md:translate-x-0'];
+    const buttonOnShowDesktopClasses = [
+        ...buttonBaseClasses,
+        'lg:rotate-0',
+        'lg:translate-x-0',
+        'right-6'
+    ];
 
     return (
         <div className={classNames(showSidebar ? containerOnShowClasses : containerOnHideClasses)}>
@@ -62,16 +70,17 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
                 )}
                 onClick={() => setShowSidebar(!showSidebar)}
             >
-                <i className="border border-purple-300 border-t-0 border-r-2 border-b-2 border-l-0 p-1 inline-block transform rotate-135" />
+                <i className="border border-gray-100 border-t-0 border-r-2 border-b-2 border-l-0 p-1 inline-block transform rotate-135" />
             </Button>
-
-            <div className="md:overflow-hidden">
-                <div className="w-72 pr-2">
-                    <div className="ml-6 mt-6">
-                        <span className="font-bold text-purple">Overview</span>
-                        <nav>{children}</nav>
-                    </div>
+            <div className="overflow-hidden">
+                <div className="w-72 flex flex-col justify-center items-start h-24 pl-6 py-3 border-b border-secondary">
+                    <h4 className="m-0 mb-2 text-gray">Documentation</h4>
+                    <span className="text-xs">dotCMS User Guide</span>
                 </div>
+                <SideNav className="w-72 p-6 pr-2 pb-0 overflow-auto">
+                    <span className="text-sm font-bold text-purple">Overview</span>
+                    <nav className="text-gray-200">{children}</nav>
+                </SideNav>
             </div>
         </div>
     );
