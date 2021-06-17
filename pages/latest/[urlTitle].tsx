@@ -91,7 +91,7 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                 </main>
             ) : (
                 <>
-                    <div className="overflow-auto overflow-y-scroll">
+                    <div className="flex flex-col overflow-auto overflow-y-scroll">
                         <main className={styles.main}>
                             <h1>{data.title}</h1>
                             <MDXProvider className="wrapper" components={componentsUI}>
@@ -103,9 +103,11 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                                     <TopPageToc data={data.dotcmsdocumentationchildren} />
                                 </>
                             )}
-                            <FeedBack />
                         </main>
-                        <Footer />
+                        <div>
+                            <FeedBack />
+                            <Footer />
+                        </div>
                     </div>
                     {!!toc?.length && (
                         <div className="hidden lg:block w-64 px-3 overflow-auto">
