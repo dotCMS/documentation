@@ -52,7 +52,8 @@ module.exports = {
                     DEFAULT: colors.trueGray,
                     50: '#5B6175',
                     75: 'rgba(231, 231, 231, 0.4)',
-                    100: '#A2A2A2'
+                    100: '#A2A2A2',
+                    150: '#4A4A4A'
                 }
             },
             rotate: {
