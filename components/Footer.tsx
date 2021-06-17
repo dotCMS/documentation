@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Footer = (): JSX.Element => {
     return (
-        <footer className="border-b border-t border-secondary flex justify-between items-center h-14 px-8 text-sm">
+        <footer className="border-b border-secondary border-t flex flex-col h-14 items-center justify-center px-4 text-sm md:flex-row md:justify-between md:px-8">
             <div>
                 <Link href="/">
                     <a className="mr-5">Privacy</a>
