@@ -30,11 +30,7 @@ export const Header = ({
                 </HeaderButton>
             </div>
             <div className="bg-white flex h-12 justify-center w-full lg:justify-start lg:bg-transparent lg:flex-col lg:h-full">
-                <HeaderButton
-                    className={buttonIconMobileBarClasses}
-                    setShowItem={setShowSidebar}
-                    showItem={showSidebar}
-                >
+                <HeaderButton className={buttonIconMobileBarClasses} setShowItem={setShowSidebar}>
                     <i
                         className={classNames(
                             'border-b-2 border-gray-50 border-r-2 inline-block p-1 transform',

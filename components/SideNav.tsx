@@ -7,10 +7,12 @@ import { Documentation } from '@models/Documentation.model';
 
 export default function SideNav({
     data,
-    hide = false
+    hide = false,
+    topLevel = true
 }: {
     data: Documentation;
     hide?: boolean;
+    topLevel?: boolean;
 }): JSX.Element {
     const [navItem, setNavItem] = useState({
         showSubList: null,
@@ -22,7 +24,7 @@ export default function SideNav({
     }
     return (
         <>
-            <ul className={classNames('list-none', { hidden: hide })}>
+            <ul className={classNames('list-none m-2', { hidden: hide })}>
                 {data.dotcmsdocumentationchildren.map((item: Documentation) => {
                     const haveChild = !!item.dotcmsdocumentationchildren?.length;
 
@@ -34,8 +36,17 @@ export default function SideNav({
                                     haveChild && navItem.showSubList === item.urlTitle
                             })}
                         >
-                            <SideNavItem item={item} navItem={navItem} setNavItem={setNavItem} />
-                            <SideNav data={item} hide={navItem.showSubList !== item.urlTitle} />
+                            <SideNavItem
+                                item={item}
+                                navItem={navItem}
+                                setNavItem={setNavItem}
+                                topLevel={topLevel}
+                            />
+                            <SideNav
+                                data={item}
+                                hide={navItem.showSubList !== item.urlTitle}
+                                topLevel={false}
+                            />
                         </li>
                     );
                 })}
@@ -47,12 +58,15 @@ export default function SideNav({
 const SideNavItem = ({
     item,
     navItem,
-    setNavItem
+    setNavItem,
+    topLevel
 }: {
     item: Documentation;
-    navItem: null | { showSubList: string; active: string };
-    setNavItem: Dispatch<SetStateAction<null | { showSubList: string; active: string }>>;
+    navItem: { showSubList: string; active: string };
+    setNavItem: Dispatch<SetStateAction<{ showSubList: string; active: string }>>;
+    topLevel: boolean;
 }) => {
+    const active = navItem.active === item.urlTitle;
     const activeState = (item) => {
         if (item.urlTitle === navItem.active && navItem.showSubList) {
             setNavItem({
@@ -74,8 +88,9 @@ const SideNavItem = ({
     return (
         <Link href={`/latest/${item.urlTitle}`}>
             <a
-                className={classNames('text-gray-500 no-underline', {
-                    'font-bold': navItem.active === item.urlTitle
+                className={classNames('text-gray-150 no-underline', {
+                    'font-bold': active || topLevel,
+                    'text-purple': active && topLevel
                 })}
                 onClick={() => activeState(item)}
             >

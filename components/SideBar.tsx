@@ -86,7 +86,7 @@ const SideBar = ({
                     <span className="text-xs">dotCMS User Guide</span>
                 </div>
                 <SideNav className="overflow-auto p-6 pb-0 pr-2 w-72">
-                    <span className="font-bold text-purple">Overview</span>
+                    <span className="font-bold text-purple pl-8">Overview</span>
                     <nav>{children}</nav>
                 </SideNav>
             </div>
