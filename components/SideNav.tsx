@@ -24,7 +24,7 @@ export default function SideNav({
     }
     return (
         <>
-            <ul className={classNames('list-none m-2', { hidden: hide })}>
+            <ul className={classNames('list-none mb-0', { hidden: hide })}>
                 {data.dotcmsdocumentationchildren.map((item: Documentation) => {
                     const haveChild = !!item.dotcmsdocumentationchildren?.length;
 
@@ -73,7 +73,7 @@ const SideNavItem = ({
                 showSubList: null,
                 active: item.urlTitle
             });
-        } else if (!!item.dotcmsdocumentationchildren?.length) {
+        } else if (item.dotcmsdocumentationchildren?.length) {
             setNavItem({
                 showSubList: item.urlTitle,
                 active: item.urlTitle

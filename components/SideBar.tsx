@@ -78,15 +78,15 @@ const SideBar = ({
                 )}
                 onClick={() => setShowSidebar(!showSidebar)}
             >
-                <i className="border border-b-2 border-gray-100 border-l-0 border-r-2 border-t-0 inline-block p-1 rotate-135 transform" />
+                <i className="border-b-2 border-gray-100 border-r-2 inline-block p-1 rotate-135 transform" />
             </Button>
             <div className="overflow-hidden">
                 <div className="border-b border-secondary flex flex-col h-24 items-start justify-center pl-6 py-3 w-72">
                     <h4 className="m-0 mb-2 text-gray-150">Documentation</h4>
                     <span className="text-xs">dotCMS User Guide</span>
                 </div>
-                <SideNav className="overflow-auto p-6 pb-0 pr-2 w-72">
-                    <span className="font-bold text-purple pl-8">Overview</span>
+                <SideNav className="overflow-y-auto p-6 pb-0 pr-2 w-72">
+                    <span className="font-bold pl-6 text-purple">Overview</span>
                     <nav>{children}</nav>
                 </SideNav>
             </div>
