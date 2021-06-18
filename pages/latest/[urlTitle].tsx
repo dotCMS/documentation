@@ -14,6 +14,8 @@ import DotToc, { toc } from '@plugins/DotToc';
 
 // Components
 import { Terminal } from '@components/PageRenderError';
+import FeedBack from '@components/FeedBack';
+import Footer from '@components/Footer';
 import ImageMarkdown from '@components/ImageMarkdown';
 import LinkMarkdown from '@components/LinkMarkdown';
 import TableOfContent from '@components/TableOfContent';
@@ -89,18 +91,24 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                 </main>
             ) : (
                 <>
-                    <main className={styles.main}>
-                        <h1>{data.title}</h1>
-                        <MDXProvider className="wrapper" components={componentsUI}>
-                            {content}
-                        </MDXProvider>
-                        {data.showToc[0] && (
-                            <>
-                                <h5>Table Of Content</h5>
-                                <TopPageToc data={data.dotcmsdocumentationchildren} />
-                            </>
-                        )}
-                    </main>
+                    <div className="flex flex-col overflow-auto overflow-y-scroll">
+                        <main className={styles.main}>
+                            <h1>{data.title}</h1>
+                            <MDXProvider className="wrapper" components={componentsUI}>
+                                {content}
+                            </MDXProvider>
+                            {data.showToc[0] && (
+                                <>
+                                    <h5>Table Of Content</h5>
+                                    <TopPageToc data={data.dotcmsdocumentationchildren} />
+                                </>
+                            )}
+                        </main>
+                        <div>
+                            <FeedBack />
+                            <Footer />
+                        </div>
+                    </div>
                     {!!toc?.length && (
                         <div className="hidden lg:block w-64 px-3 overflow-auto">
                             <h4>Table of Content</h4>
