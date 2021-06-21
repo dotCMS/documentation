@@ -27,6 +27,7 @@ const HeaderWrapper = styled.div`
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const [showSidebar, setShowSidebar] = useState(true);
+    const [showToc, setShowToc] = useState(false);
     return (
         <>
             <Head>
@@ -39,12 +40,16 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             {pageProps.navDot ? (
                 <Grid>
                     <HeaderWrapper>
-                        <Header setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
+                        <Header
+                            setShowSidebar={setShowSidebar}
+                            setShowToc={setShowToc}
+                            showSidebar={showSidebar}
+                        />
                     </HeaderWrapper>
                     <SideBar setShowSidebar={setShowSidebar} showSidebar={showSidebar}>
                         <SideNav data={pageProps.navDot[0]} />
                     </SideBar>
-                    <Component {...pageProps} />
+                    <Component showToc={showToc} {...pageProps} />
                 </Grid>
             ) : (
                 <Component {...pageProps} />

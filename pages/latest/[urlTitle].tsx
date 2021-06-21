@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import classNames from 'classnames';
 import Head from 'next/head';
 import html from 'remark-html';
 import prism from 'remark-prism';
@@ -42,6 +43,7 @@ interface PageData {
     data: Documentation;
     navDot: Documentation[];
     source: MdxRemote.Source;
+    showToc?: boolean;
     toc?: TableContentModel[];
     error?: string;
 }
@@ -51,7 +53,7 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, source, showToc, toc, error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
@@ -110,7 +112,12 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                         </div>
                     </div>
                     {!!toc?.length && (
-                        <div className="hidden lg:block w-64 px-3 overflow-auto">
+                        <div
+                            className={classNames(
+                                'border-l bg-white overflow-auto px-3 transform -translate-x-full w-64 lg:block lg:border-0 lg:translate-x-0',
+                                showToc ? 'block' : 'hidden'
+                            )}
+                        >
                             <h4>Table of Content</h4>
                             <TableOfContent
                                 active={tocActive}
