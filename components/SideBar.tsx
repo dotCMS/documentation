@@ -10,10 +10,10 @@ const Button = styled.button`
 
 const SideNav = styled.div`
     /* Viewport height - header - top div - border*/
-    height: calc(100vh - 8rem - 6rem - 1px);
+    height: calc(100vh - 8rem - 6rem - 2px);
 `;
 
-const SideBar = ({
+export const SideBar = ({
     children,
     showSidebar,
     setShowSidebar
@@ -93,5 +93,3 @@ const SideBar = ({
         </div>
     );
 };
-
-export default SideBar;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-const DotNavHeader = (): JSX.Element => {
+export const HeaderNav = (): JSX.Element => {
     const navTitles = [
         { title: 'Documentation', id: 'documentation' },
         { title: 'Realease & LTS', id: 'realease' },
@@ -44,5 +44,3 @@ const DotNavItem = ({ navTitles }: { navTitles: { title: string; id: string }[] 
         </>
     );
 };
-
-export default DotNavHeader;

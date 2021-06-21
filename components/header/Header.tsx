@@ -1,16 +1,15 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 
 // Compoments
-import DotcmsLogo from './components/DotcmsLogo';
-import HamburgerButton from './components/HamburgerIcon';
-import HeaderButton from './components/HeaderButton';
-import HeaderNav from './components/HeaderNav';
-import HeaderSelect from './components/HeaderSelect';
-import Search from './components/Search';
-import TocIcon from './components/TocIcon';
-import { SetStateAction } from 'react';
+import { DotcmsLogo } from './components/DotcmsLogo';
+import { HamburgerIcon } from './components/HamburgerIcon';
+import { HeaderButton } from './components/HeaderButton';
+import { HeaderNav } from './components/HeaderNav';
+import { HeaderSelect } from './components/HeaderSelect';
+import { Search } from './components/Search';
+import { TocIcon } from './components/TocIcon';
 
 export const Header = ({
     showSidebar,
@@ -26,7 +25,7 @@ export const Header = ({
             <div className="flex items-center justify-between px-6 min-w-72 h-full lg:items-start lg:pr-0">
                 <DotcmsLogo />
                 <HeaderButton className={hamburherIcon}>
-                    <HamburgerButton />
+                    <HamburgerIcon />
                 </HeaderButton>
             </div>
             <div className="bg-white flex h-12 justify-center w-full lg:justify-start lg:bg-transparent lg:flex-col lg:h-full">

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HamburgerIcon = (): JSX.Element => {
+export const HamburgerIcon = (): JSX.Element => {
     return (
         <svg
             fill="none"
@@ -15,5 +15,3 @@ const HamburgerIcon = (): JSX.Element => {
         </svg>
     );
 };
-
-export default HamburgerIcon;

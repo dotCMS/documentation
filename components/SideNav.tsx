@@ -5,7 +5,7 @@ import classNames from 'classnames';
 // Models
 import { Documentation } from '@models/Documentation.model';
 
-export default function SideNav({
+export const SideNav = ({
     data,
     hide = false,
     topLevel = true
@@ -13,7 +13,7 @@ export default function SideNav({
     data: Documentation;
     hide?: boolean;
     topLevel?: boolean;
-}): JSX.Element {
+}): JSX.Element => {
     const [navItem, setNavItem] = useState({
         showSubList: null,
         active: null
@@ -53,7 +53,7 @@ export default function SideNav({
             </ul>
         </>
     );
-}
+};
 
 const SideNavItem = ({
     item,

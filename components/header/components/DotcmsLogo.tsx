@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DotcmsLogo = (): JSX.Element => {
+export const DotcmsLogo = (): JSX.Element => {
     return (
         <svg
             fill="none"
@@ -36,5 +36,3 @@ const DotcmsLogo = (): JSX.Element => {
         </svg>
     );
 };
-
-export default DotcmsLogo;

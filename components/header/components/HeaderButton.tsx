@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Dispatch } from 'react';
 import { SetStateAction } from 'react';
 
-const HeaderButton = ({
+export const HeaderButton = ({
     children,
     className = [],
     setShowItem
@@ -31,5 +31,3 @@ const HeaderButton = ({
         <button className={classNames(buttonIconClasses, className)}>{children}</button>
     );
 };
-
-export default HeaderButton;
