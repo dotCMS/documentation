@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
-import classNames from 'classnames';
 import Head from 'next/head';
 import html from 'remark-html';
 import prism from 'remark-prism';
@@ -14,6 +13,7 @@ import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotToc, { toc } from '@plugins/DotToc';
 
 // Components
+import { ContainerToc } from '@components/ContainerToc';
 import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { ImageMarkdown } from '@components/ImageMarkdown';
@@ -53,7 +53,7 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, source, showToc, toc, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, source, showToc, toc = [], error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
@@ -111,20 +111,14 @@ const UrlTitle = ({ data, source, showToc, toc, error }: PageData): JSX.Element 
                             <Footer />
                         </div>
                     </div>
-                    {!!toc?.length && (
-                        <div
-                            className={classNames(
-                                'border-l bg-white overflow-auto px-3 transform -translate-x-full w-64 lg:block lg:border-0 lg:translate-x-0',
-                                showToc ? 'block' : 'hidden'
-                            )}
-                        >
-                            <h4>Table of Content</h4>
+                    {toc.length && (
+                        <ContainerToc showToc={showToc}>
                             <TableOfContent
                                 active={tocActive}
                                 setActive={setTocActive}
                                 titles={toc}
                             />
-                        </div>
+                        </ContainerToc>
                     )}
                 </>
             )}

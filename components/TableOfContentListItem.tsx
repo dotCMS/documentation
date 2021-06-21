@@ -12,11 +12,12 @@ export const TableOfContentListItem = ({
     active: string;
     setActive?: Dispatch<SetStateAction<null | string>>;
 }): JSX.Element => {
+    const linkClasses = ['text-gray-500', 'no-underline'];
     return (
         <>
             {title.id ? (
                 <a
-                    className={classNames('text-gray-500', {
+                    className={classNames(linkClasses, {
                         'font-bold': active == title.id
                     })}
                     href={`#${title.id}`}
@@ -28,7 +29,7 @@ export const TableOfContentListItem = ({
                 </a>
             ) : (
                 <a
-                    className={classNames('text-gray-500', {
+                    className={classNames(linkClasses, {
                         'font-bold': active == title.value
                     })}
                     onClick={() => setActive(title.id)}
