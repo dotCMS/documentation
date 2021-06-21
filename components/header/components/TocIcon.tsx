@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TocIcon = (): JSX.Element => {
+export const TocIcon = (): JSX.Element => {
     return (
         <svg
             className="m-auto"
@@ -41,5 +41,3 @@ const TocIcon = (): JSX.Element => {
         </svg>
     );
 };
-
-export default TocIcon;

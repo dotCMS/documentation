@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HeaderSelect = (): JSX.Element => {
+export const HeaderSelect = (): JSX.Element => {
     return (
         <div className="flex items-center mb-auto bg-white rounded w-48 h-8 border border-secondary text-gray-500">
             <label className="select-label inline-flex relative w-full h-full items-center">
@@ -14,5 +14,3 @@ const HeaderSelect = (): JSX.Element => {
         </div>
     );
 };
-
-export default HeaderSelect;

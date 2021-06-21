@@ -8,8 +8,8 @@ import styled from 'styled-components';
 // Tailwind
 import '@styles/globals.css';
 import { Header } from '../components/header/Header';
-import SideBar from '@components/SideBar';
-import SideNav from '@components/SideNav';
+import { SideBar } from '@components/SideBar';
+import { SideNav } from '@components/SideNav';
 
 const Grid = styled.div`
     display: grid;

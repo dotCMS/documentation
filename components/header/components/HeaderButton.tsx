@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-const HeaderButton = ({
+export const HeaderButton = ({
     children,
     className = []
 }: {
@@ -18,5 +18,3 @@ const HeaderButton = ({
     ];
     return <button className={classNames(buttonIconClasses, className)}>{children}</button>;
 };
-
-export default HeaderButton;
