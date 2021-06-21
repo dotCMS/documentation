@@ -8,7 +8,7 @@ const Button = styled.button`
     right: 0;
 `;
 
-const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
+export const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
     const [showSidebar, setShowSidebar] = useState(true);
 
     const contanerBaseClasses = [
@@ -76,5 +76,3 @@ const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
         </div>
     );
 };
-
-export default SideBar;

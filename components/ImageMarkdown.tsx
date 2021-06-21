@@ -1,7 +1,11 @@
 import React from 'react';
 import NextImage from 'next/image';
 
-const ImageMarkdown = (props: { src: string; width?: string; height?: string }): JSX.Element => {
+export const ImageMarkdown = (props: {
+    src: string;
+    width?: string;
+    height?: string;
+}): JSX.Element => {
     const myLoader = ({ src }) => src;
     return (
         <>
@@ -19,5 +23,3 @@ const ImageMarkdown = (props: { src: string; width?: string; height?: string }):
         </>
     );
 };
-
-export default ImageMarkdown;

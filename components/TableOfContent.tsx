@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { TableContentModel } from '@models/TableOfConent.model';
-import TableOfContentListItem from '@components/TableOfContentListItem';
+import { TableOfContentListItem } from '@components/TableOfContentListItem';
 import { v4 } from 'uuid';
 
 const TableOfContent = ({

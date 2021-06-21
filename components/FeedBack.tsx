@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-const FeedBack = (): JSX.Element => {
+export const FeedBack = (): JSX.Element => {
     return (
         <div className="flex items-center justify-end py-4 px-8">
             <span className="font-bold text-sm">Did this help you?</span>
@@ -125,5 +125,3 @@ const DislikeSvgIcon = (): JSX.Element => {
         </svg>
     );
 };
-
-export default FeedBack;

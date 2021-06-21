@@ -1,7 +1,7 @@
 import React from 'react';
-import SearchIcon from './SearchIcon';
+import { SearchIcon } from './SearchIcon';
 
-const Search = (): JSX.Element => {
+export const Search = (): JSX.Element => {
     const focusOnSearch = () => document.getElementById('search').focus();
     return (
         <div
@@ -23,5 +23,3 @@ const Search = (): JSX.Element => {
         </div>
     );
 };
-
-export default Search;

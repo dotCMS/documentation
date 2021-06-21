@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
 import { TableContentModel } from '@models/TableOfConent.model';
 
-const TableOfContentListItem = ({
+export const TableOfContentListItem = ({
     title,
     active,
     setActive
@@ -39,5 +39,3 @@ const TableOfContentListItem = ({
         </>
     );
 };
-
-export default TableOfContentListItem;

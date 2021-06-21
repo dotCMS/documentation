@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-const Footer = (): JSX.Element => {
+export const Footer = (): JSX.Element => {
     return (
         <footer className="border-b border-secondary border-t flex flex-col h-14 items-center justify-center px-4 text-sm md:flex-row md:justify-between md:px-8">
             <div>
@@ -16,5 +16,3 @@ const Footer = (): JSX.Element => {
         </footer>
     );
 };
-
-export default Footer;

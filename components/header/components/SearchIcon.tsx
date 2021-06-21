@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SearchIcon = (): JSX.Element => {
+export const SearchIcon = (): JSX.Element => {
     return (
         <svg
             className="inline-block w-3.5 mx-2"
@@ -37,5 +37,3 @@ const SearchIcon = (): JSX.Element => {
         </svg>
     );
 };
-
-export default SearchIcon;

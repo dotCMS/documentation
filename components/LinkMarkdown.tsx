@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-const LinkMarkdown = (props: { href: string; children: string }): JSX.Element => {
+export const LinkMarkdown = (props: { href: string; children: string }): JSX.Element => {
     return props.href ? (
         <>
             {props.href.startsWith('#') || props.href.startsWith('http') ? (
@@ -18,5 +18,3 @@ const LinkMarkdown = (props: { href: string; children: string }): JSX.Element =>
         <a className="break-words">{props.children}</a>
     );
 };
-
-export default LinkMarkdown;
