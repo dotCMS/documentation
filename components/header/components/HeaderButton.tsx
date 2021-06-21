@@ -1,12 +1,16 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
+import { Dispatch } from 'react';
+import { SetStateAction } from 'react';
 
 export const HeaderButton = ({
     children,
-    className = []
+    className = [],
+    setShowItem
 }: {
     children: ReactNode;
     className?: string[];
+    setShowItem?: Dispatch<SetStateAction<boolean>>;
 }): JSX.Element => {
     const buttonIconClasses = [
         'flex',
@@ -16,5 +20,14 @@ export const HeaderButton = ({
         'w-12',
         'h-12'
     ];
-    return <button className={classNames(buttonIconClasses, className)}>{children}</button>;
+    return setShowItem ? (
+        <button
+            className={classNames(buttonIconClasses, className)}
+            onClick={() => setShowItem((state) => !state)}
+        >
+            {children}
+        </button>
+    ) : (
+        <button className={classNames(buttonIconClasses, className)}>{children}</button>
+    );
 };

@@ -1,58 +1,74 @@
-import React, { useState, ReactNode } from 'react';
+import React, { ReactNode, Dispatch } from 'react';
 import classNames from 'classnames';
 import styled from 'styled-components';
+import { SetStateAction } from 'react';
 
 const Button = styled.button`
-    position: absolute;
-    top: 1rem;
-    right: 0;
+    position: fixed;
+    top: 1.5rem;
 `;
 
-export const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
-    const [showSidebar, setShowSidebar] = useState(true);
+const SideNav = styled.div`
+    /* Viewport height - header - top div - border*/
+    height: calc(100vh - 8rem - 6rem - 2px);
+`;
 
+export const SideBar = ({
+    children,
+    showSidebar,
+    setShowSidebar
+}: {
+    children: ReactNode;
+    showSidebar: boolean;
+    setShowSidebar: Dispatch<SetStateAction<boolean>>;
+}): JSX.Element => {
     const contanerBaseClasses = [
         'bg-white',
         'border-secondary',
         'border-t-0',
         'border',
         'duration-500',
-        'md:duration-500',
-        'md:transition-width',
-        'md:translate-x-0',
-        'pt-3',
         'relative',
         'transform',
         'w-72',
-        'z-10'
+        'z-10',
+        'lg:duration-500',
+        'lg:transition-width',
+        'lg:translate-x-0'
     ];
-    const containerOnHideClasses = [...contanerBaseClasses, 'md:w-0', 'translate-x-0'];
+    const containerOnHideClasses = [...contanerBaseClasses, 'lg:w-0', 'translate-x-0'];
     const containerOnShowClasses = [...contanerBaseClasses, '-translate-x-full'];
 
     const buttonBaseClasses = [
-        'bg-gray-100',
+        'bg-gray-75',
         'duration-500',
         'focus:outline-none',
         'h-8',
         'hidden',
         'items-center',
-        'md:duration-500',
-        'md:flex',
         'pl-3',
-        'rounded-l-full',
+        'rounded-full',
         'transform',
         'transition-transform',
         'w-8',
-        'z-10'
+        'z-10',
+        'lg:duration-500',
+        'lg:flex'
     ];
 
     // Desktop
     const buttonOnHideDesktopClasses = [
         ...buttonBaseClasses,
-        'md:rotate-180',
-        'md:translate-x-full'
+        'right-0',
+        'lg:rotate-180',
+        'lg:translate-x-full'
     ];
-    const buttonOnShowDesktopClasses = [...buttonBaseClasses, 'md:rotate-0', 'md:translate-x-0'];
+    const buttonOnShowDesktopClasses = [
+        ...buttonBaseClasses,
+        'right-6',
+        'lg:rotate-0',
+        'lg:translate-x-0'
+    ];
 
     return (
         <div className={classNames(showSidebar ? containerOnShowClasses : containerOnHideClasses)}>
@@ -62,16 +78,17 @@ export const SideBar = ({ children }: { children: ReactNode }): JSX.Element => {
                 )}
                 onClick={() => setShowSidebar(!showSidebar)}
             >
-                <i className="border border-purple-300 border-t-0 border-r-2 border-b-2 border-l-0 p-1 inline-block transform rotate-135" />
+                <i className="border-b-2 border-gray-100 border-r-2 inline-block p-1 rotate-135 transform" />
             </Button>
-
-            <div className="md:overflow-hidden">
-                <div className="w-72 pr-2">
-                    <div className="ml-6 mt-6">
-                        <span className="font-bold text-purple">Overview</span>
-                        <nav>{children}</nav>
-                    </div>
+            <div className="overflow-hidden">
+                <div className="border-b border-secondary flex flex-col h-24 items-start justify-center pl-6 py-3 w-72">
+                    <h4 className="m-0 mb-2 text-gray-150">Documentation</h4>
+                    <span className="text-xs">dotCMS User Guide</span>
                 </div>
+                <SideNav className="overflow-y-auto p-6 pb-0 pr-2 w-72">
+                    <span className="font-bold pl-6 text-purple">Overview</span>
+                    <nav>{children}</nav>
+                </SideNav>
             </div>
         </div>
     );
