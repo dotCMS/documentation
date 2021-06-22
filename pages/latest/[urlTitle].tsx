@@ -43,7 +43,7 @@ interface PageData {
     data: Documentation;
     navDot: Documentation[];
     source: MdxRemote.Source;
-    showToc?: boolean;
+    showSideToc?: boolean;
     toc?: TableContentModel[];
     error?: string;
 }
@@ -53,7 +53,7 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, source, showToc, toc = [], error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
@@ -101,7 +101,7 @@ const UrlTitle = ({ data, source, showToc, toc = [], error }: PageData): JSX.Ele
                             </MDXProvider>
                             {data.showToc[0] && (
                                 <>
-                                    <h5>Table Of Content</h5>
+                                    <h4>Table Of Content</h4>
                                     <TopPageToc data={data.dotcmsdocumentationchildren} />
                                 </>
                             )}
@@ -111,8 +111,8 @@ const UrlTitle = ({ data, source, showToc, toc = [], error }: PageData): JSX.Ele
                             <Footer />
                         </div>
                     </div>
-                    {toc.length && (
-                        <ContainerToc showToc={showToc}>
+                    {!!toc.length && (
+                        <ContainerToc showSideToc={showSideToc}>
                             <TableOfContent
                                 active={tocActive}
                                 setActive={setTocActive}
