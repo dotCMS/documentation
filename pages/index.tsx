@@ -22,9 +22,10 @@ export default function Home(): JSX.Element {
         'justify-start',
         'md:justify-between',
         'items-center',
-        'my-10'
+        'my-10',
+        '-mx-4'
     ];
-    const divElementClasses = ['w-80', 'mb-2'];
+    const divElementClasses = ['w-80', 'mb-4', 'mx-4'];
     const titleElementClasses = ['text-purple', 'mt-5', 'mb-2'];
     return (
         <div className="overflow-auto flex flex-col">

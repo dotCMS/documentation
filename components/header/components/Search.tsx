@@ -5,7 +5,7 @@ export const Search = (): JSX.Element => {
     const focusOnSearch = () => document.getElementById('search').focus();
     return (
         <div
-            className="bg-white border border-secondary flex h-full items-center justify-start max-w-3xl mb-auto px-1 py-1.5 rounded-none w-full lg:h-auto lg:rounded lg:w-10/12"
+            className="bg-white border border-secondary flex h-full items-center justify-start max-w-auto mb-auto px-1 py-1.5 rounded-none w-full lg:h-auto lg:max-w-3xl lg:rounded lg:w-10/12"
             onClick={focusOnSearch}
         >
             <button
