@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 export const FeedBack = (): JSX.Element => {
     return (
-        <div className="flex items-center justify-end py-4 px-8">
+        <div className="container flex items-center justify-end py-4 px-8 mx-auto">
             <span className="font-bold text-sm">Did this help you?</span>
             <FeedBackButton>
                 <LikeSvgIcon />
