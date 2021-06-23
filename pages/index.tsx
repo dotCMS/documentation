@@ -27,6 +27,7 @@ export default function Home(): JSX.Element {
     ];
     const divElementClasses = ['w-80', 'mb-4', 'mx-4'];
     const titleElementClasses = ['text-purple', 'mt-5', 'mb-2'];
+    const imageContainerClasses = ['bg-purple', 'rounded', 'pl-4'];
     return (
         <div className="overflow-auto flex flex-col">
             <Head>
@@ -93,7 +94,7 @@ export default function Home(): JSX.Element {
                 <h4>Workflows</h4>
                 <div className={classNames(sectionClasses)}>
                     <div className={classNames(divElementClasses)}>
-                        <div className="bg-purple rounded pl-4">
+                        <div className={classNames(imageContainerClasses)}>
                             <img className="rounded" src="/img/schemas.png" title="Schema" />
                         </div>
                         <h4 className={classNames(titleElementClasses)}>
@@ -107,7 +108,7 @@ export default function Home(): JSX.Element {
                         </p>
                     </div>
                     <div className={classNames(divElementClasses)}>
-                        <div className="bg-purple rounded pl-4">
+                        <div className={classNames(imageContainerClasses)}>
                             <img className="rounded" src="/img/steps.png" title="steps" />
                         </div>
                         <h4 className={classNames(titleElementClasses)}>
@@ -121,7 +122,7 @@ export default function Home(): JSX.Element {
                         </p>
                     </div>
                     <div className={classNames(divElementClasses)}>
-                        <div className="bg-purple rounded pl-4">
+                        <div className={classNames(imageContainerClasses)}>
                             <img className="rounded" src="/img/actions.png" title="actions" />
                         </div>
                         <h4 className={classNames(titleElementClasses)}>
