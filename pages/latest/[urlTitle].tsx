@@ -64,21 +64,18 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
         []
     );
     useEffect(() => {
-        const timer = setTimeout(() => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setTocActive(entry.target.id);
-                    }
-                });
-            }, options);
-            const targets = document.querySelectorAll('h2,h3');
-            targets.forEach((target) => observer.observe(target));
-            return () => observer.disconnect();
-        }, 100);
-        return () => clearTimeout(timer);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setTocActive(entry.target.id);
+                }
+            });
+        }, options);
+        const targets = document.querySelectorAll('h2,h3');
+        targets.forEach((target) => observer.observe(target));
+        return () => observer.disconnect();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [toc]);
+    }, [content]);
     return (
         <>
             <Head>
