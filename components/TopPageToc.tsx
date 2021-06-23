@@ -8,7 +8,7 @@ const TopPageToc = ({ data = [] }: { data: Documentation[] }): JSX.Element => {
         return null;
     }
     return (
-        <ul className="pl-3">
+        <ul className="pl-3 mb-0">
             {data.map((item) => {
                 return (
                     <li key={v4()}>

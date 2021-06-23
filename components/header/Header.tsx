@@ -13,10 +13,12 @@ import { TocIcon } from './components/TocIcon';
 
 export const Header = ({
     showSidebar,
-    setShowSidebar
+    setShowSidebar,
+    setShowSideToc
 }: {
     showSidebar: boolean;
     setShowSidebar: Dispatch<SetStateAction<boolean>>;
+    setShowSideToc: Dispatch<SetStateAction<boolean>>;
 }): JSX.Element => {
     const buttonIconMobileBarClasses = ['border-b', 'border-secondary', 'justify-center'];
     const hamburherIcon = ['justify-end'];
@@ -38,7 +40,7 @@ export const Header = ({
                     />
                 </HeaderButton>
                 <Search />
-                <HeaderButton className={buttonIconMobileBarClasses}>
+                <HeaderButton className={buttonIconMobileBarClasses} setShowItem={setShowSideToc}>
                     <TocIcon />
                 </HeaderButton>
                 <nav className="hidden lg:inline-block">
