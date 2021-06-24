@@ -16,7 +16,7 @@ const TableOfContent = ({
         return null;
     }
     return (
-        <ul className="list-none pl-3">
+        <ul className="list-none pl-3 m-0">
             {titles.map((title) => {
                 return (
                     <li key={v4()} className="break-words pb-1">
