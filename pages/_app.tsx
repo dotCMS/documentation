@@ -18,7 +18,8 @@ const Grid = styled.div`
     min-height: 100vh;
     max-height: 100vh;
     @media screen and (min-width: 1024px) {
-        grid-template-columns: max-content 1fr max-content;
+        grid-template-columns: ${(props) =>
+            props.sideBar ? 'max-content 1fr max-content' : '1fr max-content'};
     }
 `;
 const HeaderWrapper = styled.div`
@@ -38,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             </Head>
             <GlobalStyle />
             {pageProps.navDot ? (
-                <Grid>
+                <Grid sideBar={true}>
                     <HeaderWrapper>
                         <Header
                             setShowSideToc={setShowSideToc}
@@ -52,7 +53,16 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                     <Component showSideToc={showSideToc} {...pageProps} />
                 </Grid>
             ) : (
-                <Component {...pageProps} />
+                <Grid sideBar={false}>
+                    <HeaderWrapper>
+                        <Header
+                            setShowSideToc={setShowSideToc}
+                            setShowSidebar={setShowSidebar}
+                            showSidebar={showSidebar}
+                        />
+                    </HeaderWrapper>
+                    <Component {...pageProps} />
+                </Grid>
             )}
         </>
     );

@@ -10,7 +10,7 @@ export const HeaderNav = (): JSX.Element => {
             id: 'realease',
             link: '/latest/current-releases'
         },
-        { title: 'Code Share', id: 'code_share', link: '/' },
+        { title: 'Code Share', id: 'code_share', link: '/docs/code-share' },
         { title: 'Forums', id: 'forums', link: 'https://groups.google.com/g/dotcms' },
         { title: 'Online Training', id: 'online', link: 'https://dotcms.com/courses/' }
     ];
