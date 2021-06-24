@@ -88,7 +88,7 @@ const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX
                 <title>{data.title}</title>
             </Head>
             {error ? (
-                <main className="container">
+                <main className="container mx-auto px-16 flex-gro">
                     <h1>{data.title}</h1>
                     <Terminal content={error} />
                 </main>
