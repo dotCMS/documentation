@@ -49,7 +49,7 @@ export const Header = ({
             </div>
             <div className="flex-col h-full hidden items-end justify-end w-auto pr-6 lg:flex">
                 <HeaderSelect />
-                <Link href="#">
+                <Link href="https://helpdesk.dotcms.com/">
                     <a className="no-underline pb-2 text-white">Customer Support</a>
                 </Link>
             </div>

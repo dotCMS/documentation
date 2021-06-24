@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import classNames from 'classnames';
 
 export const HeaderNav = (): JSX.Element => {
     const navTitles = [
-        { title: 'Documentation', id: 'documentation' },
-        { title: 'Realease & LTS', id: 'realease' },
-        { title: 'Code Share', id: 'code_share' },
-        { title: 'Forums', id: 'forums' },
-        { title: 'Online Training', id: 'online' }
+        { title: 'Documentation', id: 'documentation', link: '/' },
+        {
+            title: 'Realease & LTS',
+            id: 'realease',
+            link: '/latest/current-releases'
+        },
+        { title: 'Code Share', id: 'code_share', link: '/' },
+        { title: 'Forums', id: 'forums', link: 'https://groups.google.com/g/dotcms' },
+        { title: 'Online Training', id: 'online', link: 'https://dotcms.com/courses/' }
     ];
     return (
         <ul className="list-none p-0 m-0">
@@ -16,7 +21,11 @@ export const HeaderNav = (): JSX.Element => {
     );
 };
 
-const DotNavItem = ({ navTitles }: { navTitles: { title: string; id: string }[] }): JSX.Element => {
+const DotNavItem = ({
+    navTitles
+}: {
+    navTitles: { title: string; id: string; link: string }[];
+}): JSX.Element => {
     const [active, setActive] = useState('documentation');
     const activeClasses = ['border-b-3', 'border-pink', 'font-bold'];
     return (
@@ -31,13 +40,14 @@ const DotNavItem = ({ navTitles }: { navTitles: { title: string; id: string }[] 
                             isActive ? activeClasses : null
                         )}
                     >
-                        <a
-                            className="text-white no-underline"
-                            href="#"
-                            onClick={() => setActive(navTitle.id)}
-                        >
-                            {navTitle.title}
-                        </a>
+                        <Link href={navTitle.link}>
+                            <a
+                                className="text-white no-underline"
+                                onClick={() => setActive(navTitle.id)}
+                            >
+                                {navTitle.title}
+                            </a>
+                        </Link>
                     </li>
                 );
             })}

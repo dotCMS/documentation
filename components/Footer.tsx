@@ -5,10 +5,10 @@ export const Footer = (): JSX.Element => {
     return (
         <footer className="border-b border-secondary border-t flex flex-col h-14 items-center justify-center px-4 text-sm md:flex-row md:justify-between md:px-8">
             <div>
-                <Link href="/">
+                <Link href="https://dotcms.com/blog/post/intranet-security-best-practices">
                     <a className="mr-5">Privacy</a>
                 </Link>
-                <Link href="/">
+                <Link href="https://dotcms.com/contact-us/">
                     <a>Contanct Us</a>
                 </Link>
             </div>
