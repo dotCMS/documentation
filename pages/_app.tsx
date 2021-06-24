@@ -13,13 +13,13 @@ import { SideNav } from '@components/SideNav';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: 0 100vw 0;
+    grid-template-columns: ${(props) => (props.codeShare ? '100vw max-content' : '0 100vw 0')};
     grid-template-rows: max-content 1fr;
     min-height: 100vh;
     max-height: 100vh;
     @media screen and (min-width: 1024px) {
         grid-template-columns: ${(props) =>
-            props.sideBar ? 'max-content 1fr max-content' : '1fr max-content'};
+            props.codeShare ? '1fr max-content' : 'max-content 1fr max-content'};
     }
 `;
 const HeaderWrapper = styled.div`
@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             </Head>
             <GlobalStyle />
             {pageProps.navDot ? (
-                <Grid sideBar={true}>
+                <Grid codeShare={false}>
                     <HeaderWrapper>
                         <Header
                             setShowSideToc={setShowSideToc}
@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                     <Component showSideToc={showSideToc} {...pageProps} />
                 </Grid>
             ) : (
-                <Grid sideBar={false}>
+                <Grid codeShare={true}>
                     <HeaderWrapper>
                         <Header
                             setShowSideToc={setShowSideToc}

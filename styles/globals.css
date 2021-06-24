@@ -84,7 +84,6 @@ a:hover {
 }
 
 pre {
-    @apply overflow-hidden;
     @apply my-5;
 }
 

@@ -1,4 +1,8 @@
-pre,
+pre{
+    background-color: #F3F6FD;
+    overflow: auto;
+}
+
 pre[class*="language-"],
 code[class*="language-"] {
     color: #04d0b3;
@@ -22,10 +26,8 @@ code[class*="language-"] {
     overflow: auto !important;
 }
 
-pre,
 pre[class*="language-"]::selection,
 code[class*="language-"]::selection,
-pre,
 pre[class*="language-"]::mozselection,
 code[class*="language-"]::mozselection {
     text-shadow: none;
@@ -33,14 +35,13 @@ code[class*="language-"]::mozselection {
 }
 
 @media print {
-    pre,
+
     pre[class*="language-"],
     code[class*="language-"] {
         text-shadow: none;
     }
 }
 
-pre,
 pre[class*="language-"] {
     padding: 1em;
     margin: .5em 0;
@@ -141,7 +142,6 @@ pre[data-line] {
     position: relative;
 }
 
-pre,
 pre[class*="language-"]>code[class*="language-"] {
     position: relative;
     z-index: 1;

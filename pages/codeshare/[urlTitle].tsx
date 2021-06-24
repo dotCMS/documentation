@@ -13,17 +13,21 @@ import { CODE_SHARE_PATHS_QUERY, FULL_CODE_SHARE_QUERY } from '@graphql/queries'
 import { client } from '@utils/graphql-client';
 import { ParsedUrlQuery } from 'node:querystring';
 
+// mdx custom plugins
+import DotCodeMultine from '@plugins/DotCodeMultiline';
+import DotDecodeHtml from '@plugins/DotDecodeHtml';
+
 // mdx
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
-import { MDXProviderComponentsProp } from '@mdx-js/react';
 
 interface pageData {
     data: codeshare;
     source: MdxRemote.Source;
 }
+
 interface codeshare {
     authorName: string;
     code: string;
@@ -48,7 +52,7 @@ export default function CodeShare({ data, source }: pageData): JSX.Element {
                 <h3>{data.authorName}</h3>
                 <MDXProvider className="wrapper">{content}</MDXProvider>
                 <h4>Code</h4>
-                <pre className="language-unknown">
+                <pre>
                     <code>{data.code}</code>
                 </pre>
             </main>
@@ -79,7 +83,11 @@ export async function getStaticProps({
     try {
         const variables = { urlTitle: `+urlMap:/codeshare/${params.urlTitle}` };
         const { CodeshareCollection } = await client.request(FULL_CODE_SHARE_QUERY, variables);
-        const mdxSource = await renderToString(CodeshareCollection[0].description);
+        const mdxSource = await renderToString(CodeshareCollection[0].description, {
+            mdxOptions: {
+                remarkPlugins: [DotCodeMultine, DotDecodeHtml]
+            }
+        });
         return {
             props: {
                 data: CodeshareCollection[0],

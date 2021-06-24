@@ -38,6 +38,7 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
+import DotCodeMultiline from '@plugins/DotCodeMultiline';
 
 interface PageData {
     data: Documentation;
@@ -150,7 +151,15 @@ export async function getStaticProps({
     try {
         const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
             mdxOptions: {
-                remarkPlugins: [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc]
+                remarkPlugins: [
+                    DotHtmlToJsxRemark,
+                    remarkId,
+                    prism,
+                    html,
+                    DotCodeMultiline,
+                    DotDecodeHtml,
+                    DotToc
+                ]
             }
         });
         return {
