@@ -13,6 +13,7 @@ import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotToc, { toc } from '@plugins/DotToc';
 
 // Components
+import { ContainerToc } from '@components/ContainerToc';
 import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { ImageMarkdown } from '@components/ImageMarkdown';
@@ -42,6 +43,7 @@ interface PageData {
     data: Documentation;
     navDot: Documentation[];
     source: MdxRemote.Source;
+    showSideToc?: boolean;
     toc?: TableContentModel[];
     error?: string;
 }
@@ -51,7 +53,7 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
@@ -96,7 +98,7 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                             </MDXProvider>
                             {data.showToc[0] && (
                                 <>
-                                    <h5>Table Of Content</h5>
+                                    <h4>Table Of Content</h4>
                                     <TopPageToc data={data.dotcmsdocumentationchildren} />
                                 </>
                             )}
@@ -106,15 +108,14 @@ const UrlTitle = ({ data, source, toc, error }: PageData): JSX.Element => {
                             <Footer />
                         </div>
                     </div>
-                    {!!toc?.length && (
-                        <div className="hidden lg:block w-64 px-3 overflow-auto">
-                            <h4>Table of Content</h4>
+                    {!!toc.length && (
+                        <ContainerToc showSideToc={showSideToc}>
                             <TableOfContent
                                 active={tocActive}
                                 setActive={setTocActive}
                                 titles={toc}
                             />
-                        </div>
+                        </ContainerToc>
                     )}
                 </>
             )}

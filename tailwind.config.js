@@ -32,6 +32,10 @@ module.exports = {
                 width: 'width'
             },
             colors: {
+                blue: {
+                    100: '#F4FBFF',
+                    200: '#9FCBE7'
+                },
                 purple: {
                     DEFAULT: '#2A0753',
                     50: '#FBF9FE',
