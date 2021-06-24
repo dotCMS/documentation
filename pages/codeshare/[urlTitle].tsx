@@ -13,14 +13,30 @@ import { CODE_SHARE_PATHS_QUERY, FULL_CODE_SHARE_QUERY } from '@graphql/queries'
 import { client } from '@utils/graphql-client';
 import { ParsedUrlQuery } from 'node:querystring';
 
+// mdx
+import renderToString from 'next-mdx-remote/render-to-string';
+import hydrate from 'next-mdx-remote/hydrate';
+import { MDXProvider } from '@mdx-js/react';
+import { MdxRemote } from 'next-mdx-remote/types';
+import { MDXProviderComponentsProp } from '@mdx-js/react';
+
 interface pageData {
+    data: codeshare;
+    source: MdxRemote.Source;
+}
+interface codeshare {
     authorName: string;
     code: string;
     description: string;
     title: string;
 }
 
-export default function CodeShare({ data }: { data: pageData }): JSX.Element {
+interface paramsUrlTitle {
+    urlTitle: string;
+}
+
+export default function CodeShare({ data, source }: pageData): JSX.Element {
+    const content = source ? hydrate(source) : null;
     return (
         <div className="overflow-auto flex flex-col">
             <Head>
@@ -30,6 +46,11 @@ export default function CodeShare({ data }: { data: pageData }): JSX.Element {
             <main className="container mx-auto px-16 flex-grow">
                 <h2>{data.title}</h2>
                 <h3>{data.authorName}</h3>
+                <MDXProvider className="wrapper">{content}</MDXProvider>
+                <h4>Code</h4>
+                <pre className="language-unknown">
+                    <code>{data.code}</code>
+                </pre>
             </main>
             <div>
                 <FeedBack />
@@ -54,13 +75,15 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 
 export async function getStaticProps({
     params
-}: GetStaticPropsContext<ParsedUrlQuery>): Promise<GetStaticPropsResult<{ data: pageData }>> {
+}: GetStaticPropsContext<ParsedUrlQuery>): Promise<GetStaticPropsResult<pageData>> {
     try {
         const variables = { urlTitle: `+urlMap:/codeshare/${params.urlTitle}` };
         const { CodeshareCollection } = await client.request(FULL_CODE_SHARE_QUERY, variables);
+        const mdxSource = await renderToString(CodeshareCollection[0].description);
         return {
             props: {
-                data: CodeshareCollection[0]
+                data: CodeshareCollection[0],
+                source: mdxSource
             }
         };
     } catch (e) {
@@ -68,8 +91,8 @@ export async function getStaticProps({
     }
 }
 
-const buildParams = (data: any[], paths: UrlTitleParams[]): UrlTitleParams[] => {
-    data.forEach((item: any) => {
+const buildParams = (data: paramsUrlTitle[], paths: UrlTitleParams[]): UrlTitleParams[] => {
+    data.forEach((item: paramsUrlTitle) => {
         paths.push({ params: { urlTitle: item.urlTitle } });
     });
     return paths;
