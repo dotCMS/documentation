@@ -16,7 +16,7 @@ import { codeshare } from '@models/CodeShare.model';
 // Utils
 import { client } from '@utils/graphql-client';
 import { ParsedUrlQuery } from 'node:querystring';
-import { getDate, printTags } from '@utils/data-formatter';
+import { getDate } from '@utils/data-formatter';
 
 // mdx custom plugins
 import DotCodeMultine from '@plugins/DotCodeMultiline';
@@ -58,7 +58,6 @@ export default function CodeShare({ data, source, error }: pageData): JSX.Elemen
                         <li>Created: {getDate(data.dateCreated)}</li>
                         <li>Author: {data.authorName}</li>
                         <li>Company: {data.company}</li>
-                        {data.tag ? <li>Tags: {printTags(data.tag)}</li> : null}
                     </ul>
                     <h3>Description</h3>
                     <MDXProvider className="wrapper">{content}</MDXProvider>

@@ -49,10 +49,7 @@ export const CODE_SHARE_PATHS_QUERY = `
 query codeshare {
     CodeshareCollection {
         authorName
-        code
-        company
         dateCreated
-        description
         title
         urlTitle
         seoDescription

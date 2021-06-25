@@ -11,6 +11,7 @@ import { ParsedUrlQuery } from 'querystring';
 import DotDecodeHtml from '@plugins/DotDecodeHtml';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotToc, { toc } from '@plugins/DotToc';
+import DotCodeMultiline from '@plugins/DotCodeMultiline';
 
 // Components
 import { ContainerToc } from '@components/ContainerToc';
@@ -38,7 +39,6 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
-import DotCodeMultiline from '@plugins/DotCodeMultiline';
 
 interface PageData {
     data: Documentation;
@@ -88,7 +88,7 @@ const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX
                 <title>{data.title}</title>
             </Head>
             {error ? (
-                <main className="container mx-auto px-16 flex-gro">
+                <main className={styles.main}>
                     <h1>{data.title}</h1>
                     <Terminal content={error} />
                 </main>
