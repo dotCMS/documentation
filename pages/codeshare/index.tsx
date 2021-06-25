@@ -21,6 +21,7 @@ interface codeshare {
     description: string;
     title: string;
     urlTitle: string;
+    seoDescription: string;
 }
 
 export default function Home({ data }: { data: codeshare[] }): JSX.Element {

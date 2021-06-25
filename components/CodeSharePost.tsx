@@ -1,6 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
+// Utils
+import { getDate } from '@utils/data-formatter';
+
 interface codeshare {
     authorName: string;
     code: string;
@@ -9,20 +12,21 @@ interface codeshare {
     description: string;
     title: string;
     urlTitle: string;
+    seoDescription: string;
 }
 
 export const CodeSharePost = ({ data }: { data: codeshare }): JSX.Element => {
     return (
         <div>
             <Link href={`/codeshare/${data.urlTitle}`}>
-                <a>{data.title}</a>
+                <a className="no-underline text-gray-150 hover:underline">{data.title}</a>
             </Link>
             <div>
-                <p>
-                    <span>Created:</span> {data.dateCreated}
+                <p className="text-sm">
+                    <span className="font-bold">Created:</span> {getDate(data.dateCreated)}
                 </p>
+                <p>Drescription</p>
             </div>
-            <p>Drescription</p>
         </div>
     );
 };

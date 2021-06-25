@@ -13,6 +13,7 @@ import { CODE_SHARE_PATHS_QUERY, FULL_CODE_SHARE_QUERY } from '@graphql/queries'
 // Utils
 import { client } from '@utils/graphql-client';
 import { ParsedUrlQuery } from 'node:querystring';
+import { getDate, printTags } from '@utils/data-formatter';
 
 // mdx custom plugins
 import DotCodeMultine from '@plugins/DotCodeMultiline';
@@ -47,17 +48,6 @@ interface paramsUrlTitle {
 
 export default function CodeShare({ data, source, error }: pageData): JSX.Element {
     const content = source ? hydrate(source) : null;
-    const getDate = (date: string) => {
-        const created = new Date(date);
-        return `${created.toLocaleDateString('en-US', { month: 'short' })} ${created.getDay()}, 
-        ${created.getFullYear()}`;
-    };
-    const printTags = (tags: string[]) => {
-        const lastIndet = tags.length - 1;
-        return tags.map((tag, index) => {
-            return lastIndet === index ? tag : tag + ', ';
-        });
-    };
     return (
         <div className="overflow-auto flex flex-col">
             <Head>
