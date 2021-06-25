@@ -66,7 +66,7 @@ export default function CodeShare({ data, source, error }: pageData): JSX.Elemen
                         <li>Created: {getDate(data.dateCreated)}</li>
                         <li>Author: {data.authorName}</li>
                         <li>Company: {data.company}</li>
-                        <li>Tags: {printTags(data.tag)}</li>
+                        {data.tag ? <li>Tags: {printTags(data.tag)}</li> : null}
                     </ul>
                     <h3>Description</h3>
                     <MDXProvider className="wrapper">{content}</MDXProvider>

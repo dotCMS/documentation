@@ -22,9 +22,6 @@ module.exports = {
             ]
         },
         extend: {
-            fontSize: {
-                base: '14px'
-            },
             rotate: {
                 135: '135deg'
             },

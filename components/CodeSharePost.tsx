@@ -17,16 +17,16 @@ interface codeshare {
 
 export const CodeSharePost = ({ data }: { data: codeshare }): JSX.Element => {
     return (
-        <div>
+        <div className="mb-14 pr-10">
             <Link href={`/codeshare/${data.urlTitle}`}>
-                <a className="no-underline text-gray-150 hover:underline">{data.title}</a>
+                <a className="font-bold text-lg	inline-block no-underline text-blue-500 mb-1 hover:underline">
+                    {data.title}
+                </a>
             </Link>
-            <div>
-                <p className="text-sm">
-                    <span className="font-bold">Created:</span> {getDate(data.dateCreated)}
-                </p>
-                <p>Drescription</p>
-            </div>
+            <p className="text-sm mb-1">
+                <span className="font-bold">Created:</span> {getDate(data.dateCreated)}
+            </p>
+            <p className="leading-7">{data.seoDescription}</p>
         </div>
     );
 };

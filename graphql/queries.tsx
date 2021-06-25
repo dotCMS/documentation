@@ -55,6 +55,7 @@ query codeshare {
         description
         title
         urlTitle
+        seoDescription
     }
 }
 `;
@@ -70,6 +71,7 @@ query codeshare ($urlTitle: String!) {
         tag
         title
         urlTitle
+        seoDescription
     }
 }`;
 

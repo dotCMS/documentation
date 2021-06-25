@@ -32,7 +32,8 @@ export default function Home({ data }: { data: codeshare[] }): JSX.Element {
                 <link href="/favicon.ico" rel="icon" />
             </Head>
             <main className="container mx-auto px-16 flex-grow">
-                <h1>Code Share</h1>
+                <h1 className="mb-0">Code Share</h1>
+                <h2 className="mt-0 mb-10">Recent Submissions</h2>
                 {data.map((item) => (
                     <CodeSharePost key={item.urlTitle} data={item} />
                 ))}
