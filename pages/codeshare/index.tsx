@@ -1,11 +1,11 @@
 import React from 'react';
 import { GetStaticPropsResult } from 'next';
-import classNames from 'classnames';
 import Head from 'next/head';
 
 // Components
 import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
+import { CodeSharePost } from '@components/CodeSharePost';
 
 // Graphql
 import { CODE_SHARE_PATHS_QUERY } from '@graphql/queries';
@@ -19,7 +19,6 @@ interface codeshare {
     company: string;
     dateCreated: string;
     description: string;
-    tag: string[];
     title: string;
     urlTitle: string;
 }
@@ -33,6 +32,9 @@ export default function Home({ data }: { data: codeshare[] }): JSX.Element {
             </Head>
             <main className="container mx-auto px-16 flex-grow">
                 <h1>Code Share</h1>
+                {data.map((item) => (
+                    <CodeSharePost key={item.urlTitle} data={item} />
+                ))}
             </main>
             <div>
                 <FeedBack />
