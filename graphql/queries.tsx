@@ -64,8 +64,10 @@ export const FULL_CODE_SHARE_QUERY = `
 query codeshare ($urlTitle: String!) {
     CodeshareCollection(query: $urlTitle) {
         authorName
+        code
+        company
         dateCreated
-        tag
+        description
         title
         urlTitle
         seoDescription
