@@ -1,6 +1,7 @@
 import React from 'react';
 import { GetStaticPropsResult, GetStaticPathsResult, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
+import classNames from 'classnames';
 
 // Components
 import { FeedBack } from '@components/FeedBack';
@@ -40,19 +41,20 @@ interface paramsUrlTitle {
 
 export default function CodeShare({ data, source, error }: pageData): JSX.Element {
     const content = source ? hydrate(source) : null;
+    const mainClasses = ['container', 'mx-auto', 'px-16', 'flex-grow'];
     return (
-        <div className="overflow-auto flex flex-col">
+        <div className="flex flex-col overflow-auto">
             <Head>
                 <title>Documentation</title>
                 <link href="/favicon.ico" rel="icon" />
             </Head>
             {error ? (
-                <main className="container mx-auto px-16 flex-grow">
+                <main className={classNames(mainClasses)}>
                     <h1>{data.title}</h1>
                     <Terminal content={error} />
                 </main>
             ) : (
-                <main className="container mx-auto px-16 flex-grow">
+                <main className={classNames(mainClasses)}>
                     <h1>{data.title}</h1>
                     <ul>
                         <li>Created: {getDate(data.dateCreated)}</li>

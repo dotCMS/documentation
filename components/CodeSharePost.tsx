@@ -11,15 +11,15 @@ export const CodeSharePost = ({ data }: { data: codeshareArticle }): JSX.Element
     return (
         <div className="mb-14 pr-10">
             <Link href={`/codeshare/${data.urlTitle}`}>
-                <a className="font-bold text-lg	inline-block no-underline text-blue-500 mb-1 hover:underline">
+                <a className="font-bold inline-block mb-1 no-underline text-blue-500 text-lg hover:underline">
                     {data.title}
                 </a>
             </Link>
-            <p className="text-sm mb-1">
+            <p className="mb-1 text-sm">
                 <span className="font-bold">Created:</span> {getDate(data.dateCreated)}
             </p>
             {data.authorName ? (
-                <p className="text-sm mb-1">
+                <p className="mb-1 text-sm">
                     <span className="font-bold">Author:</span> {data.authorName}
                 </p>
             ) : null}
