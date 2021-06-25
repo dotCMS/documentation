@@ -13,18 +13,10 @@ import { CODE_SHARE_PATHS_QUERY } from '@graphql/queries';
 // Utils
 import { client } from '@utils/graphql-client';
 
-interface codeshare {
-    authorName: string;
-    code: string;
-    company: string;
-    dateCreated: string;
-    description: string;
-    title: string;
-    urlTitle: string;
-    seoDescription: string;
-}
+// Models
+import { codeshareArticle } from '@models/CodeShare.model';
 
-export default function Home({ data }: { data: codeshare[] }): JSX.Element {
+export default function Home({ data }: { data: codeshareArticle[] }): JSX.Element {
     return (
         <div className="overflow-auto flex flex-col">
             <Head>
@@ -46,12 +38,14 @@ export default function Home({ data }: { data: codeshare[] }): JSX.Element {
     );
 }
 
-export async function getStaticProps(): Promise<GetStaticPropsResult<{ data: codeshare[] }>> {
+export async function getStaticProps(): Promise<
+    GetStaticPropsResult<{ data: codeshareArticle[] }>
+> {
     try {
         const { CodeshareCollection } = await client.request(CODE_SHARE_PATHS_QUERY);
         return {
             props: {
-                data: CodeshareCollection as codeshare[]
+                data: CodeshareCollection as codeshareArticle[]
             }
         };
     } catch (e) {

@@ -4,18 +4,10 @@ import Link from 'next/link';
 // Utils
 import { getDate } from '@utils/data-formatter';
 
-interface codeshare {
-    authorName: string;
-    code: string;
-    company: string;
-    dateCreated: string;
-    description: string;
-    title: string;
-    urlTitle: string;
-    seoDescription: string;
-}
+// Models
+import { codeshareArticle } from '@models/CodeShare.model';
 
-export const CodeSharePost = ({ data }: { data: codeshare }): JSX.Element => {
+export const CodeSharePost = ({ data }: { data: codeshareArticle }): JSX.Element => {
     return (
         <div className="mb-14 pr-10">
             <Link href={`/codeshare/${data.urlTitle}`}>
@@ -26,6 +18,11 @@ export const CodeSharePost = ({ data }: { data: codeshare }): JSX.Element => {
             <p className="text-sm mb-1">
                 <span className="font-bold">Created:</span> {getDate(data.dateCreated)}
             </p>
+            {data.authorName ? (
+                <p className="text-sm mb-1">
+                    <span className="font-bold">Author:</span> {data.authorName}
+                </p>
+            ) : null}
             <p className="leading-7">{data.seoDescription}</p>
         </div>
     );

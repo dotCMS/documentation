@@ -10,6 +10,9 @@ import { Terminal } from '@components/PageRenderError';
 // Graphql
 import { CODE_SHARE_PATHS_QUERY, FULL_CODE_SHARE_QUERY } from '@graphql/queries';
 
+// Models
+import { codeshare } from '@models/CodeShare.model';
+
 // Utils
 import { client } from '@utils/graphql-client';
 import { ParsedUrlQuery } from 'node:querystring';
@@ -29,17 +32,6 @@ interface pageData {
     data: codeshare;
     source: MdxRemote.Source;
     error?: string;
-}
-
-interface codeshare {
-    authorName: string;
-    code: string;
-    company: string;
-    dateCreated: string;
-    description: string;
-    tag: string[];
-    title: string;
-    urlTitle: string;
 }
 
 interface paramsUrlTitle {
