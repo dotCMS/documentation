@@ -1,6 +1,5 @@
 import React from 'react';
 import { GetStaticPropsResult, GetStaticPathsResult, GetStaticPropsContext } from 'next';
-import Head from 'next/head';
 import classNames from 'classnames';
 
 // Components
@@ -44,10 +43,6 @@ export default function CodeShare({ data, source, error }: pageData): JSX.Elemen
     const mainClasses = ['container', 'mx-auto', 'px-16', 'flex-grow'];
     return (
         <div className="flex flex-col overflow-auto">
-            <Head>
-                <title>Documentation</title>
-                <link href="/favicon.ico" rel="icon" />
-            </Head>
             {error ? (
                 <main className={classNames(mainClasses)}>
                     <h1>{data.title}</h1>

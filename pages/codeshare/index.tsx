@@ -1,6 +1,5 @@
 import React from 'react';
 import { GetStaticPropsResult } from 'next';
-import Head from 'next/head';
 
 // Components
 import { FeedBack } from '@components/FeedBack';
@@ -19,10 +18,6 @@ import { codeshareArticle } from '@models/CodeShare.model';
 export default function Home({ data }: { data: codeshareArticle[] }): JSX.Element {
     return (
         <div className="flex flex-col overflow-auto">
-            <Head>
-                <title>Documentation</title>
-                <link href="/favicon.ico" rel="icon" />
-            </Head>
             <main className="container flex-grow mx-auto px-16">
                 <h1 className="mb-0">Code Share</h1>
                 <h2 className="mb-10 mt-0">Recent Submissions</h2>
