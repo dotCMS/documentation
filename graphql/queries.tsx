@@ -1,42 +1,23 @@
+// DOCUMENTATION QUERY
 export const NAVIGATION_MENU_QUERY = `
     query {
         DotcmsDocumentationCollection(
             query: "+urlMap:/docs/latest/table-of-contents"
         ) {
-            title
-            navTitle
             urlMap
-            urlTitle            
-            format
-            documentation
-            dotcmsdocumentationchildren {
-                title
-                navTitle                
+            urlTitle                                
+            dotcmsdocumentationchildren {                                
                 urlMap
-                urlTitle
-                format
-                documentation
-                dotcmsdocumentationchildren {
-                    title
-                    navTitle
+                urlTitle                            
+                dotcmsdocumentationchildren {                        
                     urlMap
-                    urlTitle                    
-                    format
-                    documentation
-                    dotcmsdocumentationchildren {
-                        title
-                        navTitle
+                    urlTitle                                                        
+                    dotcmsdocumentationchildren {                                
                         urlMap
-                        urlTitle                        
-                        format
-                        documentation
-                        dotcmsdocumentationchildren {
-                            title
-                            navTitle
+                        urlTitle                                                                    
+                        dotcmsdocumentationchildren {                                        
                             urlMap
-                            urlTitle                            
-                            format
-                            documentation
+                            urlTitle                                                                                
                         }
                     }
                 }
@@ -45,16 +26,35 @@ export const NAVIGATION_MENU_QUERY = `
     }
 `;
 
+export const FULL_PAGE_QUERY = `
+query ($urlTitle: String!) {
+    DotcmsDocumentationCollection(query: $urlTitle) {
+        title
+        format
+        documentation
+        showToc
+        dotcmsdocumentationchildren {
+            title            
+            urlTitle
+            dotcmsdocumentationchildren {
+                title                    
+                urlTitle                                                           
+                dotcmsdocumentationchildren {
+                    title                            
+                    urlTitle                                                                           
+                }
+            }
+        }
+    }
+}
+`;
+
+// CODESHARE QUERY
 export const CODE_SHARE_PATHS_QUERY = `
 query codeshare {
     CodeshareCollection {
         title
         urlTitle
-        authorName
-        dateCreated
-        title
-        urlTitle
-        seoDescription
     }
 }
 `;
@@ -99,26 +99,3 @@ query codeshare($tags: String!) {
         seoDescription
     }
 }`;
-
-export const FULL_PAGE_QUERY = `
-query ($urlTitle: String!) {
-    DotcmsDocumentationCollection(query: $urlTitle) {
-        title
-        format
-        documentation
-        showToc
-        dotcmsdocumentationchildren {
-            title            
-            urlTitle
-            dotcmsdocumentationchildren {
-                title                    
-                urlTitle                                                           
-                dotcmsdocumentationchildren {
-                    title                            
-                    urlTitle                                                                           
-                }
-            }
-        }
-    }
-}
-`;
