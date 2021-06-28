@@ -48,6 +48,8 @@ export const NAVIGATION_MENU_QUERY = `
 export const CODE_SHARE_PATHS_QUERY = `
 query codeshare {
     CodeshareCollection {
+        title
+        urlTitle
         authorName
         dateCreated
         title
