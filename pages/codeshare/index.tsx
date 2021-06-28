@@ -1,5 +1,7 @@
 import React from 'react';
+import { useRouter } from 'next/dist/client/router';
 import { GetServerSidePropsResult } from 'next';
+import classNames from 'classnames';
 
 // Components
 import { FeedBack } from '@components/FeedBack';
@@ -16,7 +18,13 @@ import { client } from '@utils/graphql-client';
 // Models
 import { codeshareArticle } from '@models/CodeShare.model';
 
-export default function Home({ data }: { data: codeshareArticle[] }): JSX.Element {
+export default function Home({
+    data,
+    page
+}: {
+    data: codeshareArticle[];
+    page: number;
+}): JSX.Element {
     return (
         <>
             <div className="flex flex-col overflow-auto">
@@ -27,6 +35,7 @@ export default function Home({ data }: { data: codeshareArticle[] }): JSX.Elemen
                         {data.map((item) => (
                             <CodeSharePost key={item.urlTitle} data={item} />
                         ))}
+                        <NextPresButtons page={page} />
                     </main>
                     <CodeShareTopics />
                 </div>
@@ -39,12 +48,44 @@ export default function Home({ data }: { data: codeshareArticle[] }): JSX.Elemen
     );
 }
 
+const NextPresButtons = ({ page }: { page: number }): JSX.Element => {
+    const router = useRouter();
+    const buttonClasses = [
+        'bg-white',
+        'border-gray',
+        'border',
+        'mr-2',
+        'px-2',
+        'py',
+        'rounded',
+        'focus:outline-none'
+    ];
+    return (
+        <>
+            {page > 1 ? (
+                <button
+                    className={classNames(buttonClasses)}
+                    onClick={() => router.push(`/codeshare?page=${page - 1}`)}
+                >
+                    Previous
+                </button>
+            ) : null}
+            <button
+                className={classNames(buttonClasses)}
+                onClick={() => router.push(`/codeshare?page=${page + 1}`)}
+            >
+                Next
+            </button>
+        </>
+    );
+};
+
 export async function getServerSideProps({
-    query: { page = 1, tag }
+    query: { page = 1, tag = '' }
 }: {
     query: { page: number; tag: string };
-}): Promise<GetServerSidePropsResult<{ data: codeshareArticle[]; page: number }>> {
-    const startFrom = page === 1 ? 0 : page * 10;
+}): Promise<GetServerSidePropsResult<{ data: codeshareArticle[]; page: number; tag: string }>> {
+    const startFrom = page <= 1 ? 0 : (page - 1) * 10;
     // Variables
     const variableTag = { tags: `+tags:${tag}` };
     const variablePag = { offset: startFrom };
@@ -54,7 +95,8 @@ export async function getServerSideProps({
     return {
         props: {
             data: CodeshareCollection as codeshareArticle[],
-            page: +page
+            page: +page,
+            tag: tag
         }
     };
 }

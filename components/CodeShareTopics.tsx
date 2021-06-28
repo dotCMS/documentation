@@ -1,5 +1,5 @@
-import { useRouter } from 'next/dist/client/router';
 import React from 'react';
+import { useRouter } from 'next/dist/client/router';
 
 export const CodeShareTopics = (): JSX.Element => {
     const router = useRouter();
