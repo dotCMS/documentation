@@ -1,5 +1,5 @@
 import React from 'react';
-import { GetStaticPropsResult } from 'next';
+import { GetServerSidePropsResult } from 'next';
 
 // Components
 import { FeedBack } from '@components/FeedBack';
@@ -8,7 +8,7 @@ import { CodeSharePost } from '@components/CodeSharePost';
 import { CodeShareTopics } from '@components/CodeShareTopics';
 
 // Graphql
-import { CODE_SHARE_PATHS_QUERY } from '@graphql/queries';
+import { CODE_SHARE_QUERY_LIST_ARTICULES, CODE_SHARE_QUERY_LIST_TAGS } from '@graphql/queries';
 
 // Utils
 import { client } from '@utils/graphql-client';
@@ -39,17 +39,22 @@ export default function Home({ data }: { data: codeshareArticle[] }): JSX.Elemen
     );
 }
 
-export async function getStaticProps(): Promise<
-    GetStaticPropsResult<{ data: codeshareArticle[] }>
-> {
-    try {
-        const { CodeshareCollection } = await client.request(CODE_SHARE_PATHS_QUERY);
-        return {
-            props: {
-                data: CodeshareCollection as codeshareArticle[]
-            }
-        };
-    } catch (e) {
-        throw new Error(e);
-    }
+export async function getServerSideProps({
+    query: { page = 1, tag }
+}: {
+    query: { page: number; tag: string };
+}): Promise<GetServerSidePropsResult<{ data: codeshareArticle[]; page: number }>> {
+    const startFrom = page === 1 ? 0 : page * 10;
+    // Variables
+    const variableTag = { tags: `+tags:${tag}` };
+    const variablePag = { offset: startFrom };
+    const { CodeshareCollection } = tag
+        ? await client.request(CODE_SHARE_QUERY_LIST_TAGS, variableTag)
+        : await client.request(CODE_SHARE_QUERY_LIST_ARTICULES, variablePag);
+    return {
+        props: {
+            data: CodeshareCollection as codeshareArticle[],
+            page: +page
+        }
+    };
 }

@@ -73,6 +73,33 @@ query codeshare ($urlTitle: String!) {
     }
 }`;
 
+export const CODE_SHARE_QUERY_LIST_ARTICULES = `
+query codeshare($offset: Int!) {
+    CodeshareCollection(
+        limit: 10,
+        offset: $offset
+    ) {
+        authorName
+        dateCreated
+        title
+        urlTitle
+        seoDescription
+    }
+}`;
+
+export const CODE_SHARE_QUERY_LIST_TAGS = `
+query codeshare($tags: String!) {
+    CodeshareCollection(
+        query: $tags 
+    ) {
+        authorName
+        dateCreated
+        title
+        urlTitle
+        seoDescription
+    }
+}`;
+
 export const FULL_PAGE_QUERY = `
 query ($urlTitle: String!) {
     DotcmsDocumentationCollection(query: $urlTitle) {
