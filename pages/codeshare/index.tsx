@@ -14,15 +14,9 @@ import { CODE_SHARE_QUERY_LIST_ARTICULES, CODE_SHARE_QUERY_LIST_TAGS } from '@gr
 import { client } from '@utils/graphql-client';
 
 // Models
-import { codeshareArticle } from '@models/CodeShare.model';
+import { codesharePost } from '@models/CodeShare.model';
 
-export default function Home({
-    data,
-    page
-}: {
-    data: codeshareArticle[];
-    page: number;
-}): JSX.Element {
+export default function Home({ data, page }: { data: codesharePost[]; page: number }): JSX.Element {
     return (
         <div className="container flex flex-grow mx-auto">
             <main className="px-5">
@@ -74,7 +68,7 @@ export async function getServerSideProps({
     query: { page = 1, tag = '' }
 }: {
     query: { page: number; tag: string };
-}): Promise<GetServerSidePropsResult<{ data: codeshareArticle[]; page: number; tag: string }>> {
+}): Promise<GetServerSidePropsResult<{ data: codesharePost[]; page: number; tag: string }>> {
     const startFrom = page <= 1 ? 0 : (page - 1) * 10;
     // Variables
     const variableTag = { tags: `+tags:${tag}` };
@@ -84,7 +78,7 @@ export async function getServerSideProps({
         : await client.request(CODE_SHARE_QUERY_LIST_ARTICULES, variablePag);
     return {
         props: {
-            data: CodeshareCollection as codeshareArticle[],
+            data: CodeshareCollection as codesharePost[],
             page: +page,
             tag: tag
         }
