@@ -27,22 +27,19 @@ export const CodeShareTopics = (): JSX.Element => {
         { tag: 'menus and crumbtrails', link: 'menus-and-crumbtrails' }
     ];
     return (
-        <div>
-            <h2>Topics</h2>
-            <ul className="list-none">
-                {topics.map((topic, index) => (
-                    <li key={index}>
-                        <a
-                            className="no-underline text-blue-500 cursor-pointer"
-                            onClick={() =>
-                                router.push(`/codeshare${topic.link ? `?tag=${topic.link}` : ''}`)
-                            }
-                        >
-                            {topic.tag}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <ul className="list-none">
+            {topics.map((topic, index) => (
+                <li key={index}>
+                    <a
+                        className="cursor-pointer no-underline text-blue-500"
+                        onClick={() =>
+                            router.push(`/codeshare${topic.link ? `?tag=${topic.link}` : ''}`)
+                        }
+                    >
+                        {topic.tag}
+                    </a>
+                </li>
+            ))}
+        </ul>
     );
 };

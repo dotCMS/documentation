@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { CodeSharePost } from '@components/CodeSharePost';
-import { CodeShareTopics } from '@components/CodeShareTopics';
+import { CodeShareSide } from '@components/CodeShareSide';
 
 // Graphql
 import { CODE_SHARE_QUERY_LIST_ARTICULES, CODE_SHARE_QUERY_LIST_TAGS } from '@graphql/queries';
@@ -35,9 +35,9 @@ export default function Home({
                         {data.map((item) => (
                             <CodeSharePost key={item.urlTitle} data={item} />
                         ))}
-                        <NextPresButtons page={page} />
+                        <NextPrevButtons page={page} />
                     </main>
-                    <CodeShareTopics />
+                    <CodeShareSide />
                 </div>
                 <div>
                     <FeedBack />
@@ -48,7 +48,7 @@ export default function Home({
     );
 }
 
-const NextPresButtons = ({ page }: { page: number }): JSX.Element => {
+const NextPrevButtons = ({ page }: { page: number }): JSX.Element => {
     const router = useRouter();
     const buttonClasses = [
         'bg-white',
