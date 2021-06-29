@@ -14,14 +14,14 @@ import DotToc, { toc } from '@plugins/DotToc';
 import DotCodeMultiline from '@plugins/DotCodeMultiline';
 
 // Components
-import { ContainerToc } from '@components/ContainerToc';
+import { ContainerToc } from '@components/toc/ContainerToc';
 import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { ImageMarkdown } from '@components/ImageMarkdown';
 import { LinkMarkdown } from '@components/LinkMarkdown';
 import { Terminal } from '@components/PageRenderError';
-import TableOfContent from '@components/TableOfContent';
-import TopPageToc from '@components/TopPageToc';
+import TableOfContent from '@components/toc/TableOfContent';
+import TopPageToc from '@components/toc/TopPageToc';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
