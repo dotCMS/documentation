@@ -1,4 +1,4 @@
-export interface codeshare {
+export interface codesharePost {
     authorName: string;
     dateCreated: string;
     title: string;
@@ -6,7 +6,7 @@ export interface codeshare {
     seoDescription: string;
 }
 
-export interface codesharePost extends codeshare {
+export interface codesharePage extends codesharePost {
     code: string;
     company: string;
     description: string;

@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { getDate } from '@helpers/data-formatter';
 
 // Models
-import { codeshare } from '@models/CodeShare.model';
+import { codesharePost } from '@models/CodeShare.model';
 
-export const CodeSharePost = ({ data }: { data: codeshare }): JSX.Element => {
+export const CodeSharePost = ({ data }: { data: codesharePost }): JSX.Element => {
     return (
         <div className="mb-14 pr-10">
             <Link href={`/codeshare/${data.urlTitle}`}>
