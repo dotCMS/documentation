@@ -9,7 +9,7 @@ import { Terminal } from '@components/PageRenderError';
 import { CODE_SHARE_PATHS_QUERY, FULL_CODE_SHARE_QUERY } from '@graphql/queries';
 
 // Models
-import { codeshare } from '@models/CodeShare.model';
+import { codesharePost } from '@models/CodeShare.model';
 
 // Utils
 import { client } from '@utils/graphql-client';
@@ -27,7 +27,7 @@ import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 
 interface pageData {
-    data: codeshare;
+    data: codesharePost;
     source: MdxRemote.Source;
     error?: string;
 }

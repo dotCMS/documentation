@@ -4,20 +4,25 @@ export const NAVIGATION_MENU_QUERY = `
         DotcmsDocumentationCollection(
             query: "+urlMap:/docs/latest/table-of-contents"
         ) {
-            urlMap
-            urlTitle                                
-            dotcmsdocumentationchildren {                                
-                urlMap
-                urlTitle                            
-                dotcmsdocumentationchildren {                        
-                    urlMap
-                    urlTitle                                                        
-                    dotcmsdocumentationchildren {                                
-                        urlMap
-                        urlTitle                                                                    
-                        dotcmsdocumentationchildren {                                        
-                            urlMap
-                            urlTitle                                                                                
+            urlTitle
+            title
+            navTitle
+            dotcmsdocumentationchildren {                                    
+                urlTitle
+                title
+                navTitle
+                dotcmsdocumentationchildren {                                
+                    urlTitle
+                    title
+                    navTitle                         
+                    dotcmsdocumentationchildren {                                            
+                        urlTitle
+                        title
+                        navTitle                                         
+                        dotcmsdocumentationchildren {                                                        
+                            urlTitle
+                            title
+                            navTitle                                             
                         }
                     }
                 }
