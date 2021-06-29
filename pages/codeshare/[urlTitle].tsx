@@ -3,8 +3,6 @@ import { GetStaticPropsResult, GetStaticPathsResult, GetStaticPropsContext } fro
 import classNames from 'classnames';
 
 // Components
-import { FeedBack } from '@components/FeedBack';
-import { Footer } from '@components/Footer';
 import { Terminal } from '@components/PageRenderError';
 
 // Graphql
@@ -16,7 +14,7 @@ import { codeshare } from '@models/CodeShare.model';
 // Utils
 import { client } from '@utils/graphql-client';
 import { ParsedUrlQuery } from 'node:querystring';
-import { getDate } from '@utils/data-formatter';
+import { getDate } from '@helpers/data-formatter';
 
 // mdx custom plugins
 import DotCodeMultine from '@plugins/DotCodeMultiline';
@@ -42,7 +40,7 @@ export default function CodeShare({ data, source, error }: pageData): JSX.Elemen
     const content = source ? hydrate(source) : null;
     const mainClasses = ['container', 'mx-auto', 'px-16', 'flex-grow'];
     return (
-        <div className="flex flex-col overflow-auto">
+        <>
             {error ? (
                 <main className={classNames(mainClasses)}>
                     <h1>{data.title}</h1>
@@ -64,11 +62,7 @@ export default function CodeShare({ data, source, error }: pageData): JSX.Elemen
                     </pre>
                 </main>
             )}
-            <div>
-                <FeedBack />
-                <Footer />
-            </div>
-        </div>
+        </>
     );
 }
 

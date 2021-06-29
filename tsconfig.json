@@ -21,7 +21,8 @@
             "@graphql/*": ["graphql/*"],
             "@utils/*": ["utils/*"],
             "@services/*": ["services/*"],
-            "@styles/*": ["styles/*"]
+            "@styles/*": ["styles/*"],
+            "@helpers/*": ["helpers/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

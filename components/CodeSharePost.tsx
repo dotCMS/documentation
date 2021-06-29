@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
-// Utils
-import { getDate } from '@utils/data-formatter';
+// helpers
+import { getDate } from '@helpers/data-formatter';
 
 // Models
 import { codeshareArticle } from '@models/CodeShare.model';

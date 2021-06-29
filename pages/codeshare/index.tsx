@@ -4,8 +4,6 @@ import { GetServerSidePropsResult } from 'next';
 import classNames from 'classnames';
 
 // Components
-import { FeedBack } from '@components/FeedBack';
-import { Footer } from '@components/Footer';
 import { CodeSharePost } from '@components/CodeSharePost';
 import { CodeShareSide } from '@components/CodeShareSide';
 
@@ -26,25 +24,17 @@ export default function Home({
     page: number;
 }): JSX.Element {
     return (
-        <>
-            <div className="flex flex-col overflow-auto">
-                <div className="container flex flex-grow mx-auto px-16">
-                    <main className="container">
-                        <h1 className="mb-0">Code Share</h1>
-                        <h2 className="mb-10 mt-0">Recent Submissions</h2>
-                        {data.map((item) => (
-                            <CodeSharePost key={item.urlTitle} data={item} />
-                        ))}
-                        <NextPrevButtons page={page} />
-                    </main>
-                    <CodeShareSide />
-                </div>
-                <div>
-                    <FeedBack />
-                    <Footer />
-                </div>
-            </div>
-        </>
+        <div className="container flex flex-grow mx-auto">
+            <main className="px-5">
+                <h1 className="mb-0">Code Share</h1>
+                <h2 className="mb-10 mt-0">Recent Submissions</h2>
+                {data.map((item) => (
+                    <CodeSharePost key={item.urlTitle} data={item} />
+                ))}
+                <NextPrevButtons page={page} />
+            </main>
+            <CodeShareSide />
+        </div>
     );
 }
 

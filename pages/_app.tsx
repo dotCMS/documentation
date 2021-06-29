@@ -7,7 +7,9 @@ import styled from 'styled-components';
 
 // Tailwind
 import '@styles/globals.css';
-import { Header } from '../components/header/Header';
+import { Header } from '@components/header/Header';
+import { FeedBack } from '@components/FeedBack';
+import { Footer } from '@components/Footer';
 import { SideBar } from '@components/SideBar';
 import { SideNav } from '@components/SideNav';
 
@@ -62,7 +64,13 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                             showSidebar={showSidebar}
                         />
                     </HeaderWrapper>
-                    <Component {...pageProps} />
+                    <div className="flex flex-col overflow-auto">
+                        <Component {...pageProps} />
+                        <div>
+                            <FeedBack />
+                            <Footer />
+                        </div>
+                    </div>
                 </Grid>
             )}
         </>
