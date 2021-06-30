@@ -8,7 +8,11 @@ import { CodeSharePost } from '@components/CodeSharePost';
 import { CodeShareSide } from '@components/CodeShareSide';
 
 // Graphql
-import { CODE_SHARE_QUERY_LIST_ARTICULES, CODE_SHARE_QUERY_LIST_TAGS } from '@graphql/queries';
+import {
+    CODE_SHARE_QUERY_LIST_ARTICULES,
+    CODE_SHARE_QUERY_LIST_TAGS,
+    CODE_SHARE_QUERY_TOTAL_COUNT
+} from '@graphql/queries';
 
 // Utils
 import { client } from '@utils/graphql-client';
@@ -16,23 +20,36 @@ import { client } from '@utils/graphql-client';
 // Models
 import { codesharePost } from '@models/CodeShare.model';
 
-export default function Home({ data, page }: { data: codesharePost[]; page: number }): JSX.Element {
+interface pageProps {
+    data: codesharePost[];
+    tag: string;
+    page: number;
+    totalCount: number;
+}
+
+export default function Home({ data, page, totalCount }: pageProps): JSX.Element {
     return (
         <div className="container flex flex-grow mx-auto">
-            <main className="px-5">
+            <main className="px-5 w-full">
                 <h1 className="mb-0">Code Share</h1>
                 <h2 className="mb-10 mt-0">Recent Submissions</h2>
                 {data.map((item) => (
                     <CodeSharePost key={item.urlTitle} data={item} />
                 ))}
-                <NextPrevButtons page={page} />
+                <NextPrevButtons page={page} totalCount={totalCount} />
             </main>
             <CodeShareSide />
         </div>
     );
 }
 
-const NextPrevButtons = ({ page }: { page: number }): JSX.Element => {
+const NextPrevButtons = ({
+    page,
+    totalCount
+}: {
+    page: number;
+    totalCount: number;
+}): JSX.Element => {
     const router = useRouter();
     const buttonClasses = [
         'bg-white',
@@ -44,6 +61,7 @@ const NextPrevButtons = ({ page }: { page: number }): JSX.Element => {
         'rounded',
         'focus:outline-none'
     ];
+    const totalCountPage = page * 10;
     return (
         <>
             {page > 1 ? (
@@ -54,12 +72,14 @@ const NextPrevButtons = ({ page }: { page: number }): JSX.Element => {
                     Previous
                 </button>
             ) : null}
-            <button
-                className={classNames(buttonClasses)}
-                onClick={() => router.push(`/codeshare?page=${page + 1}`)}
-            >
-                Next
-            </button>
+            {totalCountPage < totalCount ? (
+                <button
+                    className={classNames(buttonClasses)}
+                    onClick={() => router.push(`/codeshare?page=${page + 1}`)}
+                >
+                    Next
+                </button>
+            ) : null}
         </>
     );
 };
@@ -68,7 +88,7 @@ export async function getServerSideProps({
     query: { page = 1, tag = '' }
 }: {
     query: { page: number; tag: string };
-}): Promise<GetServerSidePropsResult<{ data: codesharePost[]; page: number; tag: string }>> {
+}): Promise<GetServerSidePropsResult<pageProps>> {
     const startFrom = page <= 1 ? 0 : (page - 1) * 10;
     // Variables
     const variableTag = { tags: `+tags:${tag}` };
@@ -76,11 +96,13 @@ export async function getServerSideProps({
     const { CodeshareCollection } = tag
         ? await client.request(CODE_SHARE_QUERY_LIST_TAGS, variableTag)
         : await client.request(CODE_SHARE_QUERY_LIST_ARTICULES, variablePag);
+    const { QueryMetadata } = await client.request(CODE_SHARE_QUERY_TOTAL_COUNT);
     return {
         props: {
             data: CodeshareCollection as codesharePost[],
             page: +page,
-            tag: tag
+            tag: tag,
+            totalCount: QueryMetadata[0].totalCount
         }
     };
 }

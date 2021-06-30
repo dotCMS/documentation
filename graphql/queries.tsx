@@ -57,7 +57,9 @@ query ($urlTitle: String!) {
 // CODESHARE QUERY
 export const CODE_SHARE_PATHS_QUERY = `
 query codeshare {
-    CodeshareCollection {
+    CodeshareCollection(
+        limit: 100000000
+    ) {
         title
         urlTitle
     }
@@ -89,6 +91,18 @@ query codeshare($offset: Int!) {
         title
         urlTitle
         seoDescription
+    }
+}`;
+
+export const CODE_SHARE_QUERY_TOTAL_COUNT = `
+query codeshare {
+    CodeshareCollection(
+      limit: 1000000
+    ){
+    	urlTitle
+  	}
+  	QueryMetadata {
+      totalCount
     }
 }`;
 
