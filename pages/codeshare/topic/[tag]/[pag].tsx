@@ -6,6 +6,7 @@ import classNames from 'classnames';
 // Components
 import { CodeSharePost } from '@components/CodeSharePost';
 import { CodeShareSide } from '@components/CodeShareSide';
+import { CodeShareTopics } from '@components/CodeShareTopics';
 
 // Graphql
 import { CODE_SHARE_QUERY_LIST_ARTICLES, CODE_SHARE_QUERY_TOTAL_COUNT } from '@graphql/queries';
@@ -14,18 +15,25 @@ import { CODE_SHARE_QUERY_LIST_ARTICLES, CODE_SHARE_QUERY_TOTAL_COUNT } from '@g
 import { client } from '@utils/graphql-client';
 
 // Models
-import { CodeSharePostInterface } from '@models/CodeShare.model';
+import { CodeSharePostInterface, CodeShareTopicsInterface } from '@models/CodeShare.model';
 
 interface PageProps {
     data: CodeSharePostInterface[];
     page: number;
     totalCount: number;
     tag: string;
+    topics: CodeShareTopicsInterface[];
 }
 
 const postPerPage = 10;
 
-export default function CodeShareTag({ data, page, totalCount, tag }: PageProps): JSX.Element {
+export default function CodeShareTag({
+    data,
+    page,
+    totalCount,
+    tag,
+    topics
+}: PageProps): JSX.Element {
     return (
         <div className="container flex flex-grow mx-auto">
             <main className="px-5 w-full">
@@ -36,7 +44,9 @@ export default function CodeShareTag({ data, page, totalCount, tag }: PageProps)
                 ))}
                 <NextPrevButtons page={page} tag={tag} totalCount={totalCount} />
             </main>
-            <CodeShareSide />
+            <CodeShareSide>
+                <CodeShareTopics topics={topics} />
+            </CodeShareSide>
         </div>
     );
 }
@@ -94,12 +104,39 @@ export async function getServerSideProps({
         variablePag
     );
     const { QueryMetadata } = await client.request(CODE_SHARE_QUERY_TOTAL_COUNT, { tags });
+    const topics = await getTopics();
     return {
         props: {
             data: CodeshareCollection as CodeSharePostInterface[],
             page: pageNumber,
             totalCount: QueryMetadata[0].totalCount,
-            tag: params.tag
+            tag: params.tag,
+            topics: topics
         }
     };
 }
+
+const getTopics = async (): Promise<CodeShareTopicsInterface[]> => {
+    const { esresponse } = await (
+        await fetch('https://authoring.dotcms.com/api/es/search', TOPIC_QUERY)
+    ).json();
+    const resp = esresponse[0].aggregations['sterms#tag'].buckets;
+    const data = resp.map((topic) => {
+        const link = topic.key.replace(/ /g, '-');
+        return {
+            title: topic.key,
+            link
+        };
+    });
+    data.unshift({ title: 'All Codeshare', link: 'all' });
+    return data;
+};
+
+const TOPIC_QUERY = {
+    method: 'POST',
+    headers: {
+        cookie: 'BACKENDID=192.168.48.3',
+        'Content-Type': 'application/json'
+    },
+    body: `{\"query\":{\"query_string\":{\"query\":\"+contenttype:codeshare\"}},\"aggs\":{\"tag\":{\"terms\":{\"field\":\"tags\",\"size\":20}}},\"size\":0}`
+};

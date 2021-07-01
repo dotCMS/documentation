@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-// Components
-import { CodeShareTopics } from '@components/CodeShareTopics';
-
-export const CodeShareSide = (): JSX.Element => {
+export const CodeShareSide = ({ children }: { children: ReactNode }): JSX.Element => {
     return (
         <div className="w-72">
             <h3 className="text-2xl">Topics</h3>
-            <CodeShareTopics />
+            {children}
             <SideShareCode />
         </div>
     );

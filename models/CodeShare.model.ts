@@ -11,3 +11,8 @@ export interface CodeSharePage extends CodeSharePostInterface {
     company: string;
     description: string;
 }
+
+export interface CodeShareTopicsInterface {
+    title: string;
+    link: string;
+}

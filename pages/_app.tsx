@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             </Head>
             <GlobalStyle />
             {pageProps.navDot ? (
-                <Grid codeShare={false}>
+                <Grid>
                     <HeaderWrapper>
                         <Header
                             setShowSideToc={setShowSideToc}
