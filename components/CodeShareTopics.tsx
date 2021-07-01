@@ -1,10 +1,8 @@
 import React from 'react';
-import { useRouter } from 'next/dist/client/router';
-
+import Link from 'next/link';
 export const CodeShareTopics = (): JSX.Element => {
-    const router = useRouter();
     const topics = [
-        { tag: 'All Codeshare', link: '' },
+        { tag: 'All Codeshare', link: 'all' },
         { tag: 'custom fields', link: 'custom-fields' },
         { tag: 'blogs', link: 'blogs' },
         { tag: 'content', link: 'content' },
@@ -30,14 +28,9 @@ export const CodeShareTopics = (): JSX.Element => {
         <ul className="list-none">
             {topics.map((topic, index) => (
                 <li key={index}>
-                    <a
-                        className="cursor-pointer no-underline text-blue-500"
-                        onClick={() =>
-                            router.push(`/codeshare${topic.link ? `?tag=${topic.link}` : ''}`)
-                        }
-                    >
-                        {topic.tag}
-                    </a>
+                    <Link href={`/codeshare/${topic.link}/1`}>
+                        <a className="cursor-pointer no-underline text-blue-500">{topic.tag}</a>
+                    </Link>
                 </li>
             ))}
         </ul>

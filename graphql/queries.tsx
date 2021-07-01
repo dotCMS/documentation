@@ -81,9 +81,10 @@ query codeshare ($urlTitle: String!) {
 }`;
 
 export const CODE_SHARE_QUERY_LIST_ARTICULES = `
-query codeshare($offset: Int!) {
+query codeshare($offset: Int!; $tags: String!) {
     CodeshareCollection(
         limit: 10,
+        query: $tags,
         offset: $offset
     ) {
         authorName
@@ -95,9 +96,10 @@ query codeshare($offset: Int!) {
 }`;
 
 export const CODE_SHARE_QUERY_TOTAL_COUNT = `
-query codeshare {
+query codeshare($tags: String!) {
     CodeshareCollection(
-      limit: 1000000
+        query: $tags,
+        limit: 1000000
     ){
     	urlTitle
   	}
@@ -106,15 +108,15 @@ query codeshare {
     }
 }`;
 
-export const CODE_SHARE_QUERY_LIST_TAGS = `
-query codeshare($tags: String!) {
-    CodeshareCollection(
-        query: $tags 
-    ) {
-        authorName
-        dateCreated
-        title
-        urlTitle
-        seoDescription
-    }
-}`;
+// export const CODE_SHARE_QUERY_LIST_TAGS = `
+// query codeshare($tags: String!) {
+//     CodeshareCollection(
+//         query: $tags
+//     ) {
+//         authorName
+//         dateCreated
+//         title
+//         urlTitle
+//         seoDescription
+//     }
+// }`;
