@@ -107,16 +107,3 @@ query codeshare($tags: String!) {
       totalCount
     }
 }`;
-
-// export const CODE_SHARE_QUERY_LIST_TAGS = `
-// query codeshare($tags: String!) {
-//     CodeshareCollection(
-//         query: $tags
-//     ) {
-//         authorName
-//         dateCreated
-//         title
-//         urlTitle
-//         seoDescription
-//     }
-// }`;
