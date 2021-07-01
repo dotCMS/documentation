@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { getDate } from '@helpers/data-formatter';
 
 // Models
-import { codesharePost } from '@models/CodeShare.model';
+import { CodeSharePostInterface } from '@models/CodeShare.model';
 
-export const CodeSharePost = ({ data }: { data: codesharePost }): JSX.Element => {
+export const CodeSharePost = ({ data }: { data: CodeSharePostInterface }): JSX.Element => {
     return (
         <div className="mb-14 pr-10">
-            <Link href={`/codeshare/post/${data.urlTitle}`}>
+            <Link href={`/codeshare/${data.urlTitle}`}>
                 <a className="font-bold inline-block mb-1 no-underline text-blue-500 text-lg hover:underline">
                     <h3 className="m-0">{data.title}</h3>
                 </a>

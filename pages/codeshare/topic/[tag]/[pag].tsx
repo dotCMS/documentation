@@ -8,16 +8,16 @@ import { CodeSharePost } from '@components/CodeSharePost';
 import { CodeShareSide } from '@components/CodeShareSide';
 
 // Graphql
-import { CODE_SHARE_QUERY_LIST_ARTICULES, CODE_SHARE_QUERY_TOTAL_COUNT } from '@graphql/queries';
+import { CODE_SHARE_QUERY_LIST_ARTICLES, CODE_SHARE_QUERY_TOTAL_COUNT } from '@graphql/queries';
 
 // Utils
 import { client } from '@utils/graphql-client';
 
 // Models
-import { codesharePost } from '@models/CodeShare.model';
+import { CodeSharePostInterface } from '@models/CodeShare.model';
 
-interface pageProps {
-    data: codesharePost[];
+interface PageProps {
+    data: CodeSharePostInterface[];
     page: number;
     totalCount: number;
     tag: string;
@@ -25,7 +25,7 @@ interface pageProps {
 
 const postPerPage = 10;
 
-export default function Home({ data, page, totalCount, tag }: pageProps): JSX.Element {
+export default function CodeShareTag({ data, page, totalCount, tag }: PageProps): JSX.Element {
     return (
         <div className="container flex flex-grow mx-auto">
             <main className="px-5 w-full">
@@ -56,8 +56,9 @@ const NextPrevButtons = ({
         'border-gray',
         'border',
         'mr-2',
+        'no-underline',
         'px-2',
-        'py',
+        'py-2',
         'rounded',
         'focus:outline-none'
     ];
@@ -65,13 +66,13 @@ const NextPrevButtons = ({
     return (
         <>
             {page > 1 ? (
-                <Link href={`/codeshare/${urlTag}${page - 1}`}>
-                    <button className={classNames(buttonClasses)}>Previous</button>
+                <Link href={`/codeshare/topic/${urlTag}${page - 1}`}>
+                    <a className={classNames(buttonClasses)}>Previous</a>
                 </Link>
             ) : null}
             {totalCountPage < totalCount ? (
-                <Link href={`/codeshare/${urlTag}${page + 1}`}>
-                    <button className={classNames(buttonClasses)}>Next</button>
+                <Link href={`/codeshare/topic/${urlTag}${page + 1}`}>
+                    <a className={classNames(buttonClasses)}>Next</a>
                 </Link>
             ) : null}
         </>
@@ -82,20 +83,20 @@ export async function getServerSideProps({
     params
 }: {
     params: { tag: string; pag: string };
-}): Promise<GetServerSidePropsResult<pageProps>> {
+}): Promise<GetServerSidePropsResult<PageProps>> {
     const pageNumber = +params.pag;
     const tags = params.tag == 'all' ? '' : `+tags:${params.tag}`;
     const startFrom = pageNumber <= 1 ? 0 : (pageNumber - 1) * postPerPage;
     // Variables
     const variablePag = { offset: startFrom, tags };
     const { CodeshareCollection } = await client.request(
-        CODE_SHARE_QUERY_LIST_ARTICULES,
+        CODE_SHARE_QUERY_LIST_ARTICLES,
         variablePag
     );
     const { QueryMetadata } = await client.request(CODE_SHARE_QUERY_TOTAL_COUNT, { tags });
     return {
         props: {
-            data: CodeshareCollection as codesharePost[],
+            data: CodeshareCollection as CodeSharePostInterface[],
             page: pageNumber,
             totalCount: QueryMetadata[0].totalCount,
             tag: params.tag

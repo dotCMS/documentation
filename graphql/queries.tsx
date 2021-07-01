@@ -80,7 +80,7 @@ query codeshare ($urlTitle: String!) {
     }
 }`;
 
-export const CODE_SHARE_QUERY_LIST_ARTICULES = `
+export const CODE_SHARE_QUERY_LIST_ARTICLES = `
 query codeshare($offset: Int!; $tags: String!) {
     CodeshareCollection(
         limit: 10,

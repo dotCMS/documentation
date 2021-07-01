@@ -28,7 +28,7 @@ export const CodeShareTopics = (): JSX.Element => {
         <ul className="list-none">
             {topics.map((topic, index) => (
                 <li key={index}>
-                    <Link href={`/codeshare/${topic.link}/1`}>
+                    <Link href={`/codeshare/topic/${topic.link}/1`}>
                         <a className="cursor-pointer no-underline text-blue-500">{topic.tag}</a>
                     </Link>
                 </li>
