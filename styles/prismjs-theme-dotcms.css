@@ -1,3 +1,8 @@
+pre{
+    background-color: #F3F6FD;
+    overflow: auto;
+}
+
 pre[class*="language-"],
 code[class*="language-"] {
     color: #04d0b3;
@@ -30,6 +35,7 @@ code[class*="language-"]::mozselection {
 }
 
 @media print {
+
     pre[class*="language-"],
     code[class*="language-"] {
         text-shadow: none;

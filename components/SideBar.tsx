@@ -71,7 +71,9 @@ export const SideBar = ({
     ];
 
     return (
-        <div className={classNames(showSidebar ? containerOnShowClasses : containerOnHideClasses)}>
+        <aside
+            className={classNames(showSidebar ? containerOnShowClasses : containerOnHideClasses)}
+        >
             <Button
                 className={classNames(
                     showSidebar ? buttonOnShowDesktopClasses : buttonOnHideDesktopClasses
@@ -90,6 +92,6 @@ export const SideBar = ({
                     <nav>{children}</nav>
                 </SideNav>
             </div>
-        </div>
+        </aside>
     );
 };

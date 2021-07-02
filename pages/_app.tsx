@@ -7,18 +7,21 @@ import styled from 'styled-components';
 
 // Tailwind
 import '@styles/globals.css';
-import { Header } from '../components/header/Header';
+import { Header } from '@components/header/Header';
+import { FeedBack } from '@components/FeedBack';
+import { Footer } from '@components/Footer';
 import { SideBar } from '@components/SideBar';
 import { SideNav } from '@components/SideNav';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: 0 100vw 0;
+    grid-template-columns: ${(props) => (props.codeShare ? '100vw max-content' : '0 100vw 0')};
     grid-template-rows: max-content 1fr;
     min-height: 100vh;
     max-height: 100vh;
     @media screen and (min-width: 1024px) {
-        grid-template-columns: max-content 1fr max-content;
+        grid-template-columns: ${(props) =>
+            props.codeShare ? '1fr max-content' : 'max-content 1fr max-content'};
     }
 `;
 const HeaderWrapper = styled.div`
@@ -26,11 +29,13 @@ const HeaderWrapper = styled.div`
 `;
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+    const pageTitle = pageProps.pageTitle || 'Documentation';
     const [showSidebar, setShowSidebar] = useState(true);
     const [showSideToc, setShowSideToc] = useState(false);
     return (
         <>
             <Head>
+                <title>{pageTitle}</title>
                 <meta
                     content="width=device-width, initial-scale=1.0, user-scalable=0"
                     name="viewport"
@@ -52,7 +57,22 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                     <Component showSideToc={showSideToc} {...pageProps} />
                 </Grid>
             ) : (
-                <Component {...pageProps} />
+                <Grid codeShare={true}>
+                    <HeaderWrapper>
+                        <Header
+                            setShowSideToc={setShowSideToc}
+                            setShowSidebar={setShowSidebar}
+                            showSidebar={showSidebar}
+                        />
+                    </HeaderWrapper>
+                    <div className="flex flex-col overflow-auto">
+                        <Component {...pageProps} />
+                        <div>
+                            <FeedBack />
+                            <Footer />
+                        </div>
+                    </div>
+                </Grid>
             )}
         </>
     );

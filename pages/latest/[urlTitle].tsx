@@ -11,16 +11,17 @@ import { ParsedUrlQuery } from 'querystring';
 import DotDecodeHtml from '@plugins/DotDecodeHtml';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotToc, { toc } from '@plugins/DotToc';
+import DotCodeMultiline from '@plugins/DotCodeMultiline';
 
 // Components
-import { ContainerToc } from '@components/ContainerToc';
+import { ContainerToc } from '@components/toc/ContainerToc';
 import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { ImageMarkdown } from '@components/ImageMarkdown';
 import { LinkMarkdown } from '@components/LinkMarkdown';
-import { Terminal } from '@components/PageRenderError';
-import TableOfContent from '@components/TableOfContent';
-import TopPageToc from '@components/TopPageToc';
+import { PageError } from '@components/PageError';
+import TableOfContent from '@components/toc/TableOfContent';
+import TopPageToc from '@components/toc/TopPageToc';
 
 // Graphql
 import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
@@ -43,9 +44,10 @@ interface PageData {
     data: Documentation;
     navDot: Documentation[];
     source: MdxRemote.Source;
+    error?: string;
+    pageTitle?: string;
     showSideToc?: boolean;
     toc?: TableContentModel[];
-    error?: string;
 }
 
 const componentsUI: MDXProviderComponentsProp = {
@@ -87,10 +89,7 @@ const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX
                 <title>{data.title}</title>
             </Head>
             {error ? (
-                <main className="container">
-                    <h1>{data.title}</h1>
-                    <Terminal content={error} />
-                </main>
+                <PageError error={error} title={data.title} />
             ) : (
                 <>
                     <div className="flex flex-col overflow-auto overflow-y-scroll">
@@ -150,12 +149,21 @@ export async function getStaticProps({
     try {
         const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
             mdxOptions: {
-                remarkPlugins: [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc]
+                remarkPlugins: [
+                    DotHtmlToJsxRemark,
+                    remarkId,
+                    prism,
+                    html,
+                    DotCodeMultiline,
+                    DotDecodeHtml,
+                    DotToc
+                ]
             }
         });
         return {
             props: {
                 data: DotcmsDocumentationCollection[0],
+                pageTitle: DotcmsDocumentationCollection[0].title,
                 navDot: DotcmsDocumentationNav,
                 source: mdxSource,
                 toc: toc

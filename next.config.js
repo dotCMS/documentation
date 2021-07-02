@@ -8,6 +8,14 @@ module.exports = {
             {
                 source: '/dA/:path*',
                 destination: 'https://dotcms.com/dA/:path*'
+            },
+            {
+                source: '/codeshare',
+                destination: '/codeshare/topic/all/1'
+            },
+            {
+                source: '/codeshare/topic',
+                destination: '/codeshare/topic/all/1'
             }
         ];
     },
