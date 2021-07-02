@@ -73,7 +73,8 @@ export async function getServerSideProps({
 }): Promise<GetServerSidePropsResult<PageProps>> {
     const pageTitle = 'Codeshare';
     const pageNumber = +params.pag;
-    const tags = params.tag == 'all' ? '' : `+tags:${params.tag}`;
+    const queryTag = params.tag.replace(/-/g, ' ');
+    const tags = params.tag == 'all' ? '' : `+tags:\"${queryTag}\"`;
     const startFrom = pageNumber <= 1 ? 0 : (pageNumber - 1) * postPerPage;
     try {
         // Variables
