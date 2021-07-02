@@ -6,11 +6,15 @@ import classNames from 'classnames';
 // Components
 import { CodeSharePost } from '@components/CodeSharePost';
 import { CodeShareSide } from '@components/CodeShareSide';
+import { CodeShareSideBox } from '@components/CodeShareSideBox';
 import { CodeShareTopics } from '@components/CodeShareTopics';
 import { PageError } from '@components/PageError';
 
 // Graphql
 import { CODE_SHARE_QUERY_LIST_ARTICLES, CODE_SHARE_QUERY_TOTAL_COUNT } from '@graphql/queries';
+
+// Helpers
+import { fetchAllCodeShareTopics } from '@helpers/fetchAllCodeShareTopics';
 
 // Utils
 import { client } from '@utils/graphql-client';
@@ -39,24 +43,68 @@ export default function CodeShareTag({
     error
 }: PageProps): JSX.Element {
     return (
-        <div className="container flex flex-grow mx-auto">
+        <div className="container flex-col flex flex-grow md:flex-row">
             {error ? (
                 <PageError error={error} title={tag} />
             ) : (
-                <main className="px-5 w-full">
-                    <h1 className="mb-0">Code Share</h1>
-                    <h2 className="mb-10 mt-0">Recent Submissions</h2>
-                    {data.map((item) => (
-                        <CodeSharePost key={item.urlTitle} data={item} />
-                    ))}
-                    <NextPrevButtons page={page} tag={tag} totalCount={totalCount} />
-                </main>
+                <>
+                    <main className="px-5 w-full">
+                        <h1 className="mb-0">Code Share</h1>
+                        <h2 className="mb-10 mt-0">Recent Submissions</h2>
+                        {data.map((item) => (
+                            <CodeSharePost key={item.urlTitle} data={item} />
+                        ))}
+                        <NextPrevButtons page={page} tag={tag} totalCount={totalCount} />
+                    </main>
+                    <CodeShareSide>
+                        <CodeShareTopics topics={topics} />
+                        <CodeShareSideBox />
+                    </CodeShareSide>
+                </>
             )}
-            <CodeShareSide>
-                <CodeShareTopics topics={topics} />
-            </CodeShareSide>
         </div>
     );
+}
+
+export async function getServerSideProps({
+    params
+}: {
+    params: { tag: string; pag: string };
+}): Promise<GetServerSidePropsResult<PageProps>> {
+    const pageTitle = 'Codeshare';
+    const pageNumber = +params.pag;
+    const tags = params.tag == 'all' ? '' : `+tags:${params.tag}`;
+    const startFrom = pageNumber <= 1 ? 0 : (pageNumber - 1) * postPerPage;
+    try {
+        // Variables
+        const topics = await fetchAllCodeShareTopics();
+        const variablePag = { offset: startFrom, tags };
+        const { CodeshareCollection } = await client.request(
+            CODE_SHARE_QUERY_LIST_ARTICLES,
+            variablePag
+        );
+        const { QueryMetadata } = await client.request(CODE_SHARE_QUERY_TOTAL_COUNT, { tags });
+        return {
+            props: {
+                data: CodeshareCollection as CodeShareItem[],
+                page: pageNumber,
+                totalCount: QueryMetadata[0].totalCount,
+                tag: params.tag,
+                topics: topics,
+                pageTitle
+            }
+        };
+    } catch (e) {
+        return {
+            props: {
+                data: null,
+                page: pageNumber,
+                tag: params.tag,
+                topics: null,
+                error: e.message
+            }
+        };
+    }
 }
 
 const NextPrevButtons = ({
@@ -95,70 +143,4 @@ const NextPrevButtons = ({
             ) : null}
         </>
     );
-};
-
-export async function getServerSideProps({
-    params
-}: {
-    params: { tag: string; pag: string };
-}): Promise<GetServerSidePropsResult<PageProps>> {
-    const pageTitle = 'Codeshare';
-    const pageNumber = +params.pag;
-    const tags = params.tag == 'all' ? '' : `+tags:${params.tag}`;
-    const startFrom = pageNumber <= 1 ? 0 : (pageNumber - 1) * postPerPage;
-    const topics = await getTopics();
-    try {
-        // Variables
-        const variablePag = { offset: startFrom, tags };
-        const { CodeshareCollection } = await client.request(
-            CODE_SHARE_QUERY_LIST_ARTICLES,
-            variablePag
-        );
-        const { QueryMetadata } = await client.request(CODE_SHARE_QUERY_TOTAL_COUNT, { tags });
-        return {
-            props: {
-                data: CodeshareCollection as CodeShareItem[],
-                page: pageNumber,
-                totalCount: QueryMetadata[0].totalCount,
-                tag: params.tag,
-                topics: topics,
-                pageTitle
-            }
-        };
-    } catch (e) {
-        return {
-            props: {
-                data: null,
-                page: pageNumber,
-                tag: params.tag,
-                topics,
-                error: e.message
-            }
-        };
-    }
-}
-
-const getTopics = async (): Promise<CodeShareTopic[]> => {
-    const { esresponse } = await (
-        await fetch('https://authoring.dotcms.com/api/es/search', TOPIC_QUERY)
-    ).json();
-    const resp = esresponse[0].aggregations['sterms#tag'].buckets;
-    const data = resp.map((topic) => {
-        const link = topic.key.replace(/ /g, '-');
-        return {
-            title: topic.key,
-            link
-        };
-    });
-    data.unshift({ title: 'All Codeshare', link: 'all' });
-    return data;
-};
-
-const TOPIC_QUERY = {
-    method: 'POST',
-    headers: {
-        cookie: 'BACKENDID=192.168.48.3',
-        'Content-Type': 'application/json'
-    },
-    body: `{\"query\":{\"query_string\":{\"query\":\"+contenttype:codeshare\"}},\"aggs\":{\"tag\":{\"terms\":{\"field\":\"tags\",\"size\":20}}},\"size\":0}`
 };
