@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { CodeSharePost } from '@components/CodeSharePost';
 import { CodeShareSide } from '@components/CodeShareSide';
 import { CodeShareTopics } from '@components/CodeShareTopics';
+import { PageError } from '@components/PageError';
 
 // Graphql
 import { CODE_SHARE_QUERY_LIST_ARTICLES, CODE_SHARE_QUERY_TOTAL_COUNT } from '@graphql/queries';
@@ -15,14 +16,16 @@ import { CODE_SHARE_QUERY_LIST_ARTICLES, CODE_SHARE_QUERY_TOTAL_COUNT } from '@g
 import { client } from '@utils/graphql-client';
 
 // Models
-import { CodeSharePostInterface, CodeShareTopicsInterface } from '@models/CodeShare.model';
+import { CodeShareItem, CodeShareTopic } from '@models/CodeShare.model';
 
 interface PageProps {
-    data: CodeSharePostInterface[];
+    data: CodeShareItem[];
     page: number;
-    totalCount: number;
+    totalCount?: number;
     tag: string;
-    topics: CodeShareTopicsInterface[];
+    topics: CodeShareTopic[];
+    pageTitle?: string;
+    error?: string;
 }
 
 const postPerPage = 10;
@@ -32,18 +35,23 @@ export default function CodeShareTag({
     page,
     totalCount,
     tag,
-    topics
+    topics,
+    error
 }: PageProps): JSX.Element {
     return (
         <div className="container flex flex-grow mx-auto">
-            <main className="px-5 w-full">
-                <h1 className="mb-0">Code Share</h1>
-                <h2 className="mb-10 mt-0">Recent Submissions</h2>
-                {data.map((item) => (
-                    <CodeSharePost key={item.urlTitle} data={item} />
-                ))}
-                <NextPrevButtons page={page} tag={tag} totalCount={totalCount} />
-            </main>
+            {error ? (
+                <PageError error={error} title={tag} />
+            ) : (
+                <main className="px-5 w-full">
+                    <h1 className="mb-0">Code Share</h1>
+                    <h2 className="mb-10 mt-0">Recent Submissions</h2>
+                    {data.map((item) => (
+                        <CodeSharePost key={item.urlTitle} data={item} />
+                    ))}
+                    <NextPrevButtons page={page} tag={tag} totalCount={totalCount} />
+                </main>
+            )}
             <CodeShareSide>
                 <CodeShareTopics topics={topics} />
             </CodeShareSide>
@@ -94,29 +102,43 @@ export async function getServerSideProps({
 }: {
     params: { tag: string; pag: string };
 }): Promise<GetServerSidePropsResult<PageProps>> {
+    const pageTitle = 'Codeshare';
     const pageNumber = +params.pag;
     const tags = params.tag == 'all' ? '' : `+tags:${params.tag}`;
     const startFrom = pageNumber <= 1 ? 0 : (pageNumber - 1) * postPerPage;
-    // Variables
-    const variablePag = { offset: startFrom, tags };
-    const { CodeshareCollection } = await client.request(
-        CODE_SHARE_QUERY_LIST_ARTICLES,
-        variablePag
-    );
-    const { QueryMetadata } = await client.request(CODE_SHARE_QUERY_TOTAL_COUNT, { tags });
     const topics = await getTopics();
-    return {
-        props: {
-            data: CodeshareCollection as CodeSharePostInterface[],
-            page: pageNumber,
-            totalCount: QueryMetadata[0].totalCount,
-            tag: params.tag,
-            topics: topics
-        }
-    };
+    try {
+        // Variables
+        const variablePag = { offset: startFrom, tags };
+        const { CodeshareCollection } = await client.request(
+            CODE_SHARE_QUERY_LIST_ARTICLES,
+            variablePag
+        );
+        const { QueryMetadata } = await client.request(CODE_SHARE_QUERY_TOTAL_COUNT, { tags });
+        return {
+            props: {
+                data: CodeshareCollection as CodeShareItem[],
+                page: pageNumber,
+                totalCount: QueryMetadata[0].totalCount,
+                tag: params.tag,
+                topics: topics,
+                pageTitle
+            }
+        };
+    } catch (e) {
+        return {
+            props: {
+                data: null,
+                page: pageNumber,
+                tag: params.tag,
+                topics,
+                error: e.message
+            }
+        };
+    }
 }
 
-const getTopics = async (): Promise<CodeShareTopicsInterface[]> => {
+const getTopics = async (): Promise<CodeShareTopic[]> => {
     const { esresponse } = await (
         await fetch('https://authoring.dotcms.com/api/es/search', TOPIC_QUERY)
     ).json();

@@ -3,7 +3,8 @@ import { GetStaticPropsResult, GetStaticPathsResult, GetStaticPropsContext } fro
 import classNames from 'classnames';
 
 // Components
-import { Terminal } from '@components/PageRenderError';
+import { PageError } from '@components/PageError';
+import { DateFormatter } from '@components/DateFormatter';
 
 // Graphql
 import { CODE_SHARE_PATHS_QUERY, FULL_CODE_SHARE_QUERY } from '@graphql/queries';
@@ -14,7 +15,6 @@ import { CodeSharePage } from '@models/CodeShare.model';
 // Utils
 import { client } from '@utils/graphql-client';
 import { ParsedUrlQuery } from 'node:querystring';
-import { getDate } from '@helpers/data-formatter';
 
 // mdx custom plugins
 import DotCodeMultine from '@plugins/DotCodeMultiline';
@@ -30,6 +30,7 @@ interface pageData {
     data: CodeSharePage;
     source: MdxRemote.Source;
     error?: string;
+    pageTitle?: string;
 }
 
 interface paramsUrlTitle {
@@ -42,15 +43,14 @@ export default function CodeShare({ data, source, error }: pageData): JSX.Elemen
     return (
         <>
             {error ? (
-                <main className={classNames(mainClasses)}>
-                    <h1>{data.title}</h1>
-                    <Terminal content={error} />
-                </main>
+                <PageError error={error} title={data.title} />
             ) : (
                 <main className={classNames(mainClasses)}>
                     <h1>{data.title}</h1>
                     <ul>
-                        <li>Created: {getDate(data.dateCreated)}</li>
+                        <li>
+                            Created: <DateFormatter time={data.dateCreated} />
+                        </li>
                         <li>Author: {data.authorName}</li>
                         <li>Company: {data.company}</li>
                     </ul>
@@ -93,6 +93,7 @@ export async function getStaticProps({
         return {
             props: {
                 data: CodeshareCollection[0],
+                pageTitle: CodeshareCollection[0].title,
                 source: mdxSource
             }
         };

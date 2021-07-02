@@ -29,12 +29,13 @@ const HeaderWrapper = styled.div`
 `;
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+    const pageTitle = pageProps.pageTitle || 'Documentation';
     const [showSidebar, setShowSidebar] = useState(true);
     const [showSideToc, setShowSideToc] = useState(false);
     return (
         <>
             <Head>
-                <title>Documentation</title>
+                <title>{pageTitle}</title>
                 <meta
                     content="width=device-width, initial-scale=1.0, user-scalable=0"
                     name="viewport"

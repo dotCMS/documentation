@@ -19,7 +19,7 @@ import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { ImageMarkdown } from '@components/ImageMarkdown';
 import { LinkMarkdown } from '@components/LinkMarkdown';
-import { Terminal } from '@components/PageRenderError';
+import { PageError } from '@components/PageError';
 import TableOfContent from '@components/toc/TableOfContent';
 import TopPageToc from '@components/toc/TopPageToc';
 
@@ -44,9 +44,10 @@ interface PageData {
     data: Documentation;
     navDot: Documentation[];
     source: MdxRemote.Source;
+    error?: string;
+    pageTitle?: string;
     showSideToc?: boolean;
     toc?: TableContentModel[];
-    error?: string;
 }
 
 const componentsUI: MDXProviderComponentsProp = {
@@ -88,10 +89,7 @@ const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX
                 <title>{data.title}</title>
             </Head>
             {error ? (
-                <main className={styles.main}>
-                    <h1>{data.title}</h1>
-                    <Terminal content={error} />
-                </main>
+                <PageError error={error} title={data.title} />
             ) : (
                 <>
                     <div className="flex flex-col overflow-auto overflow-y-scroll">
@@ -165,6 +163,7 @@ export async function getStaticProps({
         return {
             props: {
                 data: DotcmsDocumentationCollection[0],
+                pageTitle: DotcmsDocumentationCollection[0].title,
                 navDot: DotcmsDocumentationNav,
                 source: mdxSource,
                 toc: toc
