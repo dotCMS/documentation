@@ -40,6 +40,8 @@ interface paramsUrlTitle {
 export default function CodeShare({ data, source, error }: pageData): JSX.Element {
     const content = source ? hydrate(source) : null;
     const mainClasses = ['container', 'mx-auto', 'px-16', 'flex-grow'];
+    const author = data.authorName;
+    const company = data.company;
     return (
         <>
             {error ? (
@@ -51,8 +53,8 @@ export default function CodeShare({ data, source, error }: pageData): JSX.Elemen
                         <li>
                             Created: <DateFormatter time={data.dateCreated} />
                         </li>
-                        <li>Author: {data.authorName}</li>
-                        <li>Company: {data.company}</li>
+                        {author ? <li>Author: {author}</li> : null}
+                        {company ? <li>Company: {company}</li> : null}
                     </ul>
                     <h3>Description</h3>
                     <MDXProvider className="wrapper">{content}</MDXProvider>
