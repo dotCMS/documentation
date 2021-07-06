@@ -43,7 +43,7 @@ export default function CodeShareTag({
     error
 }: PageProps): JSX.Element {
     return (
-        <div className="container flex-col flex flex-grow md:flex-row">
+        <div className="container flex-col flex flex-grow m-auto md:flex-row">
             {error ? (
                 <PageError error={error} title={tag} />
             ) : (

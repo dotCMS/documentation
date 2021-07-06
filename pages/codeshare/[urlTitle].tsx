@@ -37,28 +37,32 @@ interface paramsUrlTitle {
     urlTitle: string;
 }
 
-export default function CodeShare({ data, source, error }: pageData): JSX.Element {
+export default function CodeShare({
+    data: { authorName, code, company, dateCreated, title },
+    source,
+    error
+}: pageData): JSX.Element {
     const content = source ? hydrate(source) : null;
     const mainClasses = ['container', 'mx-auto', 'px-16', 'flex-grow'];
     return (
         <>
             {error ? (
-                <PageError error={error} title={data.title} />
+                <PageError error={error} title={title} />
             ) : (
                 <main className={classNames(mainClasses)}>
-                    <h1>{data.title}</h1>
+                    <h1>{title}</h1>
                     <ul>
                         <li>
-                            Created: <DateFormatter time={data.dateCreated} />
+                            Created: <DateFormatter time={dateCreated} />
                         </li>
-                        <li>Author: {data.authorName}</li>
-                        <li>Company: {data.company}</li>
+                        {authorName && <li>Author: {authorName}</li>}
+                        {company && <li>Company: {company}</li>}
                     </ul>
                     <h3>Description</h3>
                     <MDXProvider className="wrapper">{content}</MDXProvider>
                     <h3>Code</h3>
                     <pre>
-                        <code>{data.code}</code>
+                        <code>{code}</code>
                     </pre>
                 </main>
             )}
