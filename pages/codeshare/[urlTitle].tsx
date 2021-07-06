@@ -38,7 +38,7 @@ interface paramsUrlTitle {
 }
 
 export default function CodeShare({
-    data: { authorName, code, title, company, dateCreated },
+    data: { authorName, code, company, dateCreated, title },
     source,
     error
 }: pageData): JSX.Element {
