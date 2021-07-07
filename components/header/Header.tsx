@@ -1,6 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
-import styled from 'styled-components';
 import classNames from 'classnames';
 
 // Compoments
@@ -11,10 +10,6 @@ import { HeaderNav } from './components/HeaderNav';
 import { HeaderSelect } from './components/HeaderSelect';
 import { Search } from './components/Search';
 import { TocIcon } from './components/TocIcon';
-
-const NavContainer = styled.div`
-    height: calc(100vh - 5rem);
-`;
 
 export const Header = ({
     showSidebar,
@@ -32,11 +27,12 @@ export const Header = ({
         'absolute',
         'bg-black',
         'bg-opacity-50',
+        'h-mobile-nav',
         'w-full',
         'z-10',
         'lg:bg-transparent',
-        'lg:static',
-        'lg:h-auto'
+        'lg:h-auto',
+        'lg:static'
     ];
     return (
         <header className="bg-purple flex flex-col justify-between h-32 lg:pt-6 lg:flex-row lg:items-start">
@@ -59,11 +55,9 @@ export const Header = ({
                 <HeaderButton className={buttonIconMobileBarClasses} setShowItem={setShowSideToc}>
                     <TocIcon />
                 </HeaderButton>
-                <NavContainer
-                    className={classNames(showNav ? navContainerClasses : 'hidden lg:flex')}
-                >
+                <div className={classNames(showNav ? navContainerClasses : 'hidden lg:flex')}>
                     <HeaderNav />
-                </NavContainer>
+                </div>
             </div>
             <div className="flex-col h-full hidden items-end justify-end w-auto pr-6 lg:flex">
                 <HeaderSelect />

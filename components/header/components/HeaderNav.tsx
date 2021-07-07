@@ -11,8 +11,8 @@ export const HeaderNav = (): JSX.Element => {
         { title: 'Online Training', id: 'online', link: 'https://dotcms.com/courses/' }
     ];
     return (
-        <nav className="bg-white justify-end flex text-right lg:bg-transparent lg:justify-start">
-            <ul className="flex flex-col lg:flex-row list-none p-0 m-0">
+        <nav className="bg-white text-right lg:bg-transparent">
+            <ul className="flex flex-col items-end lg:flex-row list-none p-0 m-0">
                 <DotNavItem navTitles={navTitles} />
             </ul>
         </nav>
@@ -34,7 +34,7 @@ const DotNavItem = ({
                     <li
                         key={navTitle.id}
                         className={classNames(
-                            'py-2 mb-4 mr-8 inline-block lg:mb-0',
+                            'inline-block mb-4 mr-8 py-2 w-max lg:mb-0',
                             isActive ? activeClasses : null
                         )}
                     >
