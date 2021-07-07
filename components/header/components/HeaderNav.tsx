@@ -5,11 +5,11 @@ import classNames from 'classnames';
 
 export const HeaderNav = (): JSX.Element => {
     const navTitles = [
-        { title: 'Documentation', link: '/' },
-        { title: 'Realease & LTS', link: '/latest/current-releases' },
-        { title: 'Code Share', link: '/codeshare' },
-        { title: 'Forums', link: 'https://groups.google.com/g/dotcms' },
-        { title: 'Online Training', link: 'https://dotcms.com/courses/' }
+        { title: 'Documentation', pathName: 'documentation', link: '/' },
+        { title: 'Realease & LTS', pathName: 'current-releases', link: '/latest/current-releases' },
+        { title: 'Code Share', pathName: 'codeshare', link: '/codeshare' },
+        { title: 'Forums', pathName: 'forums', link: 'https://groups.google.com/g/dotcms' },
+        { title: 'Online Training', pathName: 'training', link: 'https://dotcms.com/courses/' }
     ];
     return (
         <ul className="list-none p-0 m-0">
@@ -21,22 +21,23 @@ export const HeaderNav = (): JSX.Element => {
 const DotNavItem = ({
     navTitles
 }: {
-    navTitles: { title: string; link: string }[];
+    navTitles: { title: string; pathName: string; link: string }[];
 }): JSX.Element => {
     const router = useRouter();
     const [activeRoute, setActiveRoute] = useState<string>();
     useEffect(() => {
-        const curretPath = router.asPath;
-        const possibleRoutes =
-            curretPath.includes('/latest/current-releases') || curretPath.includes('/codeshare');
-        possibleRoutes ? setActiveRoute(router.asPath) : setActiveRoute('/');
+        const possiblePaths = ['current-releases', 'codeshare'];
+        const currentPath = router.asPath.replace('/latest', '').split('/')[1];
+        possiblePaths.includes(currentPath)
+            ? setActiveRoute(currentPath)
+            : setActiveRoute('documentation');
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const activeClasses = ['border-b-3', 'border-pink', 'font-bold'];
     return (
         <>
             {navTitles.map((navTitle) => {
-                const isActive = activeRoute === navTitle.link;
+                const isActive = activeRoute === navTitle.pathName;
                 return (
                     <li
                         key={navTitle.link}
@@ -48,7 +49,7 @@ const DotNavItem = ({
                         <Link href={navTitle.link}>
                             <a
                                 className="text-white no-underline"
-                                onClick={() => setActiveRoute(navTitle.link)}
+                                onClick={() => setActiveRoute(navTitle.pathName)}
                             >
                                 {navTitle.title}
                             </a>
