@@ -1,5 +1,6 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
+import styled from 'styled-components';
 import classNames from 'classnames';
 
 // Compoments
@@ -11,6 +12,10 @@ import { HeaderSelect } from './components/HeaderSelect';
 import { Search } from './components/Search';
 import { TocIcon } from './components/TocIcon';
 
+const NavContainer = styled.div`
+    height: calc(100vh - 5rem);
+`;
+
 export const Header = ({
     showSidebar,
     setShowSidebar,
@@ -21,12 +26,23 @@ export const Header = ({
     setShowSideToc: Dispatch<SetStateAction<boolean>>;
 }): JSX.Element => {
     const buttonIconMobileBarClasses = ['border-b', 'border-secondary', 'justify-center'];
-    const hamburherIcon = ['justify-end'];
+    const hamburgerIcon = ['justify-end'];
+    const [showNav, setShowNav] = useState(false);
+    const navContainerClasses = [
+        'absolute',
+        'bg-black',
+        'bg-opacity-50',
+        'w-full',
+        'z-10',
+        'lg:bg-transparent',
+        'lg:static',
+        'lg:h-auto'
+    ];
     return (
         <header className="bg-purple flex flex-col justify-between h-32 lg:pt-6 lg:flex-row lg:items-start">
-            <div className="flex items-center justify-between px-6 min-w-72 h-full lg:items-start lg:pr-0">
+            <div className="flex items-center justify-between px-6 min-w-72 h-20 lg:h-full lg:items-start lg:pr-0">
                 <DotcmsLogo />
-                <HeaderButton className={hamburherIcon}>
+                <HeaderButton className={hamburgerIcon} setShowItem={setShowNav}>
                     <HamburgerIcon />
                 </HeaderButton>
             </div>
@@ -43,9 +59,11 @@ export const Header = ({
                 <HeaderButton className={buttonIconMobileBarClasses} setShowItem={setShowSideToc}>
                     <TocIcon />
                 </HeaderButton>
-                <nav className="hidden lg:inline-block">
+                <NavContainer
+                    className={classNames(showNav ? navContainerClasses : 'hidden lg:flex')}
+                >
                     <HeaderNav />
-                </nav>
+                </NavContainer>
             </div>
             <div className="flex-col h-full hidden items-end justify-end w-auto pr-6 lg:flex">
                 <HeaderSelect />
