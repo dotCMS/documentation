@@ -9,7 +9,8 @@ export const HeaderNav = ({
     setShowNav: Dispatch<SetStateAction<boolean>>;
     showNav: boolean;
 }): JSX.Element => {
-    const navContainerClasses = [
+    const navHiddeClasses = ['hidden', 'lg:flex'];
+    const navClasses = [
         'absolute',
         'bg-black',
         'bg-opacity-50',
@@ -19,13 +20,6 @@ export const HeaderNav = ({
         'lg:bg-transparent',
         'lg:h-auto',
         'lg:static'
-    ];
-    const navTitles = [
-        { title: 'Documentation', id: 'documentation', link: '/' },
-        { title: 'Realease & LTS', id: 'realease', link: '/latest/current-releases' },
-        { title: 'Code Share', id: 'code_share', link: '/codeshare' },
-        { title: 'Forums', id: 'forums', link: 'https://groups.google.com/g/dotcms' },
-        { title: 'Online Training', id: 'online', link: 'https://dotcms.com/courses/' }
     ];
     const navList = [
         'bg-white',
@@ -39,8 +33,15 @@ export const HeaderNav = ({
         'lg:bg-transparent',
         'lg:flex-row'
     ];
+    const navTitles = [
+        { title: 'Documentation', id: 'documentation', link: '/' },
+        { title: 'Realease & LTS', id: 'realease', link: '/latest/current-releases' },
+        { title: 'Code Share', id: 'code_share', link: '/codeshare' },
+        { title: 'Forums', id: 'forums', link: 'https://groups.google.com/g/dotcms' },
+        { title: 'Online Training', id: 'online', link: 'https://dotcms.com/courses/' }
+    ];
     return (
-        <nav className={classNames(showNav ? navContainerClasses : ['hidden', 'lg:flex'])}>
+        <nav className={classNames(showNav ? navClasses : navHiddeClasses)}>
             <ul className={classNames(navList)}>
                 <DotNavItem navTitles={navTitles} setShowNav={setShowNav} />
             </ul>
