@@ -65,7 +65,7 @@ const DotNavItem = ({
                     <li
                         key={navTitle.id}
                         className={classNames(
-                            'inline-block my-2 mr-8 py-2 w-max lg:my-0',
+                            'inline-block my-2 mr-8 py-2 lg:my-0',
                             isActive ? activeClasses : null
                         )}
                     >
