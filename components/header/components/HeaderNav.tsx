@@ -28,10 +28,11 @@ export const HeaderNav = ({
         'items-end',
         'list-none',
         'm-0',
-        'p-0',
+        'py-4',
         'text-right',
         'lg:bg-transparent',
-        'lg:flex-row'
+        'lg:flex-row',
+        'lg:py-0'
     ];
     const navTitles = [
         { title: 'Documentation', id: 'documentation', link: '/' },
