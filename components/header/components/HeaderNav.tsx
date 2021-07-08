@@ -32,7 +32,7 @@ const DotNavItem = ({
             ? setActiveRoute(currentPath)
             : setActiveRoute('documentation');
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [router.asPath]);
     const activeClasses = ['border-b-3', 'border-pink', 'font-bold'];
     return (
         <>
@@ -40,7 +40,7 @@ const DotNavItem = ({
                 const isActive = activeRoute === navTitle.pathName;
                 return (
                     <li
-                        key={navTitle.link}
+                        key={navTitle.pathName}
                         className={classNames(
                             'py-2 mr-8 inline-block no-i',
                             isActive ? activeClasses : null
