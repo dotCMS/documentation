@@ -54,6 +54,16 @@ query ($urlTitle: String!) {
 }
 `;
 
+export const DOCUMENTATION_SEARCH_QUERY = `
+query ($search: String!) {
+	DotcmsDocumentationCollection(query: $search) {
+        title
+        urlTitle
+        seoDescription	
+  } 
+}
+`;
+
 // CODESHARE QUERY
 export const CODE_SHARE_PATHS_QUERY = `
 query codeshare {

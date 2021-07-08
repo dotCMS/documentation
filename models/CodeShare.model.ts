@@ -1,9 +1,9 @@
 export interface CodeShareItem {
     authorName: string;
-    dateCreated: string;
     title: string;
     urlTitle: string;
-    seoDescription: string;
+    dateCreated?: string;
+    seoDescription?: string;
 }
 
 export interface CodeSharePage extends CodeShareItem {

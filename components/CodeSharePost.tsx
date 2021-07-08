@@ -6,23 +6,29 @@ import { DateFormatter } from '@components/DateFormatter';
 // Models
 import { CodeShareItem } from '@models/CodeShare.model';
 
-export const CodeSharePost = ({ data }: { data: CodeShareItem }): JSX.Element => {
+export const CodeSharePost = ({
+    data: { urlTitle, title, dateCreated, authorName, seoDescription }
+}: {
+    data: CodeShareItem;
+}): JSX.Element => {
     return (
         <div className="mb-14 pr-10">
-            <Link href={`/codeshare/${data.urlTitle}`}>
+            <Link href={`/codeshare/${urlTitle}`}>
                 <a className="font-bold inline-block mb-1 no-underline text-blue-500 text-lg hover:underline">
-                    {data.title}
+                    {title}
                 </a>
             </Link>
-            <p className="mb-1">
-                <b>Created:</b> <DateFormatter time={data.dateCreated} />
-            </p>
-            {data.authorName ? (
+            {dateCreated && (
                 <p className="mb-1">
-                    <b>Author:</b> {data.authorName}
+                    <b>Created:</b> <DateFormatter time={dateCreated} />
                 </p>
-            ) : null}
-            <p className="text-lg">{data.seoDescription}</p>
+            )}
+            {authorName && (
+                <p className="mb-1">
+                    <b>Author:</b> {authorName}
+                </p>
+            )}
+            <p className="text-lg">{seoDescription}</p>
         </div>
     );
 };

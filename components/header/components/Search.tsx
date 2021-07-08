@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Router } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 import { SearchIcon } from './SearchIcon';
 
 export const Search = (): JSX.Element => {
     const focusOnSearch = () => document.getElementById('search').focus();
+    const router = useRouter();
     const [search, setSearch] = useState('');
     const handlerSubmit = (e) => {
         e.preventDefault();
+        router.push(`/search?q=${search}`);
     };
     const handlerInput = ({ target }) => {
         setSearch(target.value);
