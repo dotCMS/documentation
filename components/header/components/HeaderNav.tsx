@@ -1,30 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 
-export const HeaderNav = (): JSX.Element => {
+export const HeaderNav = ({
+    setShowNav,
+    showNav
+}: {
+    setShowNav: Dispatch<SetStateAction<boolean>>;
+    showNav: boolean;
+}): JSX.Element => {
+    const navHiddeClasses = ['hidden', 'lg:flex'];
+    const navClasses = [
+        'absolute',
+        'bg-black',
+        'bg-opacity-50',
+        'h-mobile-nav',
+        'w-full',
+        'z-10',
+        'lg:bg-transparent',
+        'lg:h-auto',
+        'lg:static'
+    ];
+    const navList = [
+        'bg-white',
+        'flex-col',
+        'flex',
+        'items-end',
+        'list-none',
+        'm-0',
+        'py-4',
+        'text-right',
+        'lg:bg-transparent',
+        'lg:flex-row',
+        'lg:py-0'
+    ];
     const navTitles = [
         { title: 'Documentation', id: 'documentation', link: '/' },
-        {
-            title: 'Realease & LTS',
-            id: 'realease',
-            link: '/latest/current-releases'
-        },
+        { title: 'Realease & LTS', id: 'realease', link: '/latest/current-releases' },
         { title: 'Code Share', id: 'code_share', link: '/codeshare' },
         { title: 'Forums', id: 'forums', link: 'https://groups.google.com/g/dotcms' },
         { title: 'Online Training', id: 'online', link: 'https://dotcms.com/courses/' }
     ];
     return (
-        <ul className="list-none p-0 m-0">
-            <DotNavItem navTitles={navTitles} />
-        </ul>
+        <nav className={classNames(showNav ? navClasses : navHiddeClasses)}>
+            <ul className={classNames(navList)}>
+                <DotNavItem navTitles={navTitles} setShowNav={setShowNav} />
+            </ul>
+        </nav>
     );
 };
 
 const DotNavItem = ({
-    navTitles
+    navTitles,
+    setShowNav
 }: {
     navTitles: { title: string; id: string; link: string }[];
+    setShowNav: Dispatch<SetStateAction<boolean>>;
 }): JSX.Element => {
     const [active, setActive] = useState('documentation');
     const activeClasses = ['border-b-3', 'border-pink', 'font-bold'];
@@ -36,14 +67,17 @@ const DotNavItem = ({
                     <li
                         key={navTitle.id}
                         className={classNames(
-                            'py-2 mr-8 inline-block no-i',
+                            'inline-block my-2 mr-8 py-2 lg:my-0',
                             isActive ? activeClasses : null
                         )}
                     >
                         <Link href={navTitle.link}>
                             <a
-                                className="text-white no-underline"
-                                onClick={() => setActive(navTitle.id)}
+                                className="text-black no-underline text-3xl lg:text-base lg:text-white"
+                                onClick={() => {
+                                    setActive(navTitle.id);
+                                    setShowNav(false);
+                                }}
                             >
                                 {navTitle.title}
                             </a>

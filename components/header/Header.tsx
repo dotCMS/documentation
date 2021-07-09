@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 
@@ -20,13 +20,14 @@ export const Header = ({
     setShowSidebar: Dispatch<SetStateAction<boolean>>;
     setShowSideToc: Dispatch<SetStateAction<boolean>>;
 }): JSX.Element => {
+    const [showNav, setShowNav] = useState(false);
     const buttonIconMobileBarClasses = ['border-b', 'border-secondary', 'justify-center'];
-    const hamburherIcon = ['justify-end'];
+    const hamburgerIcon = ['justify-end'];
     return (
         <header className="bg-purple flex flex-col justify-between h-32 lg:pt-6 lg:flex-row lg:items-start">
-            <div className="flex items-center justify-between px-6 min-w-72 h-full lg:items-start lg:pr-0">
+            <div className="flex items-center justify-between px-6 min-w-72 h-20 lg:h-full lg:items-start lg:pr-0">
                 <DotcmsLogo />
-                <HeaderButton className={hamburherIcon}>
+                <HeaderButton className={hamburgerIcon} setShowItem={setShowNav}>
                     <HamburgerIcon />
                 </HeaderButton>
             </div>
@@ -43,9 +44,7 @@ export const Header = ({
                 <HeaderButton className={buttonIconMobileBarClasses} setShowItem={setShowSideToc}>
                     <TocIcon />
                 </HeaderButton>
-                <nav className="hidden lg:inline-block">
-                    <HeaderNav />
-                </nav>
+                <HeaderNav setShowNav={setShowNav} showNav={showNav} />
             </div>
             <div className="flex-col h-full hidden items-end justify-end w-auto pr-6 lg:flex">
                 <HeaderSelect />
