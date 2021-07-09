@@ -8,7 +8,7 @@ export const Search = (): JSX.Element => {
     const [search, setSearch] = useState('');
     const handlerSubmit = (e) => {
         e.preventDefault();
-        router.push(`/search?q=${search}`);
+        router.push(`/search/${search}/1`);
     };
     const handlerInput = ({ target }) => {
         setSearch(target.value);

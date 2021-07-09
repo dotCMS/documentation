@@ -1,14 +1,13 @@
 import React from 'react';
 import { GetServerSidePropsResult } from 'next';
-import Link from 'next/link';
-import classNames from 'classnames';
 
 // Components
-import { CodeSharePost } from '@components/CodeSharePost';
 import { CodeShareSide } from '@components/CodeShareSide';
 import { CodeShareSideBox } from '@components/CodeShareSideBox';
 import { CodeShareTopics } from '@components/CodeShareTopics';
 import { PageError } from '@components/PageError';
+import { Pagination } from '@components/Pagination';
+import { PostCard } from '@components/PostCard';
 
 // Graphql
 import { CODE_SHARE_QUERY_LIST_ARTICLES, CODE_SHARE_QUERY_TOTAL_COUNT } from '@graphql/queries';
@@ -22,12 +21,12 @@ import { client } from '@utils/graphql-client';
 // Models
 import { CodeShareItem, CodeShareTopic } from '@models/CodeShare.model';
 
-interface PageProps {
+interface CodeShareTagProps {
     data: CodeShareItem[];
     page: number;
-    totalCount?: number;
     tag: string;
     topics: CodeShareTopic[];
+    totalCount?: number;
     pageTitle?: string;
     error?: string;
 }
@@ -41,7 +40,7 @@ export default function CodeShareTag({
     tag,
     topics,
     error
-}: PageProps): JSX.Element {
+}: CodeShareTagProps): JSX.Element {
     return (
         <div className="container flex-col flex flex-grow m-auto md:flex-row">
             {error ? (
@@ -52,9 +51,15 @@ export default function CodeShareTag({
                         <h1 className="mb-0">Code Share</h1>
                         <h2 className="mb-10 mt-0">Recent Submissions</h2>
                         {data.map((item) => (
-                            <CodeSharePost key={item.urlTitle} data={item} />
+                            <PostCard key={item.urlTitle} baseUrl={'/codeshare'} data={item} />
                         ))}
-                        <NextPrevButtons page={page} tag={tag} totalCount={totalCount} />
+                        <Pagination
+                            baseUrl={'/codeshare/topics'}
+                            page={page}
+                            postPerPage={postPerPage}
+                            search={tag}
+                            totalCount={totalCount}
+                        />
                     </main>
                     <CodeShareSide>
                         <CodeShareTopics topics={topics} />
@@ -70,12 +75,11 @@ export async function getServerSideProps({
     params
 }: {
     params: { tag: string; pag: string };
-}): Promise<GetServerSidePropsResult<PageProps>> {
+}): Promise<GetServerSidePropsResult<CodeShareTagProps>> {
     const pageTitle = 'Codeshare';
-    const pageNumber = +params.pag;
     const queryTag = params.tag.replace(/-/g, ' ');
     const tags = params.tag == 'all' ? '' : `+tags:\"${queryTag}\"`;
-    const startFrom = pageNumber <= 1 ? 0 : (pageNumber - 1) * postPerPage;
+    const startFrom = +params.pag <= 1 ? 0 : (+params.pag - 1) * postPerPage;
     try {
         // Variables
         const topics = await fetchAllCodeShareTopics();
@@ -88,7 +92,7 @@ export async function getServerSideProps({
         return {
             props: {
                 data: CodeshareCollection as CodeShareItem[],
-                page: pageNumber,
+                page: +params.pag,
                 totalCount: QueryMetadata[0].totalCount,
                 tag: params.tag,
                 topics: topics,
@@ -99,7 +103,7 @@ export async function getServerSideProps({
         return {
             props: {
                 data: null,
-                page: pageNumber,
+                page: +params.pag,
                 tag: params.tag,
                 topics: null,
                 error: e.message
@@ -107,41 +111,3 @@ export async function getServerSideProps({
         };
     }
 }
-
-const NextPrevButtons = ({
-    page,
-    tag,
-    totalCount
-}: {
-    page: number;
-    tag: string;
-    totalCount: number;
-}): JSX.Element => {
-    const urlTag = tag ? `${tag}/` : '';
-    const buttonClasses = [
-        'bg-white',
-        'border-gray',
-        'border',
-        'mr-2',
-        'no-underline',
-        'px-2',
-        'py-2',
-        'rounded',
-        'focus:outline-none'
-    ];
-    const totalCountPage = page * postPerPage;
-    return (
-        <>
-            {page > 1 ? (
-                <Link href={`/codeshare/topic/${urlTag}${page - 1}`}>
-                    <a className={classNames(buttonClasses)}>Previous</a>
-                </Link>
-            ) : null}
-            {totalCountPage < totalCount ? (
-                <Link href={`/codeshare/topic/${urlTag}${page + 1}`}>
-                    <a className={classNames(buttonClasses)}>Next</a>
-                </Link>
-            ) : null}
-        </>
-    );
-};
