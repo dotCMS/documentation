@@ -2,15 +2,21 @@ import React from 'react';
 import { GetServerSidePropsResult } from 'next';
 
 // Components
+import { FeedBack } from '@components/FeedBack';
+import { Footer } from '@components/Footer';
+import { Pagination } from '@components/Pagination';
 import { SearchResult } from '@components/SearchResult';
 
 // Graphql
 import { client } from '@utils/graphql-client';
-import { DOCUMENTATION_SEARCH_COUNT, DOCUMENTATION_SEARCH_QUERY } from '@graphql/queries';
+import {
+    DOCUMENTATION_SEARCH_COUNT,
+    DOCUMENTATION_SEARCH_QUERY,
+    NAVIGATION_MENU_QUERY
+} from '@graphql/queries';
 
 // Models
-import { SearchResultItem } from '@models/Documentation.model';
-import { Pagination } from '@components/Pagination';
+import { Documentation, SearchResultItem } from '@models/Documentation.model';
 
 interface SearchProps {
     data: SearchResultItem[];
@@ -19,14 +25,17 @@ interface SearchProps {
     search: string;
     totalCount: number;
     error?: string;
+    navDot?: Documentation[];
 }
 
 const Search = ({ data, search, totalCount, page }: SearchProps): JSX.Element => {
     const baseUrlPost = '/search';
     return (
-        <div className="container flex-col flex flex-grow m-auto md:flex-row">
-            <main className="px-5 w-full">
-                <h1>Search: {search}</h1>
+        <div className="overflow-auto flex-col flex flex-grow">
+            <main className="container flex-grow">
+                <h1>
+                    Search: <span className="text-blue-500">{search}</span>
+                </h1>
                 <h3>{totalCount} Results Found</h3>
                 <div>
                     {data.map((result, index) => (
@@ -36,11 +45,16 @@ const Search = ({ data, search, totalCount, page }: SearchProps): JSX.Element =>
                 <Pagination
                     baseUrl={baseUrlPost}
                     page={page}
+                    paginationLimit={5}
                     postPerPage={10}
                     search={search}
                     totalCount={totalCount}
                 />
             </main>
+            <div>
+                <FeedBack />
+                <Footer />
+            </div>
         </div>
     );
 };
@@ -62,11 +76,15 @@ export async function getServerSideProps({
         const { QueryMetadata } = await client.request(DOCUMENTATION_SEARCH_COUNT, {
             search: query
         });
+        const { DotcmsDocumentationCollection: DotcmsDocumentationNav } = await client.request(
+            NAVIGATION_MENU_QUERY
+        );
         return {
             props: {
                 data: DotcmsDocumentationCollection as SearchResultItem[],
                 page: +params.pag,
                 pageTitle,
+                navDot: DotcmsDocumentationNav,
                 search: params.search,
                 totalCount: QueryMetadata[0].totalCount
             }

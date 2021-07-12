@@ -5,70 +5,89 @@ import classNames from 'classnames';
 interface PaginationProps {
     baseUrl: string;
     page: number;
+    paginationLimit: number;
+    postPerPage: number;
     search: string;
     totalCount: number;
-    postPerPage: number;
 }
 export const Pagination = ({
     baseUrl,
     page,
+    paginationLimit,
+    postPerPage,
     search,
-    totalCount,
-    postPerPage
+    totalCount
 }: PaginationProps): JSX.Element => {
     const buttonClasses = [
-        'bg-gray-75',
+        'border',
+        'border-gray',
         'flex',
+        'justify-center',
         'no-underline',
         'px-2',
         'py-2',
         'rounded',
         'focus:outline-none'
     ];
+    const buttonClassesActive = ['border-purple-200', 'text-purple-200'];
     const arrowButtons = ['w-full', 'h-full', 'flex', 'items-center'];
     const leftArrowClasses = ['transform', 'rotate-180'];
     // Pagination
     const totalPages = Math.ceil(totalCount / postPerPage);
-    const start = PagitnationStart(page, totalPages);
-    const end = totalPages > 6 ? 6 : totalPages;
-    const buttonCount = new Array(end);
+    const start = PaginationStart(page, totalPages, paginationLimit);
+    const end = totalPages > paginationLimit ? paginationLimit : totalPages;
+    const buttonCount = new Array(end).fill(0);
     return (
         <>
             <ul className="list-none flex justify-center">
-                <li className="mr-2">
-                    <Link href={`${baseUrl}/${search}/${page - 1}`}>
-                        <a className={classNames(buttonClasses, arrowButtons)}>
-                            <ArrowSVG className={leftArrowClasses} />
-                        </a>
-                    </Link>
-                </li>
+                {page > 1 && (
+                    <li className="mr-4 w-8">
+                        <Link href={`${baseUrl}/${search}/${page - 1}`}>
+                            <a className={classNames(buttonClasses, arrowButtons)}>
+                                <ArrowSVG className={leftArrowClasses} />
+                            </a>
+                        </Link>
+                    </li>
+                )}
                 {buttonCount.map((item, index) => {
                     const pagNumber = start + index;
                     return (
-                        <Link key={index} href={`${baseUrl}/${search}/${pagNumber}`}>
-                            <a className={classNames(buttonClasses)}>{pagNumber}</a>
-                        </Link>
+                        <li key={index} className="mr-4 w-8">
+                            <Link href={`${baseUrl}/${search}/${pagNumber}`}>
+                                <a
+                                    className={classNames(
+                                        buttonClasses,
+                                        page == pagNumber && buttonClassesActive
+                                    )}
+                                >
+                                    {pagNumber}
+                                </a>
+                            </Link>
+                        </li>
                     );
                 })}
-                <li className="mr-2">
-                    <Link href={`${baseUrl}/${search}/${page + 1}`}>
-                        <a className={classNames(buttonClasses, arrowButtons)}>
-                            <ArrowSVG />
-                        </a>
-                    </Link>
-                </li>
+                {page != totalPages && (
+                    <li className="mr-4 w-8">
+                        <Link href={`${baseUrl}/${search}/${page + 1}`}>
+                            <a className={classNames(buttonClasses, arrowButtons)}>
+                                <ArrowSVG />
+                            </a>
+                        </Link>
+                    </li>
+                )}
             </ul>
         </>
     );
 };
 
-const PagitnationStart = (pag: number, totalPages: number): number => {
-    if (totalPages < 6 || pag <= 3) {
+const PaginationStart = (page: number, totalPages: number, limit: number): number => {
+    const middle = Math.floor(limit / 2);
+    if (totalPages < limit || page <= middle) {
         return 1;
-    } else if (totalPages - 2 > pag) {
-        return pag - 2;
+    } else if (totalPages - middle > page) {
+        return page - middle;
     } else {
-        return totalPages - 5;
+        return totalPages - limit + 1;
     }
 };
 
@@ -77,8 +96,8 @@ const ArrowSVG = ({ className }: { className?: string[] }) => {
         <svg
             className={classNames('flex', className)}
             height="8px"
-            width="8px"
             viewBox="0 0 103.536 103.536"
+            width="8px"
             x="0px"
             y="0px"
         >

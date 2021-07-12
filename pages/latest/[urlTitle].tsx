@@ -89,7 +89,9 @@ const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX
                 <title>{data.title}</title>
             </Head>
             {error ? (
-                <PageError error={error} title={data.title} />
+                <div className="flex flex-col overflow-auto overflow-y-scroll">
+                    <PageError error={error} title={data.title} />
+                </div>
             ) : (
                 <>
                     <div className="flex flex-col overflow-auto overflow-y-scroll">

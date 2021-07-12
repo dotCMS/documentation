@@ -58,6 +58,7 @@ export default function CodeShareTag({
                         <Pagination
                             baseUrl={baseUrl}
                             page={page}
+                            paginationLimit={5}
                             postPerPage={postPerPage}
                             search={tag}
                             totalCount={totalCount}
