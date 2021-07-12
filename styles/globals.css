@@ -19,27 +19,13 @@ h2,
 h3,
 h4,
 h5 {
-    @apply font-bold mb-6 mt-12;
+    margin: revert;
+    font-size: revert;
+    @apply font-bold;
 }
 
 hr {
     @apply my-12;
-}
-
-h1 {
-    @apply text-4xl;
-}
-
-h2 {
-    @apply text-3xl;
-}
-
-h3 {
-    @apply text-xl;
-}
-
-h4 {
-    @apply text-lg;
 }
 
 p, ul, ol, table {

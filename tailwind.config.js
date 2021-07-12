@@ -68,6 +68,9 @@ module.exports = {
             },
             minWidth: {
                 72: '18rem'
+            },
+            height: {
+                'mobile-nav': 'calc(100vh - 5rem)'
             }
         }
     },
