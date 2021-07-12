@@ -4,17 +4,17 @@ import Link from 'next/link';
 // Components
 import { DateFormatter } from '@components/DateFormatter';
 // Models
-import { CodeShareItem } from '@models/CodeShare.model';
+import { SearchResultItem } from '@models/Documentation.model';
 
-export const PostCard = ({
+export const SearchResult = ({
     baseUrl,
     data: { urlTitle, title, dateCreated, authorName, seoDescription }
 }: {
     baseUrl: string;
-    data: CodeShareItem;
+    data: SearchResultItem;
 }): JSX.Element => {
     return (
-        <div className="mb-14 pr-10">
+        <div className="mb-14 pr-10 border-b border-gray">
             <Link href={`${baseUrl}/${urlTitle}`}>
                 <a className="font-bold inline-block mb-1 no-underline text-blue-500 text-lg hover:underline">
                     {title}
@@ -30,7 +30,7 @@ export const PostCard = ({
                     <b>Author:</b> {authorName}
                 </p>
             )}
-            <p className="text-lg">{seoDescription}</p>
+            {seoDescription && <p className="text-lg">{seoDescription}</p>}
         </div>
     );
 };

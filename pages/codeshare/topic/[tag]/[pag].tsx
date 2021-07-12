@@ -7,7 +7,7 @@ import { CodeShareSideBox } from '@components/CodeShareSideBox';
 import { CodeShareTopics } from '@components/CodeShareTopics';
 import { PageError } from '@components/PageError';
 import { Pagination } from '@components/Pagination';
-import { PostCard } from '@components/PostCard';
+import { SearchResult } from '@components/SearchResult';
 
 // Graphql
 import { CODE_SHARE_QUERY_LIST_ARTICLES, CODE_SHARE_QUERY_TOTAL_COUNT } from '@graphql/queries';
@@ -19,10 +19,11 @@ import { fetchAllCodeShareTopics } from '@helpers/fetchAllCodeShareTopics';
 import { client } from '@utils/graphql-client';
 
 // Models
-import { CodeShareItem, CodeShareTopic } from '@models/CodeShare.model';
+import { CodeShareTopic } from '@models/CodeShare.model';
+import { SearchResultItem } from '@models/Documentation.model';
 
 interface CodeShareTagProps {
-    data: CodeShareItem[];
+    data: SearchResultItem[];
     page: number;
     tag: string;
     topics: CodeShareTopic[];
@@ -41,6 +42,7 @@ export default function CodeShareTag({
     topics,
     error
 }: CodeShareTagProps): JSX.Element {
+    const baseUrl = '/codeshare/topic';
     return (
         <div className="container flex-col flex flex-grow m-auto md:flex-row">
             {error ? (
@@ -51,10 +53,10 @@ export default function CodeShareTag({
                         <h1 className="mb-0">Code Share</h1>
                         <h2 className="mb-10 mt-0">Recent Submissions</h2>
                         {data.map((item) => (
-                            <PostCard key={item.urlTitle} baseUrl={'/codeshare'} data={item} />
+                            <SearchResult key={item.urlTitle} baseUrl={'/codeshare'} data={item} />
                         ))}
                         <Pagination
-                            baseUrl={'/codeshare/topics'}
+                            baseUrl={baseUrl}
                             page={page}
                             postPerPage={postPerPage}
                             search={tag}
@@ -91,7 +93,7 @@ export async function getServerSideProps({
         const { QueryMetadata } = await client.request(CODE_SHARE_QUERY_TOTAL_COUNT, { tags });
         return {
             props: {
-                data: CodeshareCollection as CodeShareItem[],
+                data: CodeshareCollection as SearchResultItem[],
                 page: +params.pag,
                 totalCount: QueryMetadata[0].totalCount,
                 tag: params.tag,

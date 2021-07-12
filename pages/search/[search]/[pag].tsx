@@ -2,18 +2,18 @@ import React from 'react';
 import { GetServerSidePropsResult } from 'next';
 
 // Components
-import { PostCard } from '@components/PostCard';
+import { SearchResult } from '@components/SearchResult';
 
 // Graphql
 import { client } from '@utils/graphql-client';
 import { DOCUMENTATION_SEARCH_COUNT, DOCUMENTATION_SEARCH_QUERY } from '@graphql/queries';
 
 // Models
-import { CodeShareItem } from '@models/CodeShare.model';
+import { SearchResultItem } from '@models/Documentation.model';
 import { Pagination } from '@components/Pagination';
 
 interface SearchProps {
-    data: CodeShareItem[];
+    data: SearchResultItem[];
     page: number;
     pageTitle: string;
     search: string;
@@ -30,7 +30,7 @@ const Search = ({ data, search, totalCount, page }: SearchProps): JSX.Element =>
                 <h3>{totalCount} Results Found</h3>
                 <div>
                     {data.map((result, index) => (
-                        <PostCard key={index} baseUrl={'/latest'} data={result} />
+                        <SearchResult key={index} baseUrl={'/latest'} data={result} />
                     ))}
                 </div>
                 <Pagination
@@ -64,7 +64,7 @@ export async function getServerSideProps({
         });
         return {
             props: {
-                data: DotcmsDocumentationCollection as CodeShareItem[],
+                data: DotcmsDocumentationCollection as SearchResultItem[],
                 page: +params.pag,
                 pageTitle,
                 search: params.search,
