@@ -57,7 +57,7 @@ export default function CodeShareTag({
                         <NextPrevButtons page={page} tag={tag} totalCount={totalCount} />
                     </main>
                     <CodeShareSide>
-                        <CodeShareTopics topics={topics} />
+                        <CodeShareTopics tag={tag} topics={topics} />
                         <CodeShareSideBox />
                     </CodeShareSide>
                 </>

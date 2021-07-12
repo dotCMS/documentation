@@ -1,4 +1,5 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import classNames from 'classnames';
 
@@ -35,11 +36,11 @@ export const HeaderNav = ({
         'lg:py-0'
     ];
     const navTitles = [
-        { title: 'Documentation', id: 'documentation', link: '/' },
-        { title: 'Realease & LTS', id: 'realease', link: '/latest/current-releases' },
-        { title: 'Code Share', id: 'code_share', link: '/codeshare' },
-        { title: 'Forums', id: 'forums', link: 'https://groups.google.com/g/dotcms' },
-        { title: 'Online Training', id: 'online', link: 'https://dotcms.com/courses/' }
+        { title: 'Documentation', pathName: 'documentation', link: '/' },
+        { title: 'Realease & LTS', pathName: 'current-releases', link: '/latest/current-releases' },
+        { title: 'Code Share', pathName: 'codeshare', link: '/codeshare' },
+        { title: 'Forums', pathName: 'forums', link: 'https://groups.google.com/g/dotcms' },
+        { title: 'Online Training', pathName: 'training', link: 'https://dotcms.com/courses/' }
     ];
     return (
         <nav className={classNames(showNav ? navClasses : navHiddeClasses)}>
@@ -54,18 +55,27 @@ const DotNavItem = ({
     navTitles,
     setShowNav
 }: {
-    navTitles: { title: string; id: string; link: string }[];
+    navTitles: { title: string; pathName: string; link: string }[];
     setShowNav: Dispatch<SetStateAction<boolean>>;
 }): JSX.Element => {
-    const [active, setActive] = useState('documentation');
+    const router = useRouter();
+    const [activeRoute, setActiveRoute] = useState<string>();
+    useEffect(() => {
+        const possiblePaths = ['current-releases', 'codeshare'];
+        const currentPath = router.asPath.replace('/latest', '').split('/')[1];
+        possiblePaths.includes(currentPath)
+            ? setActiveRoute(currentPath)
+            : setActiveRoute('documentation');
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const activeClasses = ['border-b-3', 'border-pink', 'font-bold'];
     return (
         <>
             {navTitles.map((navTitle) => {
-                const isActive = active === navTitle.id;
+                const isActive = activeRoute === navTitle.pathName;
                 return (
                     <li
-                        key={navTitle.id}
+                        key={navTitle.pathName}
                         className={classNames(
                             'inline-block my-2 mr-8 py-2 lg:my-0',
                             isActive ? activeClasses : null
@@ -75,7 +85,7 @@ const DotNavItem = ({
                             <a
                                 className="text-black no-underline text-3xl lg:text-base lg:text-white"
                                 onClick={() => {
-                                    setActive(navTitle.id);
+                                    setActiveRoute(navTitle.pathName);
                                     setShowNav(false);
                                 }}
                             >
