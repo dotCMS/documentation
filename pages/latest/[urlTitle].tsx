@@ -38,6 +38,7 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
+import { useRef } from 'react';
 
 interface PageData {
     data: Documentation;
@@ -55,6 +56,7 @@ const componentsUI: MDXProviderComponentsProp = {
 
 const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
+    const mdxContainer = useRef(null);
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
     const options = React.useMemo(
@@ -77,7 +79,7 @@ const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX
         targets.forEach((target) => observer.observe(target));
         return () => observer.disconnect();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [content]);
+    }, [content, mdxContainer.current]);
     return (
         <>
             <Head>
@@ -93,9 +95,11 @@ const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX
                     <div className="flex flex-col overflow-auto overflow-y-scroll">
                         <main className={styles.main}>
                             <h1>{data.title}</h1>
-                            <MDXProvider className="wrapper" components={componentsUI}>
-                                {content}
-                            </MDXProvider>
+                            <div ref={mdxContainer}>
+                                <MDXProvider className="wrapper" components={componentsUI}>
+                                    {content}
+                                </MDXProvider>
+                            </div>
                             {data.showToc[0] && (
                                 <>
                                     <h4>Table Of Content</h4>
