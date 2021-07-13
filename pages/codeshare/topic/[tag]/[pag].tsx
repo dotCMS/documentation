@@ -22,7 +22,7 @@ import { client } from '@utils/graphql-client';
 import { CodeShareTopic } from '@models/CodeShare.model';
 import { SearchResultItem } from '@models/Documentation.model';
 
-interface CodeShareTagProps {
+interface PageProps {
     data: SearchResultItem[];
     page: number;
     tag: string;
@@ -32,8 +32,6 @@ interface CodeShareTagProps {
     error?: string;
 }
 
-const postPerPage = 10;
-
 export default function CodeShareTag({
     data,
     page,
@@ -41,8 +39,7 @@ export default function CodeShareTag({
     tag,
     topics,
     error
-}: CodeShareTagProps): JSX.Element {
-    const baseUrl = '/codeshare/topic';
+}: PageProps): JSX.Element {
     return (
         <div className="container flex-col flex flex-grow m-auto md:flex-row">
             {error ? (
@@ -56,10 +53,8 @@ export default function CodeShareTag({
                             <SearchResult key={item.urlTitle} baseUrl={'/codeshare'} data={item} />
                         ))}
                         <Pagination
-                            baseUrl={baseUrl}
+                            baseUrl={'/codeshare/topic'}
                             page={page}
-                            paginationLimit={5}
-                            postPerPage={postPerPage}
                             search={tag}
                             totalCount={totalCount}
                         />
@@ -78,11 +73,11 @@ export async function getServerSideProps({
     params
 }: {
     params: { tag: string; pag: string };
-}): Promise<GetServerSidePropsResult<CodeShareTagProps>> {
+}): Promise<GetServerSidePropsResult<PageProps>> {
     const pageTitle = 'Codeshare';
     const queryTag = params.tag.replace(/-/g, ' ');
     const tags = params.tag == 'all' ? '' : `+tags:\"${queryTag}\"`;
-    const startFrom = +params.pag <= 1 ? 0 : (+params.pag - 1) * postPerPage;
+    const startFrom = +params.pag <= 1 ? 0 : (+params.pag - 1) * 10;
     try {
         // Variables
         const topics = await fetchAllCodeShareTopics();

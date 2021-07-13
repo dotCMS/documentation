@@ -45,8 +45,6 @@ const Search = ({ data, search, totalCount, page }: SearchProps): JSX.Element =>
                 <Pagination
                     baseUrl={baseUrlPost}
                     page={page}
-                    paginationLimit={5}
-                    postPerPage={10}
                     search={search}
                     totalCount={totalCount}
                 />

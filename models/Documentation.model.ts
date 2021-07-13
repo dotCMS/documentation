@@ -14,6 +14,5 @@ export interface SearchResultItem {
     urlTitle: string;
     authorName?: string;
     dateCreated?: string;
-    documentation?: string;
     seoDescription?: string;
 }

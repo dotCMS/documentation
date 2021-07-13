@@ -5,18 +5,19 @@ import classNames from 'classnames';
 interface PaginationProps {
     baseUrl: string;
     page: number;
-    paginationLimit: number;
-    postPerPage: number;
     search: string;
     totalCount: number;
+    paginationLimit?: number;
+    postPerPage?: number;
 }
+
 export const Pagination = ({
     baseUrl,
     page,
-    paginationLimit,
-    postPerPage,
     search,
-    totalCount
+    totalCount,
+    paginationLimit = 5,
+    postPerPage = 10
 }: PaginationProps): JSX.Element => {
     const buttonClasses = [
         'border',
@@ -32,17 +33,18 @@ export const Pagination = ({
     const buttonClassesActive = ['border-purple-200', 'text-purple-200'];
     const arrowButtons = ['w-full', 'h-full', 'flex', 'items-center'];
     const leftArrowClasses = ['transform', 'rotate-180'];
+    const url = `${baseUrl}/${search}`;
     // Pagination
     const totalPages = Math.ceil(totalCount / postPerPage);
-    const start = PaginationStart(page, totalPages, paginationLimit);
-    const end = totalPages > paginationLimit ? paginationLimit : totalPages;
-    const buttonCount = new Array(end).fill(0);
+    const pagStart = PaginationStart(page, totalPages, paginationLimit);
+    const pagEnd = totalPages > paginationLimit ? paginationLimit : totalPages;
+    const buttonCount = new Array(pagEnd).fill(0);
     return (
         <>
             <ul className="list-none flex justify-center">
                 {page > 1 && (
                     <li className="mr-4 w-8">
-                        <Link href={`${baseUrl}/${search}/${page - 1}`}>
+                        <Link href={`${url}/${page - 1}`}>
                             <a className={classNames(buttonClasses, arrowButtons)}>
                                 <ArrowSVG className={leftArrowClasses} />
                             </a>
@@ -50,10 +52,10 @@ export const Pagination = ({
                     </li>
                 )}
                 {buttonCount.map((item, index) => {
-                    const pagNumber = start + index;
+                    const pagNumber = pagStart + index;
                     return (
                         <li key={index} className="mr-4 w-8">
-                            <Link href={`${baseUrl}/${search}/${pagNumber}`}>
+                            <Link href={`${url}/${pagNumber}`}>
                                 <a
                                     className={classNames(
                                         buttonClasses,
@@ -66,9 +68,9 @@ export const Pagination = ({
                         </li>
                     );
                 })}
-                {page != totalPages && (
+                {page < totalPages && (
                     <li className="mr-4 w-8">
-                        <Link href={`${baseUrl}/${search}/${page + 1}`}>
+                        <Link href={`${url}/${page + 1}`}>
                             <a className={classNames(buttonClasses, arrowButtons)}>
                                 <ArrowSVG />
                             </a>
@@ -81,11 +83,11 @@ export const Pagination = ({
 };
 
 const PaginationStart = (page: number, totalPages: number, limit: number): number => {
-    const middle = Math.floor(limit / 2);
-    if (totalPages < limit || page <= middle) {
+    const halfLimit = Math.floor(limit / 2);
+    if (totalPages < limit || page <= halfLimit) {
         return 1;
-    } else if (totalPages - middle > page) {
-        return page - middle;
+    } else if (totalPages - halfLimit > page) {
+        return page - halfLimit;
     } else {
         return totalPages - limit + 1;
     }
