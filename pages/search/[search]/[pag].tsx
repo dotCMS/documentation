@@ -2,7 +2,6 @@ import React from 'react';
 import { GetServerSidePropsResult } from 'next';
 
 // Components
-import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { Pagination } from '@components/Pagination';
 import { SearchResult } from '@components/SearchResult';
@@ -29,7 +28,7 @@ interface SearchProps {
 }
 
 const Search = ({ data, search, totalCount, page }: SearchProps): JSX.Element => {
-    const baseUrlPost = '/search';
+    const baseUrlSearch = '/search';
     return (
         <div className="overflow-auto flex-col flex flex-grow">
             <main className="container flex-grow">
@@ -43,16 +42,13 @@ const Search = ({ data, search, totalCount, page }: SearchProps): JSX.Element =>
                     ))}
                 </div>
                 <Pagination
-                    baseUrl={baseUrlPost}
+                    baseUrl={baseUrlSearch}
                     page={page}
                     search={search}
                     totalCount={totalCount}
                 />
             </main>
-            <div>
-                <FeedBack />
-                <Footer />
-            </div>
+            <Footer />
         </div>
     );
 };

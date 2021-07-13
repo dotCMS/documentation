@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { SearchIcon } from './SearchIcon';
 
 export const Search = (): JSX.Element => {
-    const focusOnSearch = () => document.getElementById('search').focus();
-    const router = useRouter();
+    const focusOnSearch = () => searchInput.current.focus();
     const [search, setSearch] = useState('');
+    const router = useRouter();
+    const searchInput = useRef(null);
+    const handlerInput = ({ target }) => setSearch(target.value);
     const handlerSubmit = (e) => {
         e.preventDefault();
         router.push(`/search/${search}/1`);
-    };
-    const handlerInput = ({ target }) => {
-        setSearch(target.value);
     };
     return (
         <form
@@ -27,9 +26,9 @@ export const Search = (): JSX.Element => {
                 <SearchIcon />
             </button>
             <input
+                ref={searchInput}
                 autoComplete={'off'}
                 className="h-4 outline-none p-0.5 pl-4 text-gray-500-secondary w-full"
-                id="search"
                 placeholder="Search documentation..."
                 type="text"
                 onInput={handlerInput}
