@@ -8,3 +8,11 @@ export interface Documentation {
     documentation: string;
     dotcmsdocumentationchildren?: Documentation[];
 }
+
+export interface SearchResultItem {
+    title: string;
+    urlTitle: string;
+    authorName?: string;
+    dateCreated?: string;
+    seoDescription?: string;
+}

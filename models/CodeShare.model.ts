@@ -1,15 +1,11 @@
-export interface CodeShareItem {
+export interface CodeSharePage {
     authorName: string;
-    dateCreated: string;
-    title: string;
-    urlTitle: string;
-    seoDescription: string;
-}
-
-export interface CodeSharePage extends CodeShareItem {
     code: string;
     company: string;
+    dateCreated: string;
     description: string;
+    title: string;
+    urlTitle: string;
 }
 
 export interface CodeShareTopic {

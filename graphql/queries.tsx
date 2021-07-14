@@ -54,6 +54,34 @@ query ($urlTitle: String!) {
 }
 `;
 
+// Search
+export const DOCUMENTATION_SEARCH_QUERY = `
+query ($offset: Int!; $search: String!) {
+	DotcmsDocumentationCollection(
+        query: $search
+        limit: 10
+        offset: $offset
+    ) {
+        title
+        urlTitle
+        seoDescription	
+  } 
+}
+`;
+
+export const DOCUMENTATION_SEARCH_COUNT = `
+query codeshare($search: String!) {
+    DotcmsDocumentationCollection(
+        query: $search,
+        limit: 1000000
+    ){
+    	urlTitle
+  	}
+  	QueryMetadata {
+      totalCount
+    }
+}`;
+
 // CODESHARE QUERY
 export const CODE_SHARE_PATHS_QUERY = `
 query codeshare {
