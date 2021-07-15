@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
+import { PaginationLenght } from '@helpers/pagination';
 
 interface PaginationProps {
     baseUrl: string;
@@ -36,9 +37,11 @@ export const Pagination = ({
     const url = `${baseUrl}/${search}`;
     // Pagination
     const totalPages = Math.ceil(totalCount / postPerPage);
-    const pagStart = PaginationStart(page, totalPages, paginationLimit);
-    const pagEnd = totalPages > paginationLimit ? paginationLimit : totalPages;
-    const buttonCount = new Array(pagEnd).fill(0);
+    const { buttonCount, pagStart } = PaginationLenght({
+        totalPages,
+        page,
+        paginationLimit
+    });
     return (
         <>
             <ul className="list-none flex justify-center">
@@ -80,25 +83,6 @@ export const Pagination = ({
             </ul>
         </>
     );
-};
-
-const PaginationStart = (page: number, totalPages: number, limit: number): number => {
-    const halfLimit = Math.floor(limit / 2);
-    if (totalPagesIsLowerThanLimit(totalPages, limit) || lowerThanHalfLimit(page, halfLimit)) {
-        return 1;
-    } else if (totalPages - halfLimit > page) {
-        return page - halfLimit;
-    } else {
-        return totalPages - limit + 1;
-    }
-};
-
-const totalPagesIsLowerThanLimit = (totalPages: number, limit: number): boolean => {
-    return totalPages < limit;
-};
-
-const lowerThanHalfLimit = (page: number, halfLimit: number): boolean => {
-    return page <= halfLimit;
 };
 
 const ArrowSVG = ({ className }: { className?: string[] }) => {

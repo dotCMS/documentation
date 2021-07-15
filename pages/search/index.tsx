@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { GetServerSidePropsResult, GetStaticPropsResult } from 'next';
+import { GetStaticPropsResult } from 'next';
 import { useRouter } from 'next/router';
 
 // Components
