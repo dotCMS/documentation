@@ -33,8 +33,8 @@ interface PageProps {
 export default function Topic({ data, totalCount, topics, tag, error }: PageProps): JSX.Element {
     const [currentPage, setCurrentPage] = useState(1);
     const filteredCodeShare = (): SearchResultItem[] => {
-        const start = currentPage - 1;
-        return data.slice(start, start + 5);
+        const start = currentPage <= 1 ? 0 : currentPage * 10;
+        return data.slice(start, start + 10);
     };
     return (
         <div className="container flex-col flex flex-grow m-auto md:flex-row">
