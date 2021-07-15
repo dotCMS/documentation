@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GetServerSidePropsResult, GetStaticPathsResult, GetStaticPropsResult } from 'next';
+import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 
 // Components
 import { CodeShareSide } from '@components/CodeShareSide';
@@ -24,8 +24,8 @@ import { CodeShareTopic } from '@models/CodeShare.model';
 
 interface PageProps {
     data: SearchResultItem[];
-    tag: string;
-    topics: CodeShareTopic[];
+    tag?: string;
+    topics?: CodeShareTopic[];
     totalCount?: number;
     error?: string;
 }
@@ -49,9 +49,8 @@ export default function Topic({ data, totalCount, topics, tag, error }: PageProp
                             <SearchResult key={item.urlTitle} baseUrl={'/codeshare'} data={item} />
                         ))}
                         <Pagination
-                            baseUrl={'/codeshare/topic'}
                             page={currentPage}
-                            search={tag}
+                            state={setCurrentPage}
                             totalCount={totalCount}
                         />
                     </main>
@@ -64,47 +63,6 @@ export default function Topic({ data, totalCount, topics, tag, error }: PageProp
         </div>
     );
 }
-
-// export async function getServerSideProps({
-//     params
-// }: {
-//     params: { tag: string; pag: string };
-// }): Promise<GetServerSidePropsResult<PageProps>> {
-//     const pageTitle = 'Codeshare';
-//     const queryTag = params.tag.replace(/-/g, ' ');
-//     const tags = params.tag == 'all' ? '' : `+tags:\"${queryTag}\"`;
-//     const startFrom = +params.pag <= 1 ? 0 : (+params.pag - 1) * 10;
-//     try {
-//         // Variables
-//         const topics = await fetchAllCodeShareTopics();
-//         const variablePag = { offset: startFrom, tags };
-//         const { CodeshareCollection } = await client.request(
-//             CODE_SHARE_QUERY_LIST_ARTICLES,
-//             variablePag
-//         );
-//         const { QueryMetadata } = await client.request(CODE_SHARE_QUERY_TOTAL_COUNT, { tags });
-//         return {
-//             props: {
-//                 data: CodeshareCollection as SearchResultItem[],
-//                 page: +params.pag,
-//                 totalCount: QueryMetadata[0].totalCount,
-//                 tag: params.tag,
-//                 topics: topics,
-//                 pageTitle
-//             }
-//         };
-//     } catch (e) {
-//         return {
-//             props: {
-//                 data: null,
-//                 page: +params.pag,
-//                 tag: params.tag,
-//                 topics: null,
-//                 error: e.message
-//             }
-//         };
-//     }
-// }
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
     try {
@@ -119,7 +77,11 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
     }
 }
 
-export async function getStaticProps({ params }): Promise<GetStaticPropsResult<any>> {
+export async function getStaticProps({
+    params
+}: {
+    params: { topic: string };
+}): Promise<GetStaticPropsResult<PageProps>> {
     try {
         // Variables
         const tag = params.topic === 'all' ? '' : params.topic.replace(/-/g, ' ');
@@ -142,6 +104,7 @@ export async function getStaticProps({ params }): Promise<GetStaticPropsResult<a
     } catch (e) {
         return {
             props: {
+                data: [],
                 error: e.message
             }
         };

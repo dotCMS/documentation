@@ -31,12 +31,12 @@ interface fetchResultItem {
 }
 
 const Search = (): JSX.Element => {
-    const baseUrlSearch = '/search';
     const router = useRouter();
     const [results, setResult] = useState<SearchResultItem[]>([]);
     const [totalCount, setTotalCount] = useState<number>();
     const search = router.query.search as string;
     const page = +router.query.pag;
+    const baseUrlSearch = `/search?search=${search}&pag=`;
     useEffect(() => {
         if (router.isReady) {
             fetchSearchResults(search, page)
@@ -47,7 +47,7 @@ const Search = (): JSX.Element => {
                 });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [router.isReady]);
+    }, [router, router.isReady]);
     return (
         <div className="overflow-auto flex-col flex flex-grow">
             {results.length > 0 ? (
@@ -62,12 +62,7 @@ const Search = (): JSX.Element => {
                         ))}
                     </div>
                     {totalCount && (
-                        <Pagination
-                            baseUrl={baseUrlSearch}
-                            page={page}
-                            search={search}
-                            totalCount={totalCount}
-                        />
+                        <Pagination baseUrl={baseUrlSearch} page={page} totalCount={totalCount} />
                     )}
                 </main>
             ) : (

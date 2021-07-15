@@ -1,13 +1,15 @@
-import React from 'react';
-import Link from 'next/link';
+import React, { Dispatch, SetStateAction } from 'react';
+import { useRouter } from 'next/router';
 import classNames from 'classnames';
+
+// Helper
 import { PaginationLenght } from '@helpers/pagination';
 
 interface PaginationProps {
-    baseUrl: string;
     page: number;
-    search: string;
     totalCount: number;
+    baseUrl?: string;
+    state?: Dispatch<SetStateAction<number>>;
     paginationLimit?: number;
     postPerPage?: number;
 }
@@ -15,11 +17,20 @@ interface PaginationProps {
 export const Pagination = ({
     baseUrl,
     page,
-    search,
     totalCount,
+    state,
     paginationLimit = 5,
     postPerPage = 10
 }: PaginationProps): JSX.Element => {
+    const router = useRouter();
+    const changePage = (page) => {
+        if (state) {
+            state(() => page);
+        } else {
+            router.push(baseUrl + page);
+        }
+    };
+    // Classes
     const buttonClasses = [
         'border',
         'border-gray',
@@ -34,7 +45,6 @@ export const Pagination = ({
     const buttonClassesActive = ['border-purple-200', 'text-purple-200'];
     const arrowButtons = ['w-full', 'h-full', 'flex', 'items-center'];
     const leftArrowClasses = ['transform', 'rotate-180'];
-    const url = `${baseUrl}/${search}`;
     // Pagination
     const totalPages = Math.ceil(totalCount / postPerPage);
     const { buttonCount, pagStart } = PaginationLenght({
@@ -43,49 +53,48 @@ export const Pagination = ({
         paginationLimit
     });
     return (
-        <>
-            <ul className="list-none flex justify-center">
-                {page > 1 && (
-                    <li className="mr-4 w-8">
-                        <Link href={`${url}/${page - 1}`}>
-                            <a className={classNames(buttonClasses, arrowButtons)}>
-                                <ArrowSVG className={leftArrowClasses} />
-                            </a>
-                        </Link>
+        <ul className="list-none flex justify-center">
+            {page > 1 && (
+                <li className="mr-4 w-8">
+                    <button
+                        className={classNames(buttonClasses, arrowButtons)}
+                        onClick={() => changePage(page - 1)}
+                    >
+                        <ArrowSVG className={leftArrowClasses} />
+                    </button>
+                </li>
+            )}
+            {buttonCount.map((item, index) => {
+                const pagNumber = pagStart + index;
+                return (
+                    <li key={index} className="mr-4 w-8">
+                        <button
+                            className={classNames(
+                                buttonClasses,
+                                page == pagNumber && buttonClassesActive
+                            )}
+                            onClick={() => changePage(pagNumber)}
+                        >
+                            {pagNumber}
+                        </button>
                     </li>
-                )}
-                {buttonCount.map((item, index) => {
-                    const pagNumber = pagStart + index;
-                    return (
-                        <li key={index} className="mr-4 w-8">
-                            <Link href={`${url}/${pagNumber}`}>
-                                <a
-                                    className={classNames(
-                                        buttonClasses,
-                                        page == pagNumber && buttonClassesActive
-                                    )}
-                                >
-                                    {pagNumber}
-                                </a>
-                            </Link>
-                        </li>
-                    );
-                })}
-                {page < totalPages && (
-                    <li className="mr-4 w-8">
-                        <Link href={`${url}/${page + 1}`}>
-                            <a className={classNames(buttonClasses, arrowButtons)}>
-                                <ArrowSVG />
-                            </a>
-                        </Link>
-                    </li>
-                )}
-            </ul>
-        </>
+                );
+            })}
+            {page < totalPages && (
+                <li className="mr-4 w-8">
+                    <button
+                        className={classNames(buttonClasses, arrowButtons)}
+                        onClick={() => changePage(page + 1)}
+                    >
+                        <ArrowSVG />
+                    </button>
+                </li>
+            )}
+        </ul>
     );
 };
 
-const ArrowSVG = ({ className }: { className?: string[] }) => {
+const ArrowSVG = ({ className }: { className?: string[] }): JSX.Element => {
     return (
         <svg
             className={classNames('flex', className)}

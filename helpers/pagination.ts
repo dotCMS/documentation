@@ -1,8 +1,19 @@
-export const PaginationLenght = ({ totalPages, paginationLimit, page }) => {
+interface PaginationLenghtReturn {
+    pagStart: number;
+    buttonCount: number[];
+}
+export const PaginationLenght = ({
+    totalPages,
+    paginationLimit,
+    page
+}: {
+    totalPages: number;
+    paginationLimit: number;
+    page: number;
+}): PaginationLenghtReturn => {
     const pagStart = PaginationStart(page, totalPages, paginationLimit);
     const pagEnd = totalPages > paginationLimit ? paginationLimit : totalPages;
     const buttonCount = new Array(pagEnd).fill(0);
-
     return {
         pagStart,
         buttonCount

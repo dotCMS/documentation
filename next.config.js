@@ -1,4 +1,8 @@
 module.exports = {
+    images: {
+        loader: 'imgix',
+        path: 'https://noop/'
+    },
     async rewrites() {
         return [
             {
@@ -11,11 +15,11 @@ module.exports = {
             },
             {
                 source: '/codeshare',
-                destination: '/codeshare/topic/all/1'
+                destination: '/codeshare/topic/all'
             },
             {
                 source: '/codeshare/topic',
-                destination: '/codeshare/topic/all/1'
+                destination: '/codeshare/topic/all'
             }
         ];
     },
