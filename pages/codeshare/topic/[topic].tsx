@@ -30,8 +30,19 @@ interface PageProps {
     error?: string;
 }
 
+interface paramsUrlTitle {
+    link: string;
+}
+
+interface UrlTitleParams {
+    params: {
+        topic: string;
+    };
+}
+
 export default function Topic({ data, totalCount, topics, tag, error }: PageProps): JSX.Element {
     const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = Math.floor(totalCount / 10);
     const filteredCodeShare = (): SearchResultItem[] => {
         const start = currentPage <= 1 ? 0 : currentPage * 10;
         return data.slice(start, start + 10);
@@ -51,7 +62,7 @@ export default function Topic({ data, totalCount, topics, tag, error }: PageProp
                         <Pagination
                             page={currentPage}
                             state={setCurrentPage}
-                            totalCount={totalCount}
+                            totalPages={totalPages}
                         />
                     </main>
                     <CodeShareSide>
@@ -67,7 +78,7 @@ export default function Topic({ data, totalCount, topics, tag, error }: PageProp
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
     try {
         const topics = await fetchAllCodeShareTopics();
-        const paths = buildParams(topics, []);
+        const paths = buildParams(topics);
         return {
             paths,
             fallback: false
@@ -111,19 +122,6 @@ export async function getStaticProps({
     }
 }
 
-const buildParams = (data: paramsUrlTitle[], paths: UrlTitleParams[]): UrlTitleParams[] => {
-    data.forEach((item: paramsUrlTitle) => {
-        paths.push({ params: { topic: item.link } });
-    });
-    return paths;
+const buildParams = (data: paramsUrlTitle[]): UrlTitleParams[] => {
+    return data.map((item: paramsUrlTitle) => ({ params: { topic: item.link } }));
 };
-
-interface paramsUrlTitle {
-    link: string;
-}
-
-interface UrlTitleParams {
-    params: {
-        topic: string;
-    };
-}

@@ -1,6 +1,9 @@
+import { useState, useEffect } from 'react';
+
 interface PaginationLenghtReturn {
-    pagStart: number;
+    pageStart: number;
     buttonCount: number[];
+    loaded: boolean;
 }
 export const PaginationLenght = ({
     totalPages,
@@ -11,12 +14,19 @@ export const PaginationLenght = ({
     paginationLimit: number;
     page: number;
 }): PaginationLenghtReturn => {
-    const pagStart = PaginationStart(page, totalPages, paginationLimit);
-    const pagEnd = totalPages > paginationLimit ? paginationLimit : totalPages;
-    const buttonCount = new Array(pagEnd).fill(0);
+    const [buttonCount, setButtonCount] = useState(null);
+    const [loaded, setLoaded] = useState(false);
+    const pageStart = PaginationStart(page, totalPages, paginationLimit);
+
+    useEffect(() => {
+        const pagEnd = totalPages > paginationLimit ? paginationLimit : totalPages;
+        setButtonCount(new Array(pagEnd).fill(0));
+        setLoaded(true);
+    }, [page, totalPages, paginationLimit]);
     return {
-        pagStart,
-        buttonCount
+        pageStart,
+        buttonCount,
+        loaded
     };
 };
 

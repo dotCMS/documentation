@@ -32,11 +32,14 @@ interface fetchResultItem {
 
 const Search = (): JSX.Element => {
     const router = useRouter();
+    // States
     const [results, setResult] = useState<SearchResultItem[]>([]);
     const [totalCount, setTotalCount] = useState<number>();
+    // Variables
     const search = router.query.search as string;
-    const page = +router.query.pag;
-    const baseUrlSearch = `/search?search=${search}&pag=`;
+    const page = +router.query.page || 1;
+    const totalPages = Math.ceil(totalCount / 10);
+    const baseUrlSearch = `/search?search=${search}&page=`;
     useEffect(() => {
         if (router.isReady) {
             fetchSearchResults(search, page)
@@ -62,7 +65,7 @@ const Search = (): JSX.Element => {
                         ))}
                     </div>
                     {totalCount && (
-                        <Pagination baseUrl={baseUrlSearch} page={page} totalCount={totalCount} />
+                        <Pagination baseUrl={baseUrlSearch} page={page} totalPages={totalPages} />
                     )}
                 </main>
             ) : (
@@ -75,9 +78,9 @@ const Search = (): JSX.Element => {
     );
 };
 
-const fetchSearchResults = async (search: string, pag: number): Promise<fetchResultItem> => {
+const fetchSearchResults = async (search: string, page: number): Promise<fetchResultItem> => {
     const query = `+title:${search}*`;
-    const startFrom = +pag <= 1 ? 0 : (+pag - 1) * 10;
+    const startFrom = +page <= 1 ? 0 : (+page - 1) * 10;
     try {
         // Variables
         const { DotcmsDocumentationCollection } = await client.request(DOCUMENTATION_SEARCH_QUERY, {

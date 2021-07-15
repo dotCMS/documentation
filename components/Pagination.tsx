@@ -3,24 +3,22 @@ import { useRouter } from 'next/router';
 import classNames from 'classnames';
 
 // Helper
-import { PaginationLenght } from '@helpers/pagination';
+import { PaginationLenght } from '@hook/pagination';
 
 interface PaginationProps {
     page: number;
-    totalCount: number;
+    totalPages: number;
     baseUrl?: string;
     state?: Dispatch<SetStateAction<number>>;
     paginationLimit?: number;
-    postPerPage?: number;
 }
 
 export const Pagination = ({
     baseUrl,
     page,
-    totalCount,
+    totalPages,
     state,
-    paginationLimit = 5,
-    postPerPage = 10
+    paginationLimit = 5
 }: PaginationProps): JSX.Element => {
     const router = useRouter();
     const changePage = (page) => {
@@ -46,8 +44,7 @@ export const Pagination = ({
     const arrowButtons = ['w-full', 'h-full', 'flex', 'items-center'];
     const leftArrowClasses = ['transform', 'rotate-180'];
     // Pagination
-    const totalPages = Math.ceil(totalCount / postPerPage);
-    const { buttonCount, pagStart } = PaginationLenght({
+    const { buttonCount, pageStart, loaded } = PaginationLenght({
         totalPages,
         page,
         paginationLimit
@@ -64,22 +61,23 @@ export const Pagination = ({
                     </button>
                 </li>
             )}
-            {buttonCount.map((item, index) => {
-                const pagNumber = pagStart + index;
-                return (
-                    <li key={index} className="mr-4 w-8">
-                        <button
-                            className={classNames(
-                                buttonClasses,
-                                page == pagNumber && buttonClassesActive
-                            )}
-                            onClick={() => changePage(pagNumber)}
-                        >
-                            {pagNumber}
-                        </button>
-                    </li>
-                );
-            })}
+            {loaded &&
+                buttonCount.map((item, index) => {
+                    const pagNumber = pageStart + index;
+                    return (
+                        <li key={index} className="mr-4 w-8">
+                            <button
+                                className={classNames(
+                                    buttonClasses,
+                                    page == pagNumber && buttonClassesActive
+                                )}
+                                onClick={() => changePage(pagNumber)}
+                            >
+                                {pagNumber}
+                            </button>
+                        </li>
+                    );
+                })}
             {page < totalPages && (
                 <li className="mr-4 w-8">
                     <button
