@@ -22,7 +22,8 @@ export const PaginationLenght = ({
         const pagEnd = totalPages > paginationLimit ? paginationLimit : totalPages;
         setButtonCount(new Array(pagEnd).fill(0));
         setLoaded(true);
-    }, [page, totalPages, paginationLimit]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return {
         pageStart,
         buttonCount,
