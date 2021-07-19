@@ -113,7 +113,7 @@ export async function getStaticProps({
 }
 
 const buildParams = (data: paramsUrlTitle[]): UrlTitleParams[] => {
-    return data.map((item: paramsUrlTitle) => ({ params: { urlTitle: item.urlTitle } }));
+    return data.map(({ urlTitle }: paramsUrlTitle) => ({ params: { urlTitle } }));
 };
 
 interface UrlTitleParams {

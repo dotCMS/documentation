@@ -1,6 +1,6 @@
 module.exports = {
     images: {
-        loader: 'imgix',
+        loader: 'cloudinary',
         path: ''
     },
     async rewrites() {

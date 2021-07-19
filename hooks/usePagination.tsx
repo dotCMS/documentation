@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-interface PaginationLenghtReturn {
+interface usePaginationReturn {
     pageStart: number;
     buttonCount: number[];
-    loaded: boolean;
 }
-export const PaginationLenght = ({
+
+export const usePagination = ({
     totalPages,
     paginationLimit,
     page
@@ -13,21 +13,16 @@ export const PaginationLenght = ({
     totalPages: number;
     paginationLimit: number;
     page: number;
-}): PaginationLenghtReturn => {
-    const [buttonCount, setButtonCount] = useState(null);
-    const [loaded, setLoaded] = useState(false);
+}): usePaginationReturn => {
+    const [buttonCount, setButtonCount] = useState([]);
     const pageStart = PaginationStart(page, totalPages, paginationLimit);
-
     useEffect(() => {
         const pagEnd = totalPages > paginationLimit ? paginationLimit : totalPages;
-        setButtonCount(new Array(pagEnd).fill(0));
-        setLoaded(true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        setButtonCount(Array.from({ length: pagEnd }, () => 0));
     }, []);
     return {
         pageStart,
-        buttonCount,
-        loaded
+        buttonCount
     };
 };
 

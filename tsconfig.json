@@ -18,7 +18,7 @@
             "@components/*": ["components/*"],
             "@graphql/*": ["graphql/*"],
             "@helpers/*": ["helpers/*"],
-            "@hook/*": ["hook/*"],
+            "@hooks/*": ["hooks/*"],
             "@models/*": ["models/*"],
             "@plugins/*": ["plugins/*"],
             "@services/*": ["services/*"],

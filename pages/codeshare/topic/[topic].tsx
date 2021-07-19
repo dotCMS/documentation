@@ -61,8 +61,8 @@ export default function Topic({ data, totalCount, topics, tag, error }: PageProp
                         ))}
                         <Pagination
                             page={currentPage}
-                            state={setCurrentPage}
                             totalPages={totalPages}
+                            updatePage={setCurrentPage}
                         />
                     </main>
                     <CodeShareSide>
