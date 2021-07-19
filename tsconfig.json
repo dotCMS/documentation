@@ -16,13 +16,14 @@
         "jsx": "preserve",
         "paths": {
             "@components/*": ["components/*"],
+            "@graphql/*": ["graphql/*"],
+            "@helpers/*": ["helpers/*"],
+            "@hooks/*": ["hooks/*"],
             "@models/*": ["models/*"],
             "@plugins/*": ["plugins/*"],
-            "@graphql/*": ["graphql/*"],
-            "@utils/*": ["utils/*"],
             "@services/*": ["services/*"],
             "@styles/*": ["styles/*"],
-            "@helpers/*": ["helpers/*"]
+            "@utils/*": ["utils/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
