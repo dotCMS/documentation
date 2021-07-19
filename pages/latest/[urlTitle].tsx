@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
-import Head from 'next/head';
 import html from 'remark-html';
 import prism from 'remark-prism';
 import remarkId from 'remark-heading-id';
@@ -85,9 +84,6 @@ const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX
     }, [toc]);
     return (
         <>
-            <Head>
-                <title>{data.title}</title>
-            </Head>
             {error ? (
                 <PageError error={error} title={data.title} />
             ) : (

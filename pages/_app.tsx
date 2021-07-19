@@ -12,6 +12,7 @@ import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { SideBar } from '@components/SideBar';
 import { SideNav } from '@components/SideNav';
+import { useRouter } from 'next/router';
 
 const Grid = styled.div`
     display: grid;
@@ -32,6 +33,9 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const pageTitle = pageProps.pageTitle || 'Documentation';
     const [showSidebar, setShowSidebar] = useState(true);
     const [showSideToc, setShowSideToc] = useState(false);
+    const [breadCrumb, setBreadCrumb] = useState([]);
+    const router = useRouter();
+    const currentPage = router.asPath.split('/')[2];
     return (
         <>
             <Head>
@@ -52,7 +56,12 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                         />
                     </HeaderWrapper>
                     <SideBar setShowSidebar={setShowSidebar} showSidebar={showSidebar}>
-                        <SideNav data={pageProps.navDot[0]} />
+                        <SideNav
+                            data={pageProps.navDot[0]}
+                            page={currentPage}
+                            setBreadCrumb={setBreadCrumb}
+                            stateBreadCrumb={breadCrumb}
+                        />
                     </SideBar>
                     <Component showSideToc={showSideToc} {...pageProps} />
                 </Grid>
