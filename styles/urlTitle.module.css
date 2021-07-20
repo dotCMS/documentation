@@ -5,5 +5,5 @@
     @apply mt-0;
     @apply mx-auto;
     @apply px-8;
-    font-size: 16px;
+    @apply text-lg;
 }
