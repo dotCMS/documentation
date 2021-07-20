@@ -32,7 +32,7 @@ const HeaderWrapper = styled.div`
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const pageTitle = pageProps.pageTitle || 'Documentation';
-    const navData = pageProps.navDot[0];
+    const navData = pageProps.navDot ? pageProps.navDot[0] : [];
     const [showSidebar, setShowSidebar] = useState(true);
     const [showSideToc, setShowSideToc] = useState(false);
     const [breadCrumb, setBreadcrumb] = useState([]);
