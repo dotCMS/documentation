@@ -8,20 +8,18 @@ import { useEffect } from 'react';
 
 interface SideNavProps {
     data: Documentation;
-    page: string;
-    stateBreadCrumb: string[];
-    setBreadCrumb: Dispatch<SetStateAction<string[]>>;
+    docPage?: string;
+    level?: number;
     breadCrumb?: string[];
     hide?: boolean;
+    search?: boolean;
     topLevel?: boolean;
 }
 
 export const SideNav = ({
     data,
-    page,
-    setBreadCrumb,
-    stateBreadCrumb,
-    breadCrumb = [],
+    breadCrumb,
+    level = 0,
     hide = false,
     topLevel = true
 }: SideNavProps): JSX.Element => {
@@ -30,10 +28,11 @@ export const SideNav = ({
         active: null
     });
     useEffect(() => {
-        if (breadCrumb.includes(page)) {
-            setBreadCrumb(breadCrumb);
-        }
-    }, []);
+        setNavItem({
+            showSubList: breadCrumb[level],
+            active: breadCrumb[level]
+        });
+    }, [breadCrumb]);
     if (!data?.dotcmsdocumentationchildren?.length) {
         return null;
     }
@@ -42,10 +41,7 @@ export const SideNav = ({
             <ul className={classNames('list-none mb-0', { hidden: hide })}>
                 {data.dotcmsdocumentationchildren.map((item: Documentation) => {
                     const haveChild = !!item.dotcmsdocumentationchildren?.length;
-                    const breadCrumbItem = [...breadCrumb, item.urlTitle];
-                    const hide =
-                        navItem.showSubList !== item.urlTitle &&
-                        !stateBreadCrumb.includes(item.urlTitle);
+                    const hide = navItem.showSubList !== item.urlTitle;
                     return (
                         <li
                             key={item.navTitle || item.title}
@@ -57,18 +53,14 @@ export const SideNav = ({
                             <SideNavItem
                                 item={item}
                                 navItem={navItem}
-                                setBreadCrumb={setBreadCrumb}
                                 setNavItem={setNavItem}
-                                stateBreadCrumb={stateBreadCrumb}
                                 topLevel={topLevel}
                             />
                             <SideNav
-                                breadCrumb={breadCrumbItem}
+                                breadCrumb={breadCrumb}
                                 data={item}
                                 hide={hide}
-                                page={page}
-                                setBreadCrumb={setBreadCrumb}
-                                stateBreadCrumb={stateBreadCrumb}
+                                level={level + 1}
                                 topLevel={false}
                             />
                         </li>
@@ -83,20 +75,15 @@ const SideNavItem = ({
     item,
     navItem,
     setNavItem,
-    stateBreadCrumb,
-    setBreadCrumb,
     topLevel
 }: {
     item: Documentation;
     navItem: { showSubList: string; active: string };
     setNavItem: Dispatch<SetStateAction<{ showSubList: string; active: string }>>;
-    setBreadCrumb: Dispatch<SetStateAction<string[]>>;
-    stateBreadCrumb: string[];
     topLevel: boolean;
 }) => {
     const active = navItem.active === item.urlTitle;
     const activeState = (item) => {
-        setBreadCrumb([]);
         if (item.urlTitle === navItem.active && navItem.showSubList) {
             setNavItem({
                 showSubList: null,
@@ -118,7 +105,7 @@ const SideNavItem = ({
         <Link href={`/latest/${item.urlTitle}`}>
             <a
                 className={classNames('text-gray-150 no-underline', {
-                    'font-bold': active || topLevel || stateBreadCrumb.includes(item.urlTitle),
+                    'font-bold': active || topLevel,
                     'text-purple': active && topLevel
                 })}
                 onClick={() => activeState(item)}
