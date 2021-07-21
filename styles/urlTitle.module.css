@@ -1,7 +1,9 @@
 .main {
     @apply container;
-    @apply px-8;
+    @apply flex-grow;
+    @apply max-w-5xl;
     @apply mt-0;
     @apply mx-auto;
-    @apply flex-grow;
+    @apply px-8;
+    @apply text-lg;
 }

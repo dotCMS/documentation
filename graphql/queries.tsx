@@ -19,10 +19,15 @@ export const NAVIGATION_MENU_QUERY = `
                         urlTitle
                         title
                         navTitle                                         
-                        dotcmsdocumentationchildren {                                                        
+                        dotcmsdocumentationchildren {           
                             urlTitle
                             title
-                            navTitle                                             
+                            navTitle
+                            dotcmsdocumentationchildren {           
+                                urlTitle
+                                title
+                                navTitle
+                            }                                          
                         }
                     }
                 }
@@ -43,10 +48,14 @@ query ($urlTitle: String!) {
             urlTitle
             dotcmsdocumentationchildren {
                 title                    
-                urlTitle                                                           
+                urlTitle              
                 dotcmsdocumentationchildren {
                     title                            
-                    urlTitle                                                                           
+                    urlTitle
+                    dotcmsdocumentationchildren {           
+                        urlTitle
+                        title
+                    }                                    
                 }
             }
         }
