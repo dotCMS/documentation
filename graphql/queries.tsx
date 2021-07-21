@@ -19,15 +19,15 @@ export const NAVIGATION_MENU_QUERY = `
                         urlTitle
                         title
                         navTitle                                         
-                        dotcmsdocumentationchildren {                                                        
+                        dotcmsdocumentationchildren {           
                             urlTitle
                             title
                             navTitle
-                            dotcmsdocumentationchildren {                                                        
+                            dotcmsdocumentationchildren {           
                                 urlTitle
                                 title
-                                navTitle                                             
-                            }                                        
+                                navTitle
+                            }
                         }
                     }
                 }
@@ -48,15 +48,14 @@ query ($urlTitle: String!) {
             urlTitle
             dotcmsdocumentationchildren {
                 title                    
-                urlTitle                                                           
+                urlTitle              
                 dotcmsdocumentationchildren {
                     title                            
-                    urlTitle  
-                    dotcmsdocumentationchildren {                                                        
+                    urlTitle
+                    dotcmsdocumentationchildren {           
                         urlTitle
                         title
-                        navTitle                                             
-                    }                                                                         
+                    }
                 }
             }
         }
@@ -119,11 +118,10 @@ query codeshare ($urlTitle: String!) {
 }`;
 
 export const CODE_SHARE_QUERY_LIST_ARTICLES = `
-query codeshare($offset: Int!; $tags: String!) {
+query codeshare($tags: String!) {
     CodeshareCollection(
-        limit: 10,
+        limit: 100000,
         query: $tags,
-        offset: $offset
     ) {
         authorName
         dateCreated

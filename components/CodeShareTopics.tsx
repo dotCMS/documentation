@@ -16,7 +16,7 @@ export const CodeShareTopics = ({
         <ul className="list-none">
             {topics.map((topic, index) => (
                 <li key={index}>
-                    <Link href={`/codeshare/topic/${topic.link}/1`}>
+                    <Link href={`/codeshare/topic/${topic.link}`}>
                         <a
                             className={classNames(
                                 'no-underline text-blue-500',

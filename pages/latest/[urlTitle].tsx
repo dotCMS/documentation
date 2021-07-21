@@ -54,7 +54,7 @@ const componentsUI: MDXProviderComponentsProp = {
     a: LinkMarkdown
 };
 
-const UrlTitle = ({ data, source, showSideToc, toc = [], error }: PageData): JSX.Element => {
+const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX.Element => {
     const content = source ? hydrate(source, { components: componentsUI }) : null;
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
@@ -141,9 +141,12 @@ export async function getStaticProps({
     const { DotcmsDocumentationCollection: DotcmsDocumentationNav } = await client.request(
         NAVIGATION_MENU_QUERY
     );
-    const { DotcmsDocumentationCollection } = await client.request(FULL_PAGE_QUERY, variables);
+    const { DotcmsDocumentationCollection: data } = await client.request(
+        FULL_PAGE_QUERY,
+        variables
+    );
     try {
-        const mdxSource = await renderToString(DotcmsDocumentationCollection[0].documentation, {
+        const mdxSource = await renderToString(data[0].documentation, {
             mdxOptions: {
                 remarkPlugins: [
                     DotHtmlToJsxRemark,
@@ -158,8 +161,8 @@ export async function getStaticProps({
         });
         return {
             props: {
-                data: DotcmsDocumentationCollection[0],
-                pageTitle: DotcmsDocumentationCollection[0].title,
+                data: data[0],
+                pageTitle: data[0].title,
                 navDot: DotcmsDocumentationNav,
                 source: mdxSource,
                 toc: toc
@@ -168,7 +171,7 @@ export async function getStaticProps({
     } catch (e) {
         return {
             props: {
-                data: DotcmsDocumentationCollection[0],
+                data: data[0],
                 navDot: DotcmsDocumentationNav,
                 source: null,
                 error: e.message

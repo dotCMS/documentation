@@ -73,7 +73,7 @@ export default function CodeShare({
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
     const data = await client.request(CODE_SHARE_PATHS_QUERY);
     try {
-        const paths = buildParams(data.CodeshareCollection, []);
+        const paths = buildParams(data.CodeshareCollection);
         return {
             paths,
             fallback: false
@@ -112,11 +112,8 @@ export async function getStaticProps({
     }
 }
 
-const buildParams = (data: paramsUrlTitle[], paths: UrlTitleParams[]): UrlTitleParams[] => {
-    data.forEach((item: paramsUrlTitle) => {
-        paths.push({ params: { urlTitle: item.urlTitle } });
-    });
-    return paths;
+const buildParams = (data: paramsUrlTitle[]): UrlTitleParams[] => {
+    return data.map(({ urlTitle }: paramsUrlTitle) => ({ params: { urlTitle } }));
 };
 
 interface UrlTitleParams {
