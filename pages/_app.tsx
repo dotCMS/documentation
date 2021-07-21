@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import GlobalStyle from '@styles/Global.styles';
@@ -12,6 +12,8 @@ import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { SideBar } from '@components/SideBar';
 import { SideNav } from '@components/SideNav';
+import { useRouter } from 'next/router';
+import { searchBreadCrump } from '@helpers/searchBreadCrump';
 
 const Grid = styled.div`
     display: grid;
@@ -30,8 +32,15 @@ const HeaderWrapper = styled.div`
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const pageTitle = pageProps.pageTitle || 'Documentation';
+    const navData = pageProps.navDot ? pageProps.navDot[0] : [];
     const [showSidebar, setShowSidebar] = useState(true);
     const [showSideToc, setShowSideToc] = useState(false);
+    const [breadCrumb, setBreadcrumb] = useState([]);
+    const router = useRouter();
+    const docPage = router.asPath.split('/')[2];
+    useEffect(() => {
+        setBreadcrumb(searchBreadCrump(navData.dotcmsdocumentationchildren, docPage));
+    }, []);
     return (
         <>
             <Head>
@@ -52,7 +61,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                         />
                     </HeaderWrapper>
                     <SideBar setShowSidebar={setShowSidebar} showSidebar={showSidebar}>
-                        <SideNav data={pageProps.navDot[0]} />
+                        <SideNav breadCrumb={breadCrumb} data={navData} />
                     </SideBar>
                     <Component showSideToc={showSideToc} {...pageProps} />
                 </Grid>

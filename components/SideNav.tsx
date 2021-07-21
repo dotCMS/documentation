@@ -4,21 +4,35 @@ import classNames from 'classnames';
 
 // Models
 import { Documentation } from '@models/Documentation.model';
+import { useEffect } from 'react';
+
+interface SideNavProps {
+    data: Documentation;
+    docPage?: string;
+    level?: number;
+    breadCrumb?: string[];
+    hide?: boolean;
+    search?: boolean;
+    topLevel?: boolean;
+}
 
 export const SideNav = ({
     data,
+    breadCrumb,
+    level = 0,
     hide = false,
     topLevel = true
-}: {
-    data: Documentation;
-    hide?: boolean;
-    topLevel?: boolean;
-}): JSX.Element => {
+}: SideNavProps): JSX.Element => {
     const [navItem, setNavItem] = useState({
         showSubList: null,
         active: null
     });
-
+    useEffect(() => {
+        setNavItem({
+            showSubList: breadCrumb[level],
+            active: breadCrumb[level]
+        });
+    }, [breadCrumb]);
     if (!data?.dotcmsdocumentationchildren?.length) {
         return null;
     }
@@ -27,7 +41,7 @@ export const SideNav = ({
             <ul className={classNames('list-none mb-0', { hidden: hide })}>
                 {data.dotcmsdocumentationchildren.map((item: Documentation) => {
                     const haveChild = !!item.dotcmsdocumentationchildren?.length;
-
+                    const hide = navItem.showSubList !== item.urlTitle;
                     return (
                         <li
                             key={item.navTitle || item.title}
@@ -43,8 +57,10 @@ export const SideNav = ({
                                 topLevel={topLevel}
                             />
                             <SideNav
+                                breadCrumb={breadCrumb}
                                 data={item}
-                                hide={navItem.showSubList !== item.urlTitle}
+                                hide={hide}
+                                level={level + 1}
                                 topLevel={false}
                             />
                         </li>

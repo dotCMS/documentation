@@ -27,7 +27,7 @@ export const NAVIGATION_MENU_QUERY = `
                                 urlTitle
                                 title
                                 navTitle
-                            }                                          
+                            }
                         }
                     }
                 }
@@ -55,7 +55,7 @@ query ($urlTitle: String!) {
                     dotcmsdocumentationchildren {           
                         urlTitle
                         title
-                    }                                    
+                    }
                 }
             }
         }
