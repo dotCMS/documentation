@@ -12,11 +12,15 @@ import { Search } from './components/Search';
 import { TocIcon } from './components/TocIcon';
 
 export const Header = ({
-    showSidebar,
+    showSideBar,
+    showSideButton,
+    showTocButton,
     setShowSidebar,
     setShowSideToc
 }: {
-    showSidebar: boolean;
+    showSideBar: boolean;
+    showSideButton: boolean;
+    showTocButton: boolean;
     setShowSidebar: Dispatch<SetStateAction<boolean>>;
     setShowSideToc: Dispatch<SetStateAction<boolean>>;
 }): JSX.Element => {
@@ -32,18 +36,28 @@ export const Header = ({
                 </HeaderButton>
             </div>
             <div className="bg-white flex h-12 justify-center w-full lg:justify-start lg:bg-transparent lg:flex-col lg:h-full">
-                <HeaderButton className={buttonIconMobileBarClasses} setShowItem={setShowSidebar}>
-                    <i
-                        className={classNames(
-                            'border-b-2 border-gray-50 border-r-2 inline-block p-1 transform',
-                            showSidebar ? '-rotate-45' : 'rotate-135'
-                        )}
-                    />
-                </HeaderButton>
+                {showSideButton && (
+                    <HeaderButton
+                        className={buttonIconMobileBarClasses}
+                        setShowItem={setShowSidebar}
+                    >
+                        <i
+                            className={classNames(
+                                'border-b-2 border-gray-50 border-r-2 inline-block p-1 transform',
+                                showSideBar ? '-rotate-45' : 'rotate-135'
+                            )}
+                        />
+                    </HeaderButton>
+                )}
                 <Search />
-                <HeaderButton className={buttonIconMobileBarClasses} setShowItem={setShowSideToc}>
-                    <TocIcon />
-                </HeaderButton>
+                {showTocButton && (
+                    <HeaderButton
+                        className={buttonIconMobileBarClasses}
+                        setShowItem={setShowSideToc}
+                    >
+                        <TocIcon />
+                    </HeaderButton>
+                )}
                 <HeaderNav setShowNav={setShowNav} showNav={showNav} />
             </div>
             <div className="flex-col h-full hidden items-end justify-end w-auto pr-6 lg:flex">
