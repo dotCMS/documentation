@@ -61,8 +61,8 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                 <Grid>
                     <HeaderWrapper>
                         <Header
-                            setShowSidebar={setShowSidebar}
                             setShowSideToc={setShowSideToc}
+                            setShowSidebar={setShowSidebar}
                             showSideBar={showSidebar}
                             showSideButton={sideNav}
                             showTocButton={showTocButton}
@@ -77,8 +77,8 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                 <Grid codeShare={true}>
                     <HeaderWrapper>
                         <Header
-                            setShowSidebar={setShowSidebar}
                             setShowSideToc={setShowSideToc}
+                            setShowSidebar={setShowSidebar}
                             showSideBar={showSidebar}
                             showSideButton={sideNav}
                             showTocButton={showTocButton}
