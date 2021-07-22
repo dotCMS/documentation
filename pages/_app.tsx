@@ -13,7 +13,7 @@ import { Footer } from '@components/Footer';
 import { SideBar } from '@components/SideBar';
 import { SideNav } from '@components/SideNav';
 import { useRouter } from 'next/router';
-import { searchBreadCrump } from '@helpers/searchBreadCrump';
+import { searchBreadCrumb } from '@helpers/searchBreadCrump';
 
 const Grid = styled.div`
     display: grid;
@@ -45,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const router = useRouter();
     const docPage = router.asPath.split('/')[2];
     useEffect(() => {
-        setBreadcrumb(searchBreadCrump(navData.dotcmsdocumentationchildren, docPage));
+        setBreadcrumb(searchBreadCrumb(navData.dotcmsdocumentationchildren, docPage));
     }, []);
     return (
         <>

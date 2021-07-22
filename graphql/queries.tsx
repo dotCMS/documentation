@@ -41,7 +41,7 @@ query ($urlTitle: String!) {
     DotcmsDocumentationCollection(query: $urlTitle) {
         title
         format
-        documentation
+        documentation(render: true)
         showToc
         dotcmsdocumentationchildren {
             title            

@@ -2,7 +2,7 @@ import { Documentation } from '@models/Documentation.model';
 
 let breadCroumb = [];
 
-export const searchBreadCrump = (
+export const searchBreadCrumb = (
     tree: Documentation[],
     page: string,
     path: string[] = []
@@ -11,11 +11,11 @@ export const searchBreadCrump = (
         breadCroumb = path;
         return;
     } else if (!tree?.length) {
-        return null;
+        return [];
     }
     tree.forEach((item) => {
         const newPath = [...path, item.urlTitle];
-        searchBreadCrump(item.dotcmsdocumentationchildren, page, newPath);
+        searchBreadCrumb(item.dotcmsdocumentationchildren, page, newPath);
     });
     return breadCroumb;
 };
