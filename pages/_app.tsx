@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const title = pageTitle || 'Documentation';
     const navData = navDot ? navDot[0] : [];
     const sideNav = navDot;
-    const showTocButton = toc ? !!toc.length : false;
+    const showTocButton = !!toc?.length;
     // Router
     const router = useRouter();
     const docPage = router.asPath.split('/')[2];
