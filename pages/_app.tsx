@@ -36,10 +36,10 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const [showSideToc, setShowSideToc] = useState(false);
     const [breadCrumb, setBreadcrumb] = useState([]);
     const router = useRouter();
-    const docPage = router.asPath.split('/')[2];
+    const docPage = router.asPath.split('/')[2] || '';
     useEffect(() => {
         setBreadcrumb(searchBreadCrumb(navData.dotcmsdocumentationchildren, docPage));
-    }, []);
+    }, [docPage]);
     return (
         <>
             <Head>

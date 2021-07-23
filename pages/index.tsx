@@ -2,6 +2,7 @@ import React from 'react';
 import { GetStaticPropsResult } from 'next';
 import classNames from 'classnames';
 import Head from 'next/head';
+import Link from 'next/link';
 
 // Components
 import { Footer } from '@components/Footer';
@@ -55,9 +56,9 @@ export default function Home(): JSX.Element {
                     <div className={classNames(divElementClasses)}>
                         <SvgQuickIcon />
                         <h4 className={classNames(titleElementClasses)}>
-                            <a className="no-underline" href="#">
-                                Quick Start
-                            </a>
+                            <Link href="/latest/quick-start-guide">
+                                <a className="no-underline">Quick Start</a>
+                            </Link>
                         </h4>
                         <p className="text-sm leading-5">
                             Welcome to the dotCMS documentation site. This site contains the
@@ -67,25 +68,27 @@ export default function Home(): JSX.Element {
                     <div className={classNames(divElementClasses)}>
                         <SvgModelIcon />
                         <h4 className={classNames(titleElementClasses)}>
-                            <a className="no-underline" href="#">
-                                Data Model
-                            </a>
+                            <Link href="/latest/data-model">
+                                <a className="no-underline">Data Model</a>
+                            </Link>
                         </h4>
                         <p className="text-sm leading-5">
-                            Welcome to the dotCMS documentation site. This site contains the
-                            documentation for the latest dotCMS release
+                            The dotCMS tables are designed to both ensure referential integrity and
+                            help prevent issues with orphan assets, while also making it easy to
+                            access common information about each asset.
                         </p>
                     </div>
                     <div className={classNames(divElementClasses)}>
                         <SvgApiIcon />
                         <h4 className={classNames(titleElementClasses)}>
-                            <a className="no-underline" href="#">
-                                APIs
-                            </a>
+                            <Link href="/latest/web-apis">
+                                <a className="no-underline">DotCMS APIs</a>
+                            </Link>
                         </h4>
                         <p className="text-sm leading-5">
-                            Welcome to the dotCMS documentation site. This site contains the
-                            documentation for the latest dotCMS release
+                            dotCMS provides a large set of API (REST and GraphQL) web services which
+                            provide access to dotCMS content and functionality separately from the
+                            dotCMS back-end.
                         </p>
                     </div>
                 </div>
@@ -97,13 +100,13 @@ export default function Home(): JSX.Element {
                             <img className="rounded" src="/img/schemas.png" title="Schema" />
                         </div>
                         <h4 className={classNames(titleElementClasses)}>
-                            <a className="no-underline" href="#">
-                                Schema
-                            </a>
+                            <Link href="latest/managing-workflows#Schemes">
+                                <a className="no-underline">Schema</a>
+                            </Link>
                         </h4>
                         <p className="text-sm">
-                            Welcome to the dotCMS documentation site. This site contains the
-                            documentation for the latest dotCMS release
+                            Defines a Workflow, including one or more Workflow Steps and Workflow
+                            Actions.
                         </p>
                     </div>
                     <div className={classNames(divElementClasses)}>
@@ -111,13 +114,12 @@ export default function Home(): JSX.Element {
                             <img className="rounded" src="/img/steps.png" title="steps" />
                         </div>
                         <h4 className={classNames(titleElementClasses)}>
-                            <a className="no-underline" href="#">
-                                Steps
-                            </a>
+                            <Link href="/latest/managing-workflows#Steps">
+                                <a className="no-underline">Steps</a>
+                            </Link>
                         </h4>
                         <p className="text-sm">
-                            Welcome to the dotCMS documentation site. This site contains the
-                            documentation for the latest dotCMS release
+                            Defines the Steps that content may go through within the Workflow.
                         </p>
                     </div>
                     <div className={classNames(divElementClasses)}>
@@ -125,13 +127,12 @@ export default function Home(): JSX.Element {
                             <img className="rounded" src="/img/actions.png" title="actions" />
                         </div>
                         <h4 className={classNames(titleElementClasses)}>
-                            <a className="no-underline" href="#">
-                                Actions
-                            </a>
+                            <Link href="/latest/managing-workflows#Actions">
+                                <a className="no-underline">Actions</a>
+                            </Link>
                         </h4>
                         <p className="text-sm">
-                            Welcome to the dotCMS documentation site. This site contains the
-                            documentation for the latest dotCMS release
+                            Define what actions a user may take on a content item.
                         </p>
                     </div>
                 </div>
