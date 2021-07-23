@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import Head from 'next/head';
 
 // Components
-import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 
 // Graphql
@@ -137,10 +136,7 @@ export default function Home(): JSX.Element {
                     </div>
                 </div>
             </main>
-            <div>
-                <FeedBack />
-                <Footer />
-            </div>
+            <Footer />
         </div>
     );
 }
