@@ -8,7 +8,6 @@ import styled from 'styled-components';
 // Tailwind
 import '@styles/globals.css';
 import { Header } from '@components/header/Header';
-import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { SideBar } from '@components/SideBar';
 import { SideNav } from '@components/SideNav';
@@ -37,10 +36,10 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const [showSideToc, setShowSideToc] = useState(false);
     const [breadCrumb, setBreadcrumb] = useState([]);
     const router = useRouter();
-    const docPage = router.asPath.split('/')[2];
+    const docPage = router.asPath.split('/')[2] || '';
     useEffect(() => {
         setBreadcrumb(searchBreadCrumb(navData.dotcmsdocumentationchildren, docPage));
-    }, []);
+    }, [docPage]);
     return (
         <>
             <Head>
@@ -76,10 +75,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                     </HeaderWrapper>
                     <div className="flex flex-col overflow-auto">
                         <Component {...pageProps} />
-                        <div>
-                            <FeedBack />
-                            <Footer />
-                        </div>
+                        <Footer />
                     </div>
                 </Grid>
             )}

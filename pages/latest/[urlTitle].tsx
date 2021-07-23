@@ -14,7 +14,6 @@ import DotCodeMultiline from '@plugins/DotCodeMultiline';
 
 // Components
 import { ContainerToc } from '@components/toc/ContainerToc';
-import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { ImageMarkdown } from '@components/ImageMarkdown';
 import { LinkMarkdown } from '@components/LinkMarkdown';
@@ -101,10 +100,7 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
                                 </>
                             )}
                         </main>
-                        <div>
-                            <FeedBack />
-                            <Footer />
-                        </div>
+                        <Footer />
                     </div>
                     {!!toc.length && (
                         <ContainerToc showSideToc={showSideToc}>
