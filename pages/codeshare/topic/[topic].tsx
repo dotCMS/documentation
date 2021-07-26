@@ -42,9 +42,9 @@ interface UrlTitleParams {
 
 export default function Topic({ data, totalCount, topics, tag, error }: PageProps): JSX.Element {
     const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = Math.floor(totalCount / 10);
+    const totalPages = Math.ceil(totalCount / 10);
     const filteredCodeShare = (): SearchResultItem[] => {
-        const start = currentPage <= 1 ? 0 : currentPage * 10;
+        const start = (currentPage - 1) * 10;
         return data.slice(start, start + 10);
     };
     return (

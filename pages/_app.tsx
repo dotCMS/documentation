@@ -30,20 +30,26 @@ const HeaderWrapper = styled.div`
 `;
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-    const pageTitle = pageProps.pageTitle || 'Documentation';
-    const navData = pageProps.navDot ? pageProps.navDot[0] : [];
+    const { pageTitle, navDot, toc } = pageProps;
+    // States
     const [showSidebar, setShowSidebar] = useState(true);
     const [showSideToc, setShowSideToc] = useState(false);
     const [breadCrumb, setBreadcrumb] = useState([]);
+    // Const
+    const title = pageTitle || 'Documentation';
+    const navData = navDot ? navDot[0] : [];
+    const sideNav = navDot;
+    const showTocButton = !!toc?.length;
+    // Router
     const router = useRouter();
     const docPage = router.asPath.split('/')[2] || '';
     useEffect(() => {
         setBreadcrumb(searchBreadCrumb(navData.dotcmsdocumentationchildren, docPage));
-    }, [docPage]);
+     }, [docPage]);
     return (
         <>
             <Head>
-                <title>{pageTitle}</title>
+                <title>{title}</title>
                 <meta
                     content="width=device-width, initial-scale=1.0, user-scalable=0"
                     name="viewport"
@@ -56,7 +62,9 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                         <Header
                             setShowSideToc={setShowSideToc}
                             setShowSidebar={setShowSidebar}
-                            showSidebar={showSidebar}
+                            showSideBar={showSidebar}
+                            showSideButton={sideNav}
+                            showTocButton={showTocButton}
                         />
                     </HeaderWrapper>
                     <SideBar setShowSidebar={setShowSidebar} showSidebar={showSidebar}>
@@ -70,7 +78,9 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                         <Header
                             setShowSideToc={setShowSideToc}
                             setShowSidebar={setShowSidebar}
-                            showSidebar={showSidebar}
+                            showSideBar={showSidebar}
+                            showSideButton={sideNav}
+                            showTocButton={showTocButton}
                         />
                     </HeaderWrapper>
                     <div className="flex flex-col overflow-auto">
