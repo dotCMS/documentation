@@ -22,6 +22,7 @@ h5 {
     margin: revert;
     font-size: revert;
     @apply font-bold;
+    @apply leading-10;
 }
 
 hr {
