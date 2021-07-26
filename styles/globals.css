@@ -22,6 +22,7 @@ h5 {
     margin: revert;
     font-size: revert;
     @apply font-bold;
+    @apply leading-10;
 }
 
 hr {
@@ -71,6 +72,14 @@ a:hover {
 
 pre {
     @apply my-5;
+}
+
+code {
+    word-break: break-word;
+}
+
+fieldset {
+    @apply contents;
 }
 
 li.list-menu-bullet:before {
