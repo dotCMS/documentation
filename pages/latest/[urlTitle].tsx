@@ -14,7 +14,6 @@ import DotCodeMultiline from '@plugins/DotCodeMultiline';
 
 // Components
 import { ContainerToc } from '@components/toc/ContainerToc';
-import { FeedBack } from '@components/FeedBack';
 import { Footer } from '@components/Footer';
 import { ImageMarkdown } from '@components/ImageMarkdown';
 import { LinkMarkdown } from '@components/LinkMarkdown';
@@ -55,7 +54,7 @@ const componentsUI: MDXProviderComponentsProp = {
 };
 
 const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX.Element => {
-    const content = source ? hydrate(source, { components: componentsUI }) : null;
+    const content = hydrate(source, { components: componentsUI });
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
     const options = React.useMemo(
@@ -101,10 +100,7 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
                                 </>
                             )}
                         </main>
-                        <div>
-                            <FeedBack />
-                            <Footer />
-                        </div>
+                        <Footer />
                     </div>
                     {!!toc.length && (
                         <ContainerToc showSideToc={showSideToc}>
@@ -169,11 +165,18 @@ export async function getStaticProps({
             }
         };
     } catch (e) {
+        // Don't remove this
+        const mdxSource = await renderToString('');
+        // If we got an error we have to send a mdxSource empty because mdx needs this variable
+        // Under the hood, mdx use Hooks, we can't just no send the mdxSource
+        // but it would affect the amount of hooks we would render
+        // Note: we can also create another component and just call the hook when there is no error,
+        // but we are doing it this way for now.
         return {
             props: {
                 data: data[0],
                 navDot: DotcmsDocumentationNav,
-                source: null,
+                source: mdxSource,
                 error: e.message
             }
         };

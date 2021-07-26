@@ -14,7 +14,7 @@ export const ImageMarkdown = (props: {
                     height={props.height}
                     layout="intrinsic"
                     loader={myLoader}
-                    src={props.height}
+                    src={props.src}
                     width={props.width}
                 />
             ) : (
