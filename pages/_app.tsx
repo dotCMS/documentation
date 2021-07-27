@@ -45,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const docPage = router.asPath.split('/')[2] || '';
     useEffect(() => {
         setBreadcrumb(searchBreadCrumb(navData.dotcmsdocumentationchildren, docPage));
-     }, [docPage]);
+    }, [docPage]);
     return (
         <>
             <Head>
