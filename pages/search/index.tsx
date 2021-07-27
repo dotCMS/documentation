@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetStaticPropsResult } from 'next';
 import { useRouter } from 'next/router';
 
 // Components
 import { Footer } from '@components/Footer';
+import { Loading } from '@components/Loading';
 import { Pagination } from '@components/Pagination';
 import { SearchResult } from '@components/SearchResult';
 
@@ -17,7 +18,6 @@ import {
 
 // Models
 import { Documentation, SearchResultItem } from '@models/Documentation.model';
-import { useState } from 'react';
 
 interface SearchProps {
     pageTitle?: string;
@@ -53,26 +53,30 @@ const Search = (): JSX.Element => {
     }, [router, router.isReady]);
     return (
         <div className="overflow-auto flex-col flex flex-grow">
-            {results.length > 0 ? (
-                <main className="container flex-grow">
-                    <h1>
-                        Search: <span className="text-blue-500">{search}</span>
-                    </h1>
-                    <h3>{totalCount} Results Found</h3>
-                    <div>
-                        {results.map((result, index) => (
-                            <SearchResult key={index} baseUrl={'/latest'} data={result} />
-                        ))}
-                    </div>
-                    {totalCount && (
-                        <Pagination baseUrl={baseUrlSearch} page={page} totalPages={totalPages} />
-                    )}
-                </main>
-            ) : (
-                <main className="container flex-grow">
-                    <h1>Loading</h1>
-                </main>
-            )}
+            <main className="container flex-grow">
+                <h1>
+                    Search: <span className="text-blue-500">{search}</span>
+                </h1>
+                {results.length > 0 ? (
+                    <>
+                        <h3>{totalCount} Results Found</h3>
+                        <div>
+                            {results.map((result, index) => (
+                                <SearchResult key={index} baseUrl={'/latest'} data={result} />
+                            ))}
+                        </div>
+                        {totalCount && (
+                            <Pagination
+                                baseUrl={baseUrlSearch}
+                                page={page}
+                                totalPages={totalPages}
+                            />
+                        )}
+                    </>
+                ) : (
+                    <Loading />
+                )}
+            </main>
             <Footer />
         </div>
     );
