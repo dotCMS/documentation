@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 
 // Components
@@ -47,6 +47,9 @@ export default function Topic({ data, totalCount, topics, tag, error }: PageProp
         const start = (currentPage - 1) * 10;
         return data.slice(start, start + 10);
     };
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [tag]);
     return (
         <div className="container flex-col flex flex-grow m-auto md:flex-row">
             {error ? (

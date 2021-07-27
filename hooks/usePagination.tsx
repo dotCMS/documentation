@@ -19,7 +19,7 @@ export const usePagination = ({
     useEffect(() => {
         const pagEnd = totalPages > paginationLimit ? paginationLimit : totalPages;
         setButtonCount(Array.from({ length: pagEnd }, () => 0));
-    }, []);
+    }, [totalPages]);
     return {
         pageStart,
         buttonCount
