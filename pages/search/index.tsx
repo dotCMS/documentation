@@ -34,6 +34,7 @@ const Search = (): JSX.Element => {
     const router = useRouter();
     // States
     const [results, setResult] = useState<SearchResultItem[]>([]);
+    const [loading, setLoading] = useState(true);
     const [totalCount, setTotalCount] = useState<number>();
     // Variables
     const search = router.query.search as string;
@@ -42,11 +43,13 @@ const Search = (): JSX.Element => {
     const baseUrlSearch = `/search?search=${search}&page=`;
     useEffect(() => {
         if (router.isReady) {
+            setLoading(true);
             fetchSearchResults(search, page)
                 .then((resp) => resp)
                 .then((resp) => {
                     setResult(resp.data);
                     setTotalCount(resp.totalCount);
+                    setLoading(false);
                 });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -74,7 +77,7 @@ const Search = (): JSX.Element => {
                         )}
                     </>
                 ) : (
-                    <Loading />
+                    <>{loading ? <Loading /> : <h3 className="text-2xl">No results found</h3>}</>
                 )}
             </main>
             <Footer />
