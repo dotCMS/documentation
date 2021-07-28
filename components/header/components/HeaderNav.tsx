@@ -37,7 +37,7 @@ export const HeaderNav = ({
     ];
     const navTitles = [
         { title: 'Documentation', pathName: 'documentation', link: '/' },
-        { title: 'Realease & LTS', pathName: 'current-releases', link: '/latest/current-releases' },
+        { title: 'Realease & LTS', pathName: 'current-releases', link: '/current-releases' },
         { title: 'Code Share', pathName: 'codeshare', link: '/codeshare' },
         { title: 'Forums', pathName: 'forums', link: 'https://groups.google.com/g/dotcms' },
         { title: 'Online Training', pathName: 'training', link: 'https://dotcms.com/courses/' }

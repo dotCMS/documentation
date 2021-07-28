@@ -102,7 +102,7 @@ const SideNavItem = ({
         }
     };
     return (
-        <Link href={`/latest/${item.urlTitle}`}>
+        <Link href={`/${item.urlTitle}`}>
             <a
                 className={classNames('text-gray-150 no-underline', {
                     'font-bold': active || topLevel,

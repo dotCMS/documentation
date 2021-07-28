@@ -30,7 +30,11 @@ export const Header = ({
     return (
         <header className="bg-purple flex flex-col justify-between h-32 lg:pt-6 lg:flex-row lg:items-start">
             <div className="flex items-center justify-between px-6 min-w-72 h-20 lg:h-full lg:items-start lg:pr-0">
-                <DotcmsLogo />
+                <Link href="/">
+                    <a>
+                        <DotcmsLogo />
+                    </a>
+                </Link>
                 <HeaderButton className={hamburgerIcon} setShowItem={setShowNav}>
                     <HamburgerIcon />
                 </HeaderButton>

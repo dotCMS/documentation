@@ -12,7 +12,7 @@ const TopPageToc = ({ data = [] }: { data: Documentation[] }): JSX.Element => {
             {data.map((item) => {
                 return (
                     <li key={v4()}>
-                        <Link href={`/latest/${item.urlTitle}`}>
+                        <Link href={`/${item.urlTitle}`}>
                             <a className="text-blue-400 cursor-pointer">{item.title}</a>
                         </Link>
                         <TopPageToc data={item.dotcmsdocumentationchildren} />
