@@ -40,7 +40,7 @@ const Search = (): JSX.Element => {
     const search = router.query.search as string;
     const page = +router.query.page || 1;
     const totalPages = Math.ceil(totalCount / 10);
-    const baseUrlSearch = `/search?search=${search}&page=`;
+    const baseUrlSearch = `/search-result?search=${search}&page=`;
     useEffect(() => {
         if (router.isReady) {
             setLoading(true);

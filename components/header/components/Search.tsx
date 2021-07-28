@@ -11,7 +11,7 @@ export const Search = (): JSX.Element => {
     const handlerSubmit = (e) => {
         e.preventDefault();
         if (search.trim().length) {
-            router.push(`/search/?search=${search}&page=1`);
+            router.push(`/search-results/?search=${search}&page=1`);
         }
     };
     return (
