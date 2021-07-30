@@ -7,10 +7,11 @@ import styles from '@styles/urlTitle.module.css';
 import { ParsedUrlQuery } from 'querystring';
 
 // mdx custom Plugins
+import DotCodeMultiline from '@plugins/DotCodeMultiline';
+import DotCodeTab from '@plugins/DotCodeTab';
 import DotDecodeHtml from '@plugins/DotDecodeHtml';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotToc, { toc } from '@plugins/DotToc';
-import DotCodeMultiline from '@plugins/DotCodeMultiline';
 
 // Components
 import { ContainerToc } from '@components/toc/ContainerToc';
@@ -22,7 +23,7 @@ import TableOfContent from '@components/toc/TableOfContent';
 import TopPageToc from '@components/toc/TopPageToc';
 
 // Graphql
-import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY } from '@graphql/queries';
+import { NAVIGATION_MENU_QUERY, FULL_PAGE_QUERY, FULL_PAGE_FORMAT_QUERY } from '@graphql/queries';
 
 // Models
 import { Documentation } from '@models/Documentation.model';
@@ -30,6 +31,9 @@ import { TableContentModel } from '@models/TableOfConent.model';
 
 // Utils
 import { client } from '@utils/graphql-client';
+
+// Helpers
+import { formatHtml } from '@helpers/format-html';
 
 // mdx
 import renderToString from 'next-mdx-remote/render-to-string';
@@ -133,26 +137,16 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 export async function getStaticProps({
     params
 }: GetStaticPropsContext<ParsedUrlQuery>): Promise<GetStaticPropsResult<PageData>> {
-    const variables = { urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${params.urlTitle}` };
-    const { DotcmsDocumentationCollection: DotcmsDocumentationNav } = await client.request(
-        NAVIGATION_MENU_QUERY
+    const plugins = [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc];
+    const { DotcmsDocumentationNav, data, isHtml } = await getDocumentationData(
+        params.urlTitle as string
     );
-    const { DotcmsDocumentationCollection: data } = await client.request(
-        FULL_PAGE_QUERY,
-        variables
-    );
+    const formatedData = isHtml ? formatHtml(data[0].documentation) : data[0].documentation;
+    isHtml ? plugins.push(DotCodeTab) : plugins.push(DotCodeMultiline);
     try {
-        const mdxSource = await renderToString(data[0].documentation, {
+        const mdxSource = await renderToString(formatedData, {
             mdxOptions: {
-                remarkPlugins: [
-                    DotHtmlToJsxRemark,
-                    remarkId,
-                    prism,
-                    html,
-                    DotCodeMultiline,
-                    DotDecodeHtml,
-                    DotToc
-                ]
+                remarkPlugins: plugins
             }
         });
         return {
@@ -182,6 +176,36 @@ export async function getStaticProps({
         };
     }
 }
+
+const getDocumentationData = async (
+    urlTitle: string
+): Promise<{
+    DotcmsDocumentationNav: Documentation[];
+    data: Documentation;
+    isHtml: boolean;
+}> => {
+    const variables = {
+        urlTitle: `+DotcmsDocumentation.urltitle_dotraw:${urlTitle}`,
+        render: false
+    };
+    const { DotcmsDocumentationCollection: DotcmsDocumentationNav } = await client.request(
+        NAVIGATION_MENU_QUERY
+    );
+    const { DotcmsDocumentationCollection: metaData } = await client.request(
+        FULL_PAGE_FORMAT_QUERY,
+        variables
+    );
+    variables.render = metaData[0].format === 'html';
+    const { DotcmsDocumentationCollection: data } = await client.request(
+        FULL_PAGE_QUERY,
+        variables
+    );
+    return {
+        DotcmsDocumentationNav,
+        data,
+        isHtml: metaData[0].format === 'html'
+    };
+};
 
 const buildParams = (data: Documentation, paths: UrlTitleParams[]): UrlTitleParams[] => {
     if (!data.dotcmsdocumentationchildren?.length) {

@@ -37,11 +37,11 @@ export const NAVIGATION_MENU_QUERY = `
 `;
 
 export const FULL_PAGE_QUERY = `
-query ($urlTitle: String!) {
+query ($urlTitle: String!; $render: Boolean!) {
     DotcmsDocumentationCollection(query: $urlTitle) {
         title
         format
-        documentation(render: true)
+        documentation(render: $render)
         showToc
         dotcmsdocumentationchildren {
             title            
@@ -62,6 +62,14 @@ query ($urlTitle: String!) {
     }
 }
 `;
+
+export const FULL_PAGE_FORMAT_QUERY = `
+query ($urlTitle: String!) {
+    DotcmsDocumentationCollection(query: $urlTitle) {
+        title
+        format
+    }
+}`;
 
 // Search
 export const DOCUMENTATION_SEARCH_QUERY = `

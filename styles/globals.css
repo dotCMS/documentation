@@ -72,10 +72,13 @@ a:hover {
 
 pre {
     @apply my-5;
+    @apply whitespace-pre;
+    @apply px-4;
 }
 
 code {
     word-break: break-word;
+    @apply whitespace-pre;
 }
 
 fieldset {
