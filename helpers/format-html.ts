@@ -5,7 +5,7 @@ const emptyLines = new RegExp(/(^[ \t]*\n)/gm);
 export const formatHtml = (documentation: string): string => {
     const commentsRemoved = removeCommets(documentation);
     const emptyLinesRemoved = removeEmptyLines(commentsRemoved);
-    const documentationFormated = emptyLinesRemoved.replace(/{/g, '&#123;').replace(/}/g, '&#125;');
+    const documentationFormated = removeBrackets(emptyLinesRemoved);
     return documentationFormated;
 };
 
@@ -23,4 +23,12 @@ const removeEmptyLines = (documentation: string): string => {
     return documentation
         .replace(preContent, (match) => match.replace(/\n/g, '<br />'))
         .replace(emptyLines, '');
+};
+
+const removeBrackets = (documentation: string) => {
+    // We have to remove brackets within  the code
+    // because it is exactly how a variable is pass in ReactJS
+    // So, to avoid any kind of issue with mdx we have to change them
+    // for them html HTML entity codes
+    return documentation.replace(/{/g, '&#123;').replace(/}/g, '&#125;');
 };

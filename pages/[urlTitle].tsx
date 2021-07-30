@@ -142,7 +142,7 @@ export async function getStaticProps({
         params.urlTitle as string
     );
     const formatedData = isHtml ? formatHtml(data[0].documentation) : data[0].documentation;
-    isHtml ? plugins.push(DotCodeTab) : plugins.push(DotCodeMultiline);
+    plugins.push(isHtml ? DotCodeTab : DotCodeMultiline);
     try {
         const mdxSource = await renderToString(formatedData, {
             mdxOptions: {
