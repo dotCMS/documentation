@@ -24,17 +24,29 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-## Learn More
+## Deploy to S3
+We need to keep older versions of the doc, to do this on every DotCMS release we are going to publish two folders:
 
-To learn more about Next.js, take a look at the following resources:
+- `/latest`
+- `/XX.XX.XX`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Docker
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Build docker image and passing the version as argument from `package.json`
 
-## Deploy on Vercel
+```shell
+docker build --build-arg VERSION=$(cat ./package.json \
+    | grep version \
+    | head -1 \
+    | awk -F: '{ print $2 }' \
+    | sed 's/[",]//g' \
+    | tr -d '[[:space:]]') --tag dotcms-docs .
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Run the container to publish
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+docker run --env AWS_ACCESS_KEY_ID=KEY --env AWS_SECRET_ACCESS_KEY=KEY --env AWS_DEFAULT_REGION=REGION dotcms-docs
+```
+
+3. That's it, this will publish both folders to the S3 bucket.
