@@ -7,23 +7,23 @@ export const NAVIGATION_MENU_QUERY = `
             urlTitle
             title
             navTitle
-            dotcmsdocumentationchildren {                                    
+            dotcmsdocumentationchildren {
                 urlTitle
                 title
                 navTitle
-                dotcmsdocumentationchildren {                                
+                dotcmsdocumentationchildren {
                     urlTitle
                     title
-                    navTitle                         
-                    dotcmsdocumentationchildren {                                            
+                    navTitle
+                    dotcmsdocumentationchildren {
                         urlTitle
                         title
-                        navTitle                                         
-                        dotcmsdocumentationchildren {           
+                        navTitle
+                        dotcmsdocumentationchildren {
                             urlTitle
                             title
                             navTitle
-                            dotcmsdocumentationchildren {           
+                            dotcmsdocumentationchildren {
                                 urlTitle
                                 title
                                 navTitle
@@ -44,15 +44,15 @@ query ($urlTitle: String!; $render: Boolean!) {
         documentation(render: $render)
         showToc
         dotcmsdocumentationchildren {
-            title            
+            title
             urlTitle
             dotcmsdocumentationchildren {
-                title                    
-                urlTitle              
+                title
+                urlTitle
                 dotcmsdocumentationchildren {
-                    title                            
+                    title
                     urlTitle
-                    dotcmsdocumentationchildren {           
+                    dotcmsdocumentationchildren {
                         urlTitle
                         title
                     }
