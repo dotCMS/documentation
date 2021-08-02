@@ -40,7 +40,7 @@ const Search = (): JSX.Element => {
     const search = router.query.search as string;
     const page = +router.query.page || 1;
     const totalPages = Math.ceil(totalCount / 10);
-    const baseUrlSearch = `/search-result?search=${search}&page=`;
+    const baseUrlSearch = `/search-results?search=${search}&page=`;
     useEffect(() => {
         if (router.isReady) {
             setLoading(true);
@@ -65,7 +65,7 @@ const Search = (): JSX.Element => {
                         <h3>{totalCount} Results Found</h3>
                         <div>
                             {results.map((result, index) => (
-                                <SearchResult key={index} baseUrl={'/latest'} data={result} />
+                                <SearchResult key={index} baseUrl={''} data={result} />
                             ))}
                         </div>
                         {totalCount && (
