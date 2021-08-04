@@ -21,6 +21,10 @@ module.exports = {
             {
                 source: '/codeshare/topic',
                 destination: '/codeshare/topic/all'
+            },
+            {
+                source: '/download/:path*',
+                destination: 'http://dotcms.com/download/:path*'
             }
         ];
     },
