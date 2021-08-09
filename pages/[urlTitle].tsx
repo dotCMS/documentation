@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-    GetServerSidePropsResult,
-    GetStaticPathsResult,
-    GetStaticPropsContext,
-    GetStaticPropsResult
-} from 'next';
+import { GetServerSidePropsResult, GetServerSidePropsContext } from 'next';
 import html from 'remark-html';
 import prism from 'remark-prism';
 import remarkId from 'remark-heading-id';
 import styles from '@styles/urlTitle.module.css';
-import { ParsedUrlQuery } from 'querystring';
 
 // mdx custom Plugins
 import DotCodeMultiline from '@plugins/DotCodeMultiline';
@@ -128,10 +122,7 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
 
 export async function getServerSideProps({
     params
-}: {
-    params: { urlTitle: string };
-}): Promise<GetServerSidePropsResult<PageData>> {
-    console.log(params);
+}: GetServerSidePropsContext<{ urlTitle: string }>): Promise<GetServerSidePropsResult<PageData>> {
     const plugins = [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc];
     const { DotcmsDocumentationNav, data, isHtml } = await getDocumentationData(
         params.urlTitle as string
