@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
+import { GetServerSidePropsResult } from 'next';
 
 // Components
 import { CodeShareSide } from '@components/CodeShareSide';
@@ -28,28 +28,19 @@ interface PageProps {
     topics?: CodeShareTopic[];
     totalCount?: number;
     error?: string;
+    page?: number;
 }
 
-interface paramsUrlTitle {
-    link: string;
-}
-
-interface UrlTitleParams {
-    params: {
-        topic: string;
-    };
-}
-
-export default function Topic({ data, totalCount, topics, tag, error }: PageProps): JSX.Element {
-    const [currentPage, setCurrentPage] = useState(1);
+export default function Topic({
+    data,
+    totalCount,
+    topics,
+    tag,
+    page,
+    error
+}: PageProps): JSX.Element {
     const totalPages = Math.ceil(totalCount / 10);
-    const filteredCodeShare = (): SearchResultItem[] => {
-        const start = (currentPage - 1) * 10;
-        return data.slice(start, start + 10);
-    };
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [tag]);
+    const baseUrl = `/codeshare/topic/${tag}?page=`;
     return (
         <div className="container flex-col flex flex-grow m-auto md:flex-row">
             {error ? (
@@ -59,14 +50,10 @@ export default function Topic({ data, totalCount, topics, tag, error }: PageProp
                     <main className="px-5 w-full">
                         <h1 className="mb-0">Code Share</h1>
                         <h2 className="mb-10 mt-0">Recent Submissions</h2>
-                        {filteredCodeShare().map((item) => (
+                        {data.map((item) => (
                             <SearchResult key={item.urlTitle} baseUrl={'/codeshare'} data={item} />
                         ))}
-                        <Pagination
-                            page={currentPage}
-                            totalPages={totalPages}
-                            updatePage={setCurrentPage}
-                        />
+                        <Pagination baseUrl={baseUrl} page={page} totalPages={totalPages} />
                     </main>
                     <CodeShareSide>
                         <CodeShareTopics tag={tag} topics={topics} />
@@ -78,41 +65,37 @@ export default function Topic({ data, totalCount, topics, tag, error }: PageProp
     );
 }
 
-export async function getStaticPaths(): Promise<GetStaticPathsResult> {
-    try {
-        const topics = await fetchAllCodeShareTopics();
-        const paths = buildParams(topics);
-        return {
-            paths,
-            fallback: false
-        };
-    } catch (e) {
-        throw new Error(e);
-    }
-}
-
-export async function getStaticProps({
-    params
+export async function getServerSideProps({
+    query
 }: {
-    params: { topic: string };
-}): Promise<GetStaticPropsResult<PageProps>> {
+    query: { topic: string; page: number };
+}): Promise<GetServerSidePropsResult<PageProps>> {
     try {
-        // Variables
-        const tag = params.topic === 'all' ? '' : params.topic.replace(/-/g, ' ');
+        // Consts
+        const page = query.page || 1;
+        const tag = query.topic === 'all' ? '' : query.topic.replace(/-/g, ' ');
         const queryTag = tag ? `+tags:\"${tag}\"` : tag;
-        const variablePag = { tags: queryTag };
+        const startFrom = page ? (+page <= 1 ? 0 : (+page - 1) * 10) : 1;
+        // Variables
+        const variableMetaData = { tags: queryTag };
+        const variableList = { ...variableMetaData, offset: startFrom };
+        // Requests
         const { CodeshareCollection } = await client.request(
             CODE_SHARE_QUERY_LIST_ARTICLES,
-            variablePag
+            variableList
         );
-        const { QueryMetadata } = await client.request(CODE_SHARE_QUERY_TOTAL_COUNT, variablePag);
+        const { QueryMetadata } = await client.request(
+            CODE_SHARE_QUERY_TOTAL_COUNT,
+            variableMetaData
+        );
         const topics = await fetchAllCodeShareTopics();
         return {
             props: {
                 data: CodeshareCollection as SearchResultItem[],
                 totalCount: QueryMetadata[0].totalCount,
                 topics: topics as CodeShareTopic[],
-                tag: params.topic
+                tag: query.topic,
+                page
             }
         };
     } catch (e) {
@@ -124,7 +107,3 @@ export async function getStaticProps({
         };
     }
 }
-
-const buildParams = (data: paramsUrlTitle[]): UrlTitleParams[] => {
-    return data.map((item: paramsUrlTitle) => ({ params: { topic: item.link } }));
-};

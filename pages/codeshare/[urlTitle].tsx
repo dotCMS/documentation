@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    GetStaticPropsResult,
-    GetStaticPathsResult,
-    GetStaticPropsContext,
-    GetServerSidePropsResult,
-    GetServerSidePropsContext
-} from 'next';
+import { GetServerSidePropsResult, GetServerSidePropsContext } from 'next';
 import classNames from 'classnames';
 
 // Components
