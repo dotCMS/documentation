@@ -56,7 +56,7 @@ export default function Home(): JSX.Element {
                     <div className={classNames(divElementClasses)}>
                         <SvgQuickIcon />
                         <h4 className={classNames(titleElementClasses)}>
-                            <Link href="/latest/quick-start-guide">
+                            <Link href="/quick-start-guide">
                                 <a className="no-underline">Quick Start</a>
                             </Link>
                         </h4>
@@ -68,7 +68,7 @@ export default function Home(): JSX.Element {
                     <div className={classNames(divElementClasses)}>
                         <SvgModelIcon />
                         <h4 className={classNames(titleElementClasses)}>
-                            <Link href="/latest/data-model">
+                            <Link href="/data-model">
                                 <a className="no-underline">Data Model</a>
                             </Link>
                         </h4>
@@ -81,7 +81,7 @@ export default function Home(): JSX.Element {
                     <div className={classNames(divElementClasses)}>
                         <SvgApiIcon />
                         <h4 className={classNames(titleElementClasses)}>
-                            <Link href="/latest/web-apis">
+                            <Link href="/web-apis">
                                 <a className="no-underline">DotCMS APIs</a>
                             </Link>
                         </h4>
@@ -114,7 +114,7 @@ export default function Home(): JSX.Element {
                             <img className="rounded" src="/img/steps.png" title="steps" />
                         </div>
                         <h4 className={classNames(titleElementClasses)}>
-                            <Link href="/latest/managing-workflows#Steps">
+                            <Link href="/managing-workflows#Steps">
                                 <a className="no-underline">Steps</a>
                             </Link>
                         </h4>
@@ -127,7 +127,7 @@ export default function Home(): JSX.Element {
                             <img className="rounded" src="/img/actions.png" title="actions" />
                         </div>
                         <h4 className={classNames(titleElementClasses)}>
-                            <Link href="/latest/managing-workflows#Actions">
+                            <Link href="/managing-workflows#Actions">
                                 <a className="no-underline">Actions</a>
                             </Link>
                         </h4>

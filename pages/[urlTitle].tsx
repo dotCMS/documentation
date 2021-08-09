@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import {
+    GetServerSidePropsResult,
+    GetStaticPathsResult,
+    GetStaticPropsContext,
+    GetStaticPropsResult
+} from 'next';
 import html from 'remark-html';
 import prism from 'remark-prism';
 import remarkId from 'remark-heading-id';
@@ -121,22 +126,12 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
     );
 };
 
-export async function getStaticPaths(): Promise<GetStaticPathsResult> {
-    try {
-        const data = await client.request(NAVIGATION_MENU_QUERY);
-        const paths = buildParams(data.DotcmsDocumentationCollection[0], []);
-        return {
-            paths,
-            fallback: false
-        };
-    } catch (e) {
-        throw new Error(e);
-    }
-}
-
-export async function getStaticProps({
+export async function getServerSideProps({
     params
-}: GetStaticPropsContext<ParsedUrlQuery>): Promise<GetStaticPropsResult<PageData>> {
+}: {
+    params: { urlTitle: string };
+}): Promise<GetServerSidePropsResult<PageData>> {
+    console.log(params);
     const plugins = [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc];
     const { DotcmsDocumentationNav, data, isHtml } = await getDocumentationData(
         params.urlTitle as string
@@ -206,22 +201,5 @@ const getDocumentationData = async (
         isHtml: metaData[0].format === 'html'
     };
 };
-
-const buildParams = (data: Documentation, paths: UrlTitleParams[]): UrlTitleParams[] => {
-    if (!data.dotcmsdocumentationchildren?.length) {
-        return paths;
-    }
-    data.dotcmsdocumentationchildren.forEach((item: Documentation) => {
-        paths.push({ params: { urlTitle: item.urlTitle } });
-        paths = buildParams(item, paths);
-    });
-    return paths;
-};
-
-interface UrlTitleParams {
-    params: {
-        urlTitle: string;
-    };
-}
 
 export default UrlTitle;

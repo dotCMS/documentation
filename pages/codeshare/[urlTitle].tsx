@@ -1,5 +1,11 @@
 import React from 'react';
-import { GetStaticPropsResult, GetStaticPathsResult, GetStaticPropsContext } from 'next';
+import {
+    GetStaticPropsResult,
+    GetStaticPathsResult,
+    GetStaticPropsContext,
+    GetServerSidePropsResult,
+    GetServerSidePropsContext
+} from 'next';
 import classNames from 'classnames';
 
 // Components
@@ -26,22 +32,18 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 
-interface pageData {
+interface PageData {
     data: CodeSharePage;
     source: MdxRemote.Source;
     error?: string;
     pageTitle?: string;
 }
 
-interface paramsUrlTitle {
-    urlTitle: string;
-}
-
 export default function CodeShare({
     data: { authorName, code, company, dateCreated, title },
     source,
     error
-}: pageData): JSX.Element {
+}: PageData): JSX.Element {
     const content = source ? hydrate(source) : null;
     const mainClasses = ['container', 'mx-auto', 'px-16', 'flex-grow'];
     return (
@@ -70,22 +72,10 @@ export default function CodeShare({
     );
 }
 
-export async function getStaticPaths(): Promise<GetStaticPathsResult> {
-    const data = await client.request(CODE_SHARE_PATHS_QUERY);
-    try {
-        const paths = buildParams(data.CodeshareCollection);
-        return {
-            paths,
-            fallback: false
-        };
-    } catch (e) {
-        throw new Error(e);
-    }
-}
-
-export async function getStaticProps({
+export async function getServerSideProps({
     params
-}: GetStaticPropsContext<ParsedUrlQuery>): Promise<GetStaticPropsResult<pageData>> {
+}: GetServerSidePropsContext<ParsedUrlQuery>): Promise<GetServerSidePropsResult<PageData>> {
+    console.log(params);
     const variables = { urlTitle: `+urlMap:/codeshare/${params.urlTitle}` };
     const { CodeshareCollection } = await client.request(FULL_CODE_SHARE_QUERY, variables);
     try {
@@ -110,14 +100,4 @@ export async function getStaticProps({
             }
         };
     }
-}
-
-const buildParams = (data: paramsUrlTitle[]): UrlTitleParams[] => {
-    return data.map(({ urlTitle }: paramsUrlTitle) => ({ params: { urlTitle } }));
-};
-
-interface UrlTitleParams {
-    params: {
-        urlTitle: string;
-    };
 }
