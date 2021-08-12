@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { GetServerSidePropsResult } from 'next';
 
 // Components
@@ -72,10 +72,10 @@ export async function getServerSideProps({
 }): Promise<GetServerSidePropsResult<PageProps>> {
     try {
         // Consts
-        const page = query.page || 1;
+        const page = +query.page || 1;
         const tag = query.topic === 'all' ? '' : query.topic.replace(/-/g, ' ');
         const queryTag = tag ? `+tags:\"${tag}\"` : tag;
-        const startFrom = page ? (+page <= 1 ? 0 : (+page - 1) * 10) : 1;
+        const startFrom = page ? (page <= 1 ? 0 : (page - 1) * 10) : 1;
         // Variables
         const variableMetaData = { tags: queryTag };
         const variableList = { ...variableMetaData, offset: startFrom };

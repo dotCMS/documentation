@@ -7,7 +7,7 @@ import { PageError } from '@components/PageError';
 import { DateFormatter } from '@components/DateFormatter';
 
 // Graphql
-import { CODE_SHARE_PATHS_QUERY, FULL_CODE_SHARE_QUERY } from '@graphql/queries';
+import { FULL_CODE_SHARE_QUERY } from '@graphql/queries';
 
 // Models
 import { CodeSharePage } from '@models/CodeShare.model';
@@ -69,7 +69,6 @@ export default function CodeShare({
 export async function getServerSideProps({
     params
 }: GetServerSidePropsContext<ParsedUrlQuery>): Promise<GetServerSidePropsResult<PageData>> {
-    console.log(params);
     const variables = { urlTitle: `+urlMap:/codeshare/${params.urlTitle}` };
     const { CodeshareCollection } = await client.request(FULL_CODE_SHARE_QUERY, variables);
     try {
