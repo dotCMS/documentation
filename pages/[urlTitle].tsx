@@ -41,6 +41,13 @@ import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
 
+// Primjs
+import Prism from 'prismjs';
+import 'prismjs/themes/prism-okaidia.css';
+import 'prismjs/components/prism-handlebars.min.js';
+import 'prismjs/components/prism-lua.min.js';
+import 'prismjs/components/prism-markup';
+
 interface PageData {
     data: Documentation;
     navDot: Documentation[];
@@ -123,7 +130,7 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
 export async function getServerSideProps({
     params
 }: GetServerSidePropsContext<{ urlTitle: string }>): Promise<GetServerSidePropsResult<PageData>> {
-    const plugins = [DotHtmlToJsxRemark, remarkId, html, DotDecodeHtml, DotToc];
+    const plugins = [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc];
     const { DotcmsDocumentationNav, data, isHtml } = await getDocumentationData(
         params.urlTitle as string
     );
