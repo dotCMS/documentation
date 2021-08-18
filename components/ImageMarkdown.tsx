@@ -6,7 +6,7 @@ export const ImageMarkdown = (props: {
     width?: string;
     height?: string;
 }): JSX.Element => {
-    const myLoader = ({ src }) => src;
+    const myLoader = ({ src }) => `${src}`;
     return (
         <>
             {props.width && props.height ? (
