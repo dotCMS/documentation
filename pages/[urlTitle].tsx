@@ -42,13 +42,14 @@ import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
 
 // Primjs
-import 'prismjs';
+// import 'prismjs';
 // import 'prismjs/components/prism-markup';
 // import 'prismjs/components/prism-css';
 // import 'prismjs/components/prism-clike';
 // import 'prismjs/components/prism-regex';
 import { codeMarkdown } from '../components/codeMarkdown';
 import { preMarkdown } from '../components/preMarkDown';
+import { CodeBlock } from '../components/codeBlock';
 
 interface PageData {
     data: Documentation;
@@ -63,8 +64,8 @@ interface PageData {
 const componentsUI: MDXProviderComponentsProp = {
     img: ImageMarkdown,
     a: LinkMarkdown,
-    pre: preMarkdown,
-    code: codeMarkdown
+    // pre: preMarkdown,
+    code: CodeBlock
 };
 
 const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX.Element => {
