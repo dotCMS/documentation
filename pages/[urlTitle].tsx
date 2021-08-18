@@ -42,7 +42,7 @@ import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
 
 // Primjs
-import Prism from 'prismjs';
+import 'prismjs';
 import 'prismjs/components/prism-markup';
 import 'prismjs/components/prism-css';
 
@@ -62,7 +62,6 @@ const componentsUI: MDXProviderComponentsProp = {
 };
 
 const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX.Element => {
-    Prism.highlightAll();
     const content = hydrate(source, { components: componentsUI });
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
