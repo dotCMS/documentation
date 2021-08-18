@@ -42,8 +42,9 @@ import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
 
 // Primjs
-// import 'prismjs';
-// import 'prismjs/components/prism-markup';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-markup';
+import 'prismjs/components/prism-css';
 
 interface PageData {
     data: Documentation;
@@ -61,6 +62,7 @@ const componentsUI: MDXProviderComponentsProp = {
 };
 
 const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX.Element => {
+    Prism.highlightAll()();
     const content = hydrate(source, { components: componentsUI });
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
@@ -127,7 +129,7 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
 export async function getServerSideProps({
     params
 }: GetServerSidePropsContext<{ urlTitle: string }>): Promise<GetServerSidePropsResult<PageData>> {
-    const plugins = [DotHtmlToJsxRemark, remarkId, html, DotDecodeHtml, DotToc];
+    const plugins = [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc];
     const { DotcmsDocumentationNav, data, isHtml } = await getDocumentationData(
         params.urlTitle as string
     );
