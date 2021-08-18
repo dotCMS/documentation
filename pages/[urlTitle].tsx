@@ -43,10 +43,12 @@ import { MDXProviderComponentsProp } from '@mdx-js/react';
 
 // Primjs
 import 'prismjs';
-import 'prismjs/components/prism-markup';
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-regex'
+// import 'prismjs/components/prism-markup';
+// import 'prismjs/components/prism-css';
+// import 'prismjs/components/prism-clike';
+// import 'prismjs/components/prism-regex';
+import { codeMarkdown } from '../components/codeMarkdown';
+import { preMarkdown } from '../components/preMarkDown';
 
 interface PageData {
     data: Documentation;
@@ -60,7 +62,9 @@ interface PageData {
 
 const componentsUI: MDXProviderComponentsProp = {
     img: ImageMarkdown,
-    a: LinkMarkdown
+    a: LinkMarkdown,
+    pre: preMarkdown,
+    code: codeMarkdown
 };
 
 const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX.Element => {
@@ -75,6 +79,9 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
         }),
         []
     );
+    // useEffect(() => {
+    //     Prism.highlightAll();
+    // }, []);
     useEffect(() => {
         const timer = setTimeout(() => {
             const observer = new IntersectionObserver((entries) => {
@@ -130,7 +137,7 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
 export async function getServerSideProps({
     params
 }: GetServerSidePropsContext<{ urlTitle: string }>): Promise<GetServerSidePropsResult<PageData>> {
-    const plugins = [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc];
+    const plugins = [DotHtmlToJsxRemark, remarkId, html, DotDecodeHtml, DotToc];
     const { DotcmsDocumentationNav, data, isHtml } = await getDocumentationData(
         params.urlTitle as string
     );
