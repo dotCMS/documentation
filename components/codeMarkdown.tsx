@@ -5,5 +5,5 @@ export const codeMarkdown = (props): JSX.Element => {
     useEffect(() => {
         Prism.highlightAll();
     }, []);
-    return <code className="language-shell">{props.children}</code>;
+    return <code {...props} />;
 };
