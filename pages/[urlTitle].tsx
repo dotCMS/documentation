@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsResult, GetServerSidePropsContext } from 'next';
 import html from 'remark-html';
-import prism from 'remark-prism';
 import remarkId from 'remark-heading-id';
 import styles from '@styles/urlTitle.module.css';
 
@@ -13,6 +12,7 @@ import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotToc, { toc } from '@plugins/DotToc';
 
 // Components
+import { CodeMarkdown } from '@components/CodeMarkdown';
 import { ContainerToc } from '@components/toc/ContainerToc';
 import { Footer } from '@components/Footer';
 import { ImageMarkdown } from '@components/ImageMarkdown';
@@ -53,7 +53,8 @@ interface PageData {
 
 const componentsUI: MDXProviderComponentsProp = {
     img: ImageMarkdown,
-    a: LinkMarkdown
+    a: LinkMarkdown,
+    code: CodeMarkdown
 };
 
 const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX.Element => {
@@ -123,7 +124,7 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
 export async function getServerSideProps({
     params
 }: GetServerSidePropsContext<{ urlTitle: string }>): Promise<GetServerSidePropsResult<PageData>> {
-    const plugins = [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc];
+    const plugins = [DotHtmlToJsxRemark, remarkId, html, DotDecodeHtml, DotToc];
     const { DotcmsDocumentationNav, data, isHtml } = await getDocumentationData(
         params.urlTitle as string
     );
