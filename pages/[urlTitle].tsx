@@ -123,7 +123,7 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
 export async function getServerSideProps({
     params
 }: GetServerSidePropsContext<{ urlTitle: string }>): Promise<GetServerSidePropsResult<PageData>> {
-    const plugins = [DotHtmlToJsxRemark, remarkId, prism, html, DotDecodeHtml, DotToc];
+    const plugins = [DotHtmlToJsxRemark, remarkId, html, DotDecodeHtml, DotToc];
     const { DotcmsDocumentationNav, data, isHtml } = await getDocumentationData(
         params.urlTitle as string
     );
