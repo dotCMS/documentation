@@ -25,6 +25,7 @@ import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
 import { MDXProvider } from '@mdx-js/react';
 import { MdxRemote } from 'next-mdx-remote/types';
+import prism from 'remark-prism';
 
 interface PageData {
     data: CodeSharePage;
@@ -74,7 +75,7 @@ export async function getServerSideProps({
     try {
         const mdxSource = await renderToString(CodeshareCollection[0].description, {
             mdxOptions: {
-                remarkPlugins: [DotCodeMultine, DotDecodeHtml]
+                remarkPlugins: [DotCodeMultine, DotDecodeHtml, prism]
             }
         });
         return {
