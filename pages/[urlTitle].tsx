@@ -46,6 +46,7 @@ import 'prismjs';
 import 'prismjs/components/prism-markup';
 import 'prismjs/components/prism-css';
 import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-regex'
 
 interface PageData {
     data: Documentation;
