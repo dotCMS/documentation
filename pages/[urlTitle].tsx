@@ -45,6 +45,7 @@ import { MDXProviderComponentsProp } from '@mdx-js/react';
 import 'prismjs';
 import 'prismjs/components/prism-markup';
 import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-clike';
 
 interface PageData {
     data: Documentation;
