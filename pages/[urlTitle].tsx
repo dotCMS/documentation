@@ -42,8 +42,8 @@ import { MdxRemote } from 'next-mdx-remote/types';
 import { MDXProviderComponentsProp } from '@mdx-js/react';
 
 // Primjs
-import 'prismjs';
-import 'prismjs/components/prism-markup';
+// import 'prismjs';
+// import 'prismjs/components/prism-markup';
 
 interface PageData {
     data: Documentation;
