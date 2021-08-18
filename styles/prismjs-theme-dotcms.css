@@ -1,8 +1,9 @@
 pre{
-    background-color: #F3F6FD;
+    background-color: rgb(246, 248, 250);
     overflow: auto;
 }
 
+div[class*="language-"],
 pre[class*="language-"],
 code[class*="language-"] {
     color: #04d0b3;

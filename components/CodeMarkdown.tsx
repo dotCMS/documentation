@@ -13,15 +13,17 @@ export const CodeMarkdown = ({
     return (
         <Highlight {...defaultProps} code={children} language={language} theme={github}>
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
-                <code className={className} style={{ ...style, padding: '20px 20px 0 20px' }}>
-                    {tokens.map((line, i) => (
-                        <div key={i} {...getLineProps({ line, key: i })}>
-                            {line.map((token, key) => (
-                                <span key={key} {...getTokenProps({ token, key })} />
-                            ))}
-                        </div>
-                    ))}
-                </code>
+                <div className={className} style={{ ...style, padding: '20px 20px 0 20px' }}>
+                    <code>
+                        {tokens.map((line, i) => (
+                            <div key={i} {...getLineProps({ line, key: i })}>
+                                {line.map((token, key) => (
+                                    <span key={key} {...getTokenProps({ token, key })} />
+                                ))}
+                            </div>
+                        ))}
+                    </code>
+                </div>
             )}
         </Highlight>
     );
