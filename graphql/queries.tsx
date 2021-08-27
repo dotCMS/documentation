@@ -126,11 +126,10 @@ query codeshare ($urlTitle: String!) {
 }`;
 
 export const CODE_SHARE_QUERY_LIST_ARTICLES = `
-query codeshare($tags: String!, $offset: Int!) {
+query codeshare($tags: String!) {
     CodeshareCollection(
-        limit: 10,
+        limit: 100000,
         query: $tags,
-        offset: $offset
     ) {
         authorName
         dateCreated
