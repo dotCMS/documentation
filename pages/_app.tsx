@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const showTocButton = !!toc?.length;
     // Router
     const router = useRouter();
-    const docPage = router.asPath.split('/')[2] || '';
+    const docPage = router.asPath.split('/')[1] || '';
     useEffect(() => {
         setBreadcrumb(searchBreadCrumb(navData.dotcmsdocumentationchildren, docPage));
     }, [docPage]);
