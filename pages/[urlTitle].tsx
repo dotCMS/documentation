@@ -12,11 +12,11 @@ import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
 import DotToc, { toc } from '@plugins/DotToc';
 
 // Components
-import { CodeMarkdown } from '@components/CodeMarkdown';
+import { CodeMarkdown } from '@components/mdx-components/CodeMarkdown';
 import { ContainerToc } from '@components/toc/ContainerToc';
 import { Footer } from '@components/Footer';
-import { ImageMarkdown } from '@components/ImageMarkdown';
-import { LinkMarkdown } from '@components/LinkMarkdown';
+import { ImageMarkdown } from '@components/mdx-components/ImageMarkdown';
+import { LinkMarkdown } from '@components/mdx-components/LinkMarkdown';
 import { PageError } from '@components/PageError';
 import TableOfContent from '@components/toc/TableOfContent';
 import TopPageToc from '@components/toc/TopPageToc';

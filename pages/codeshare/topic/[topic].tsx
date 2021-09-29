@@ -2,9 +2,9 @@ import React from 'react';
 import { GetServerSidePropsResult } from 'next';
 
 // Components
-import { CodeShareSide } from '@components/CodeShareSide';
-import { CodeShareSideBox } from '@components/CodeShareSideBox';
-import { CodeShareTopics } from '@components/CodeShareTopics';
+import { CodeShareSide } from '@components/codeshare/CodeShareSide';
+import { CodeShareSideBox } from '@components/codeshare/CodeShareSideBox';
+import { CodeShareTopics } from '@components/codeshare/CodeShareTopics';
 import { PageError } from '@components/PageError';
 import { Pagination } from '@components/Pagination';
 import { SearchResult } from '@components/SearchResult';
