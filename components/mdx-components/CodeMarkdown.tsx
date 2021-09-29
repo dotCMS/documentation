@@ -9,22 +9,33 @@ export const CodeMarkdown = ({
     children: string;
     className: string;
 }): JSX.Element => {
-    const language: Language = className.replace(/language-/, '') as Language;
+    const language: Language = (className
+        ? className.replace(/language-/, '')
+        : 'unknown') as Language;
     return (
-        <Highlight {...defaultProps} code={children} language={language} theme={github}>
-            {({ className, style, tokens, getLineProps, getTokenProps }) => (
-                <div className={className} style={{ ...style, padding: '20px 20px 0 20px' }}>
-                    <code>
-                        {tokens.map((line, i) => (
-                            <div key={i} {...getLineProps({ line, key: i })}>
-                                {line.map((token, key) => (
-                                    <span key={key} {...getTokenProps({ token, key })} />
+        <>
+            {children.length ? (
+                <Highlight {...defaultProps} code={children} language={language} theme={github}>
+                    {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                        <div
+                            className={className}
+                            style={{ ...style, padding: '20px 20px 0 20px' }}
+                        >
+                            <code>
+                                {tokens.map((line, i) => (
+                                    <div key={i} {...getLineProps({ line, key: i })}>
+                                        {line.map((token, key) => (
+                                            <span key={key} {...getTokenProps({ token, key })} />
+                                        ))}
+                                    </div>
                                 ))}
-                            </div>
-                        ))}
-                    </code>
-                </div>
+                            </code>
+                        </div>
+                    )}
+                </Highlight>
+            ) : (
+                <code>{children}</code>
             )}
-        </Highlight>
+        </>
     );
 };
