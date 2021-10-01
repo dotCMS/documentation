@@ -15,8 +15,6 @@ COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 
 RUN BASE_PATH=/latest yarn build
-RUN yarn export
-
 
 # Rebuild the source code only when needed and export the "versioned" version
 FROM node:14-alpine AS versioning
@@ -26,13 +24,18 @@ WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 
+# Change to Static Props
+RUN cp __staticsite_/[urlTitle].tsx pages/[urlTitle].tsx
+RUN cp __staticsite_/codeshare/[urlTitle].tsx pages/codeshare/[urlTitle].tsx
+RUN cp __staticsite_/codeshare/topic/[topic].tsx pages/codeshare/topic/[topic].tsx
+
 RUN BASE_PATH=/$VERSION yarn build && yarn export
 
 # Create a new container from a linux base image that has the aws-cli installed
 FROM mesosphere/aws-cli as AWS
 
 # Copy the latest version to /latest
-COPY --from=latest app/out ./latest
+COPY --from=latest app/ ./latest
 
 # Copy the versioned version to /XX.XX.XX
 ARG VERSION
