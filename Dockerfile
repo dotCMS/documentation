@@ -25,9 +25,9 @@ COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 
 # Change to Static Props
-RUN cp __staticsite_/[urlTitle].tsx pages/[urlTitle].tsx
-RUN cp __staticsite_/codeshare/[urlTitle].tsx pages/codeshare/[urlTitle].tsx
-RUN cp __staticsite_/codeshare/topic/[topic].tsx pages/codeshare/topic/[topic].tsx
+RUN mv __staticsite_/[urlTitle].tsx pages/
+RUN mv __staticsite_/codeshare/[urlTitle].tsx pages/codeshare/
+RUN mv __staticsite_/codeshare/topic/[topic].tsx pages/codeshare/topic/
 
 RUN BASE_PATH=/$VERSION yarn build && yarn export
 
