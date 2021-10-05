@@ -9,8 +9,8 @@ import styled from 'styled-components';
 import '@styles/globals.css';
 import { Header } from '@components/header/Header';
 import { Footer } from '@components/Footer';
-import { SideBar } from '@components/SideBar';
-import { SideNav } from '@components/SideNav';
+import { SideBar } from '@components/sidebar/SideBar';
+import { SideNav } from '@components/sidebar/SideNav';
 import { useRouter } from 'next/router';
 import { searchBreadCrumb } from '@helpers/searchBreadCrump';
 
@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const showTocButton = !!toc?.length;
     // Router
     const router = useRouter();
-    const docPage = router.asPath.split('/')[2] || '';
+    const docPage = router.asPath.split('/')[1] || '';
     useEffect(() => {
         setBreadcrumb(searchBreadCrumb(navData.dotcmsdocumentationchildren, docPage));
     }, [docPage]);

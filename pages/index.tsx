@@ -100,7 +100,7 @@ export default function Home(): JSX.Element {
                             <img className="rounded" src="/img/schemas.png" title="Schema" />
                         </div>
                         <h4 className={classNames(titleElementClasses)}>
-                            <Link href="latest/managing-workflows#Schemes">
+                            <Link href="/managing-workflows#Schemes">
                                 <a className="no-underline">Schema</a>
                             </Link>
                         </h4>
