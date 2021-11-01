@@ -20,7 +20,7 @@ RUN mv __staticsite_/[urlTitle].tsx pages/
 RUN mv __staticsite_/codeshare/[urlTitle].tsx pages/codeshare/
 RUN mv __staticsite_/codeshare/topic/[topic].tsx pages/codeshare/topic/
 
-RUN BASE_PATH=/$VERSION yarn build && yarn export
+RUN BASE_PATH=/docs/$VERSION yarn build && yarn export
 
 # Create a new container from a linux base image that has the aws-cli installed
 FROM mesosphere/aws-cli as AWS
@@ -29,5 +29,5 @@ FROM mesosphere/aws-cli as AWS
 ARG VERSION
 COPY --from=versioning app/out ./$VERSION
 
-# Set the default command of this container to push the files from the working directory of this container to our s3 bucket 
+# Set the default command of this container to push the files from the working directory of this container to our s3 bucket
 CMD ["s3", "sync", "./", "s3://dotcms-docs-testing"] ;
