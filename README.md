@@ -28,8 +28,10 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 Since we need the current version and keep older versions, we took advantage of [Nextjs static export](https://nextjs.org/docs/advanced-features/static-html-export) and the way it works is:
 
-We have a `/latest` route that will have a server side render version of the last documentation
-We kept versions in `/XX.XX.0` but in static HTML.
+- **Latest:** We have a `/latest` route that will have a server side render version of the last documentation
+
+- **Version:** We kept versions in `/XX.XX.0` but in static HTML.
+
 To achieve this we create have the `/__staticsite_` that holds the pages for the static render and inside `/pages` we have the latest.
 
 ## Deploy to S3
