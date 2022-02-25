@@ -7,8 +7,8 @@ interface CustomNode extends Node {
 }
 
 export default function () {
-    return function (node: CustomNode): void {
-        visit(node, 'jsx', (node: CustomNode) => {
+    return function (tree: CustomNode): void {
+        visit(tree, 'jsx', (node: CustomNode) => {
             const value = node.value;
             const preContent = new RegExp(/<pre>(.|\n)*?<\/pre>/gi);
             node.value = value.replace(preContent, (match) => {

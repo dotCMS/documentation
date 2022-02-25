@@ -6,6 +6,7 @@ import styles from '@styles/urlTitle.module.css';
 
 // mdx custom Plugins
 import DotCodeMultiline from '@plugins/DotCodeMultiline';
+import DownloadImages from '@plugins/DownloadImages';
 import DotCodeTab from '@plugins/DotCodeTab';
 import DotDecodeHtml from '@plugins/DotDecodeHtml';
 import DotHtmlToJsxRemark from '@plugins/DotHtmlToJsxRemark';
@@ -58,6 +59,7 @@ const componentsUI: MDXProviderComponentsProp = {
 };
 
 const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX.Element => {
+
     const content = hydrate(source, { components: componentsUI });
     // ---- Table Of Content Active Item
     const [tocActive, setTocActive] = useState(null);
@@ -124,7 +126,7 @@ const UrlTitle = ({ data, error, showSideToc, source, toc = [] }: PageData): JSX
 export async function getServerSideProps({
     params
 }: GetServerSidePropsContext<{ urlTitle: string }>): Promise<GetServerSidePropsResult<PageData>> {
-    const plugins = [DotHtmlToJsxRemark, remarkId, html, DotDecodeHtml, DotToc];
+    const plugins = [DotHtmlToJsxRemark, remarkId, html, DotDecodeHtml, DotToc, DownloadImages];
     const { DotcmsDocumentationNav, data, isHtml } = await getDocumentationData(
         params.urlTitle as string
     );
